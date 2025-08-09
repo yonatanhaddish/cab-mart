@@ -95,27 +95,6 @@ function CategoryBox() {
         </Box>
         <Box sx={styles.coffee_box}>
           <Box sx={styles.coffee_info_box}>
-            <Typography variant="h6">Furniture</Typography>
-            <Typography fontSize={"0.9rem"}>
-              High-quality, stylish furniture crafted for comfort and
-              durability.
-            </Typography>
-            <Button sx={styles.more_button}>SEE MORE</Button>
-          </Box>
-          <Box sx={styles.furniture_img}></Box>
-        </Box>
-        <Box sx={styles.coffee_box}>
-          <Box sx={styles.coffee_info_box}>
-            <Typography variant="h6">Pet</Typography>
-            <Typography fontSize={"0.9rem"}>
-              Durable and safe pet toys designed for endless fun and play
-            </Typography>
-            <Button sx={styles.more_button}>SEE MORE</Button>
-          </Box>
-          <Box sx={styles.pet_img}></Box>
-        </Box>
-        <Box sx={styles.coffee_box}>
-          <Box sx={styles.coffee_info_box}>
             <Typography variant="h6">Perfume</Typography>
             <Typography fontSize={"0.9rem"}>
               Premium-quality perfumes offering a wide variety of captivating
@@ -124,6 +103,28 @@ function CategoryBox() {
             <Button sx={styles.more_button}>SEE MORE</Button>
           </Box>
           <Box sx={styles.perfume_img}></Box>
+        </Box>
+        <Box sx={styles.coffee_box}>
+          <Box sx={styles.coffee_info_box}>
+            <Typography variant="h6">Pet Toy</Typography>
+            <Typography fontSize={"0.9rem"}>
+              Durable and safe pet toys designed for endless fun and play
+            </Typography>
+            <Button sx={styles.more_button}>SEE MORE</Button>
+          </Box>
+          <Box sx={styles.pet_img}></Box>
+        </Box>
+
+        <Box sx={styles.coffee_box}>
+          <Box sx={styles.coffee_info_box}>
+            <Typography variant="h6">Furniture</Typography>
+            <Typography fontSize={"0.9rem"}>
+              High-quality, stylish furniture crafted for comfort and
+              durability.
+            </Typography>
+            <Button sx={styles.more_button}>SEE MORE</Button>
+          </Box>
+          <Box sx={styles.furniture_img}></Box>
         </Box>
       </Box>
     </Box>
