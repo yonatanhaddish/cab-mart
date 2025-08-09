@@ -18,7 +18,7 @@ const styles = {
   info_box: {
     // border: "solid green 1px",
     width: "60%",
-    height: "100%",
+    height: "96%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-evenly",
@@ -43,24 +43,26 @@ const styles = {
   image_box_02: {
     display: "flex",
     // border: "solid blue 1px",
-    height: "120px",
-    justifyContent: "space-between",
-    width: "100%",
+    height: "140px",
+    justifyContent: "space-around",
+    width: "80%",
   },
   box_01: {
-    width: "45%",
+    width: "40%",
     textAlign: "center",
     alignContent: "center",
     backgroundColor: "#14213d",
     color: "#f6f6f6",
+    // border: "1px solid red",
   },
   box_02: {
-    width: "45%",
+    width: "40%",
     height: "100%",
     textAlign: "center",
     alignContent: "center",
     backgroundColor: "#14213d",
     color: "#f6f6f6",
+    // border: "1px solid red",
   },
 
   image_main: {
@@ -81,27 +83,37 @@ function LandingPage() {
             Welcome to <span style={{ color: "black" }}>CabMart</span>{" "}
           </Typography>
           <Typography sx={styles.typo_youonestop}>
-            Easy <span style={{ color: "#F97316" }}>shopping</span> for your
-            favorite items while you{" "}
-            <span style={{ color: "#F97316" }}>ride</span> in a cab.
+            Easy <span style={{ color: "#F97316" }}>Shopping</span> for your
+            Favorite Items while you{" "}
+            <span style={{ color: "#F97316" }}>Ride</span> in a Cab.
           </Typography>
         </Box>
         <Box sx={styles.image_box_02}>
           <Box sx={styles.box_01}>
             <LocalShippingIcon
               fontSize="large"
-              sx={{ color: "#F97316", marginBottom: "0.5rem" }}
+              sx={{
+                color: "#F97316",
+                marginBottom: "0.5rem",
+                width: "50px",
+                height: "50px",
+              }}
             />
-            <Typography variant="h6" component="div">
+            <Typography component="div">
               Enjoy free delivery on orders over 100 CAD .
             </Typography>
           </Box>
           <Box sx={styles.box_02}>
             <AttachMoneyIcon
               fontSize="large"
-              sx={{ color: "#F97316", marginBottom: "0.5rem" }}
+              sx={{
+                color: "#F97316",
+                marginBottom: "0.5rem",
+                width: "50px",
+                height: "50px",
+              }}
             />
-            <Typography variant="h6" component="div">
+            <Typography component="div">
               We offer high-quality products with discounts of over 50%.
             </Typography>
           </Box>
