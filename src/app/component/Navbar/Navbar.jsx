@@ -26,6 +26,7 @@ function Navbar() {
         CabMart
       </Typography>
       <Stack direction="row" sx={styles.navLinks}>
+        <Button color="inherit">Home</Button>
         <Button color="inherit">Coffee</Button>
         <Button color="inherit">Furniture</Button>
         <Button color="inherit">Pet</Button>
