@@ -191,7 +191,7 @@ function Products() {
             {products.map((item, index) => (
               <Link
                 key={index}
-                href={`/products/${item._id}`}
+                href={`/product/${item._id}`}
                 passHref
                 style={{ textDecoration: "none", color: "inherit" }}
               >
