@@ -9,8 +9,8 @@ const styles = {
     boxShadow: "0 0 10px #14213d",
     display: "flex",
     flexDirection: "column",
-    width: "300px",
-    height: "180px",
+    width: "100%",
+    height: "100%",
     justifyContent: "space-between",
   },
   cart_title_close: {
@@ -28,6 +28,7 @@ const styles = {
     // border: "solid green 2px",
     display: "flex",
     justifyContent: "space-around",
+    height: "30%",
   },
   image_box: {
     backgroundSize: "cover",
@@ -38,7 +39,7 @@ const styles = {
     width: "25%",
   },
   cart_typo_name: {
-    fontSize: "1.2rem",
+    fontSize: "1.4rem",
     // border: "solid blue 2px",
     width: "60%",
   },
@@ -60,12 +61,20 @@ const styles = {
     fontSize: "0.9rem",
   },
 };
-function CartNotification({ product }) {
+function CartNotification({ product, passDataToProductPage }) {
+  function handlePassDataToProductPage() {
+    passDataToProductPage();
+  }
   return (
     <Box sx={styles.cart_notification_cart}>
       <Box sx={styles.cart_title_close}>
         <Typography sx={styles.cart_typo_title}> Cart Updated</Typography>
-        <CloseIcon sx={{ color: "#e0e0e0", paddingRight: "8px" }} />
+        <Button
+          sx={{ color: "#e0e0e0", paddingRight: "8px" }}
+          onClick={handlePassDataToProductPage}
+        >
+          <CloseIcon />
+        </Button>
       </Box>
       <Box sx={styles.cart_img_name}>
         <Box sx={styles.image_box}></Box>

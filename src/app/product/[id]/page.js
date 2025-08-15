@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, use } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Drawer } from "@mui/material";
 
 import useCart from "../../../utils/useCart";
 import AddToCartButtons from "../[id]/AddToCartButton";
@@ -63,9 +63,11 @@ const styles = {
     opacity: "100%",
   },
   product_info: { width: "90%", margin: "20px auto" },
+  cart_notification: {},
 };
 
 export default function ProductPage({ params }) {
+  const [openModal, setOpenModal] = useState(false);
   const { id } = use(params);
   const [product, setProduct] = useState(null);
 
@@ -80,6 +82,16 @@ export default function ProductPage({ params }) {
     getSingleProduct();
   }, [id]);
 
+  function handleDataFromAddToCartPage() {
+    setOpenModal(true);
+    setTimeout(() => setOpenModal(false), 5000);
+  }
+  function handleDataFromCartNotificationPage() {
+    setOpenModal(false);
+  }
+
+  console.log("openModal", openModal);
+
   if (!product) {
     return <Typography>Loading...</Typography>;
   }
@@ -87,7 +99,24 @@ export default function ProductPage({ params }) {
   return (
     <Box sx={styles.parent_single_product}>
       <Box>
-        <CartNotification product={product} />
+        <Drawer
+          anchor="top"
+          open={openModal}
+          onClose={handleDataFromCartNotificationPage}
+          PaperProps={{
+            sx: {
+              // border: "solid red 3px",
+              width: "30%",
+              height: "200px",
+              justifySelf: "end",
+            },
+          }}
+        >
+          <CartNotification
+            product={product}
+            passDataToProductPage={handleDataFromCartNotificationPage}
+          />
+        </Drawer>
         <Box sx={styles.product_image_parent}>
           <Box sx={styles.image_large}></Box>
           <Box sx={styles.images_small_parent}>
@@ -113,7 +142,10 @@ export default function ProductPage({ params }) {
         </Box>
       </Box>
       <Box sx={styles.footer_bar}>
-        <AddToCartButtons product={product} />
+        <AddToCartButtons
+          product={product}
+          passDataToProductPage={handleDataFromAddToCartPage}
+        />
       </Box>
     </Box>
   );

@@ -24,15 +24,22 @@ export default function useCart() {
   const addToCart = (item) => {
     setCart((prev) => [...prev, item]);
   };
-  console.log("Cart", cart);
 
-  const removeFromCart = (index) => {
-    setCart((prev) => prev.filter((_, i) => i !== index));
+  const getCart = () => {
+    const products = JSON.parse(localStorage.getItem("cart")) || [];
+    return products;
+  };
+  const removeFromCart = (id) => {
+    setCart((prev) => {
+      const updatedCart = prev.filter((item) => item._id !== id);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      return updatedCart;
+    });
   };
 
   const clearCart = () => {
     setCart([]);
   };
 
-  return { cart, addToCart, removeFromCart, clearCart };
+  return { cart, addToCart, removeFromCart, clearCart, getCart };
 }
