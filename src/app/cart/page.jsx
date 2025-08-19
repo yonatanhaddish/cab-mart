@@ -8,7 +8,7 @@ import useCart from "../../utils/useCart";
 
 const styles = {
   parent_mycart: {
-    border: "solid red 2px",
+    // border: "solid red 2px",
     width: "90%",
     minHeight: "90vh",
     margin: "0 auto",
@@ -30,9 +30,12 @@ const styles = {
   reciept_cart: {
     border: "solid #14213d 2px",
     width: "25%",
-    height: "200px",
-    paddingTop: "40px",
+    height: "150px",
+    // paddingTop: "40px",
     paddingLeft: "20px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
   },
   sub_parent: {
     display: "flex",
@@ -43,12 +46,18 @@ const styles = {
     width: "40%",
     display: "flex",
     flexDirection: "column",
-    gap: "20px",
+    // backgroundColor: "#e0e0e0",
+    gap: "15px",
+    padding: "20px 0 20px 0",
   },
   info_cart_single: {
-    border: "solid purple 2px",
+    border: "solid #14213d 1px",
+    boxShadow: "0 0 10px #000",
     display: "flex",
     justifyContent: "space-between",
+    width: "90%",
+    margin: "0 auto",
+    backgroundColor: "#f97316",
   },
   icon_delete: {
     alignSelf: "center",
@@ -57,6 +66,23 @@ const styles = {
   typo_info: { width: "60%" },
   your_cart_title: {
     fontSize: "2rem",
+  },
+  checkout_button: {
+    backgroundColor: "#f97316",
+    color: "#14213d",
+    width: "80%",
+    fontWeight: 700,
+  },
+  typo_name: {
+    fontSize: "1.2rem",
+    fontWeight: 600,
+  },
+  typo_category: {
+    fontStyle: "italic",
+    fontWeight: 500,
+  },
+  typo_price: {
+    fontSize: "1.1rem",
   },
 };
 function Cart() {
@@ -93,15 +119,17 @@ function Cart() {
             <Box key={index} sx={styles.info_cart_single}>
               <Box sx={styles.cart_image_item}></Box>
               <Box sx={styles.typo_info}>
-                <Typography>{item.name}</Typography>
-                <Typography>{item.category}</Typography>
-                <Typography>{item.price}</Typography>
+                <Typography sx={styles.typo_name}>{item.name}</Typography>
+                <Typography sx={styles.typo_category}>
+                  {item.category}
+                </Typography>
+                <Typography sx={styles.typo_price}>{item.price} CAD</Typography>
               </Box>
               <Box
                 sx={styles.icon_delete}
                 onClick={() => handleDeleteItem(item._id)}
               >
-                <DeleteIcon />
+                <DeleteIcon sx={{ fontSize: "1.8rem" }} />
               </Box>
             </Box>
           ))}
@@ -115,14 +143,16 @@ function Cart() {
           </Typography>
           <Typography
             sx={{
-              fontSize: "1.3rem",
+              fontSize: "1.2rem",
               fontWeight: "600",
               borderTop: "solid #14213d 1px",
               width: "90%",
+              color: "red",
             }}
           >
             TOTAL: {total_price} CAD
           </Typography>
+          <Button sx={styles.checkout_button}>Checkout</Button>
         </Box>
       </Box>
     </Box>
@@ -130,3 +160,5 @@ function Cart() {
 }
 
 export default Cart;
+// q6kdsgioccyd9mwgiixk
+// https://res.cloudinary.com/dckp14oxv/image/upload/q6kdsgioccyd9mwgiixk.png
