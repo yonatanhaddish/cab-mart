@@ -17,7 +17,7 @@ const styles = {
     gap: "50px",
   },
   cart_image_item: {
-    backgroundImage: `url(/images/coffee_beans.jpeg)`,
+    // backgroundImage: `url(/images/coffee_beans.jpeg)`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     height: "80px",
@@ -107,6 +107,9 @@ function Cart() {
     removeFromCart(id);
     setCartProducts((prev) => prev.filter((item) => item._id !== id));
   };
+
+  console.log("55", cartProducts);
+
   return (
     <Box sx={styles.parent_mycart}>
       <Box sx={styles.cart_title}>
@@ -117,7 +120,12 @@ function Cart() {
         <Box sx={styles.carts_all}>
           {cartProducts.map((item, index) => (
             <Box key={index} sx={styles.info_cart_single}>
-              <Box sx={styles.cart_image_item}></Box>
+              <Box
+                sx={{
+                  ...styles.cart_image_item,
+                  backgroundImage: `url(${item.images[0]})`,
+                }}
+              ></Box>
               <Box sx={styles.typo_info}>
                 <Typography sx={styles.typo_name}>{item.name}</Typography>
                 <Typography sx={styles.typo_category}>

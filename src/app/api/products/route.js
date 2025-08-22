@@ -22,7 +22,17 @@ export async function POST(request) {
 
   try {
     const body = await request.json();
-    const { name, description, retail_price, price, category, images } = body;
+    const {
+      name,
+      description,
+      retailPrice: retail_price,
+      price,
+      category,
+      condition,
+      images,
+    } = body;
+
+    // console.log("44", body);
 
     if (!name || !price) {
       return NextResponse.json(
@@ -37,6 +47,7 @@ export async function POST(request) {
       retail_price,
       price,
       category,
+      condition,
       images, // array of Cloudinary URLs
     });
 

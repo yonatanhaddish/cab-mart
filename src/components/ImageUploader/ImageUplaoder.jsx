@@ -6,6 +6,7 @@ const styles = {
   form_parent: {
     // border: "solid blue 2px",
     height: "99vh",
+    backgroundColor: "#bbc0caff",
   },
   form: {
     border: "solid #14213d 1px",
@@ -19,16 +20,20 @@ const styles = {
     paddingLeft: "20px",
     paddingRight: "20px",
     paddingTop: "30px",
+    backgroundColor: "#e0e0e0",
+    backgroundColor: "#d1d5ddff",
   },
   name: {
     // border: "solid red 2px",
     border: "solid #14213d 1px",
     boxShadow: "0 0 10px #14213d",
+    backgroundColor: "#e0e0e0",
   },
   description: {
     // border: "solid green 2px",
     border: "solid #14213d 1px",
     boxShadow: "0 0 10px #14213d",
+    backgroundColor: "#e0e0e0",
   },
   box_prices: {
     // border: "solid blue 2px",
@@ -49,7 +54,8 @@ const styles = {
     height: "40px",
   },
   box_button: {
-    // border: "solid red 2px",
+    border: "solid #14213d 1px",
+    boxShadow: "0 0 10px #14213d",
     width: "50%",
     alignSelf: "center",
     textAlign: "center",
@@ -60,7 +66,8 @@ const styles = {
     // border: "solid red 2px",
     textAlign: "center",
     fontSize: "2.6rem",
-    marginTop: "30px",
+    paddingTop: "30px",
+    color: "#14213d",
   },
 };
 
@@ -80,8 +87,8 @@ import {
 export default function ImageUplaoder() {
   const [images, setImages] = useState([]);
   const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [retailPrice, setRetailPrice] = useState("");
+  const [price, setPrice] = useState(0);
+  const [retailPrice, setRetailPrice] = useState(0);
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [condition, setCondition] = useState("");
@@ -95,9 +102,10 @@ export default function ImageUplaoder() {
       body: JSON.stringify({
         name,
         description,
-        retail_price: retailPrice,
+        retailPrice,
         price,
         category,
+        condition,
         images,
       }),
     });
@@ -105,12 +113,16 @@ export default function ImageUplaoder() {
     const data = await res.json();
     console.log("Created product:", data);
   };
-
   return (
     <Box sx={styles.form_parent}>
       <Typography sx={styles.typo_heading}>Post an Item</Typography>
       <form onSubmit={handleSubmit} style={styles.form}>
-        <Box sx={styles.name} noValidate autoComplete="off">
+        <Box
+          sx={styles.name}
+          noValidate
+          autoComplete="off"
+          onChange={(e) => setName(e.target.value)}
+        >
           <TextField
             id="outlined-basic"
             label="Name"
@@ -118,7 +130,10 @@ export default function ImageUplaoder() {
             fullWidth
           />
         </Box>
-        <Box sx={styles.description}>
+        <Box
+          sx={styles.description}
+          onChange={(e) => setDescription(e.target.value)}
+        >
           <TextField
             id="outlined-multiline-static"
             label="Description"
@@ -132,13 +147,20 @@ export default function ImageUplaoder() {
             <OutlinedInput
               id="outlined-adornment-amount"
               startAdornment={
-                <InputAdornment position="start">Retail Price</InputAdornment>
+                <InputAdornment
+                  position="start"
+                  onChange={(e) => setRetailPrice(e.target.value)}
+                >
+                  Retail Price
+                </InputAdornment>
               }
               label="Retail Price"
               sx={{
                 border: "solid #14213d 1px",
                 boxShadow: "0 0 10px #14213d",
+                backgroundColor: "#e0e0e0",
               }}
+              onChange={(e) => setRetailPrice(e.target.value)}
             />
           </FormControl>
           <FormControl fullWidth>
@@ -151,7 +173,9 @@ export default function ImageUplaoder() {
               sx={{
                 border: "solid #14213d 1px",
                 boxShadow: "0 0 10px #14213d",
+                backgroundColor: "#e0e0e0",
               }}
+              onChange={(e) => setPrice(e.target.value)}
             />
           </FormControl>
         </Box>
@@ -167,6 +191,7 @@ export default function ImageUplaoder() {
               sx={{
                 border: "solid #14213d 1px",
                 boxShadow: "0 0 10px #14213d",
+                backgroundColor: "#e0e0e0",
               }}
             >
               <MenuItem value={"Coffee"}>Coffee</MenuItem>
@@ -186,6 +211,7 @@ export default function ImageUplaoder() {
               sx={{
                 border: "solid #14213d 1px",
                 boxShadow: "0 0 10px #14213d",
+                backgroundColor: "#e0e0e0",
               }}
             >
               <MenuItem value={"New"}>New</MenuItem>
@@ -214,6 +240,7 @@ export default function ImageUplaoder() {
                   textAlign: "start",
                   border: "solid #e0e0e0 1px",
                   boxShadow: "0 0 10px #14213d",
+                  backgroundColor: "#e0e0e0",
                 }}
               >
                 Upload Images
@@ -233,7 +260,9 @@ export default function ImageUplaoder() {
           </Typography>
         </Box>
         <Box sx={styles.box_button}>
-          <Button sx={{ color: "#14213d", fontWeight: 700 }}>POST</Button>
+          <Button type="submit" sx={{ color: "#14213d", fontWeight: 700 }}>
+            POST
+          </Button>
         </Box>
       </form>
     </Box>

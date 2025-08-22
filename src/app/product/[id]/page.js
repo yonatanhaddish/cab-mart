@@ -19,9 +19,6 @@ const styles = {
     height: "70%",
     width: "60%",
     margin: "0 auto",
-    backgroundImage: "url('/images/furniture.jpeg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
   },
   images_small_parent: {
     height: "25%",
@@ -30,7 +27,14 @@ const styles = {
     display: "flex",
     flexwrap: "wrap",
   },
-  single_image: { border: "solid #ccc 2px", width: "100%", height: "100%" },
+  single_image: {
+    border: "solid #ccc 2px",
+    width: "100%",
+    height: "100%",
+    backgroundImage: "url('/images/furniture.jpeg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  },
   typo_name: { fontSize: "1.8rem", fontWeight: "600", color: "#14213d" },
   typo_retail_price: {
     fontSize: "1.1rem",
@@ -70,6 +74,7 @@ export default function ProductPage({ params }) {
   const [openModal, setOpenModal] = useState(false);
   const { id } = use(params);
   const [product, setProduct] = useState(null);
+  const [mainImage, setMainImage] = useState("/images/furniture.jpeg");
 
   // fetch product on client side
   useEffect(() => {
@@ -78,9 +83,14 @@ export default function ProductPage({ params }) {
       const res = await fetch(`${baseUrl}/api/products/${id}`);
       const data = await res.json();
       setProduct(data);
+
+      if (data?.images?.length > 0) {
+        setMainImage(data.images[0]);
+      }
     }
     getSingleProduct();
   }, [id]);
+  // console.log("555", product.images[0]);
 
   function handleDataFromAddToCartPage() {
     setOpenModal(true);
@@ -118,11 +128,31 @@ export default function ProductPage({ params }) {
           />
         </Drawer>
         <Box sx={styles.product_image_parent}>
-          <Box sx={styles.image_large}></Box>
+          <Box
+            sx={{
+              ...styles.image_large,
+              backgroundImage: `url(${mainImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          ></Box>
           <Box sx={styles.images_small_parent}>
-            {Array.from({ length: 10 }).map((_, i) => (
-              <Box key={i} sx={styles.single_image}></Box>
-            ))}
+            {Array.from({ length: 10 }).map((_, i) => {
+              const img = product.images?.[i]; // real image if exists
+              return (
+                <Box
+                  key={i}
+                  sx={{
+                    ...styles.single_image,
+                    backgroundImage: img ? `url(${img})` : "none",
+                    backgroundColor: img ? "transparent" : "#e0e0e0", // placeholder color
+                    border: img ? "none" : "1px dashed #999", // dashed border for empty slots
+                    cursor: img ? "pointer" : "default",
+                  }}
+                  onClick={() => img && setMainImage(img)} // only clickable if image exists
+                />
+              );
+            })}
           </Box>
         </Box>
         <Box sx={styles.product_info}>
