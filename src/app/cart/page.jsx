@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 
 import Link from "next/link";
 import { Box, Typography, Button } from "@mui/material";
@@ -36,6 +37,8 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-around",
+    position: "sticky",
+    top: 100,
   },
   sub_parent: {
     display: "flex",
@@ -43,19 +46,21 @@ const styles = {
   },
   carts_all: {
     // border: "solid green 2px",
-    width: "40%",
+    width: "45%",
     display: "flex",
     flexDirection: "column",
-    // backgroundColor: "#e0e0e0",
+    backgroundColor: "#14213d",
     gap: "15px",
     padding: "20px 0 20px 0",
+    boxShadow: "0 0 10px #14213d",
+    justifyContent: "center",
   },
   info_cart_single: {
     border: "solid #14213d 1px",
     boxShadow: "0 0 10px #000",
     display: "flex",
     justifyContent: "space-between",
-    width: "90%",
+    width: "85%",
     margin: "0 auto",
     backgroundColor: "#f97316",
   },
@@ -108,8 +113,6 @@ function Cart() {
     setCartProducts((prev) => prev.filter((item) => item._id !== id));
   };
 
-  console.log("55", cartProducts);
-
   return (
     <Box sx={styles.parent_mycart}>
       <Box sx={styles.cart_title}>
@@ -117,31 +120,47 @@ function Cart() {
         <Link href={`/`}>Continue Shopping</Link>
       </Box>
       <Box sx={styles.sub_parent}>
-        <Box sx={styles.carts_all}>
-          {cartProducts.map((item, index) => (
-            <Box key={index} sx={styles.info_cart_single}>
-              <Box
-                sx={{
-                  ...styles.cart_image_item,
-                  backgroundImage: `url(${item.images[0]})`,
-                }}
-              ></Box>
-              <Box sx={styles.typo_info}>
-                <Typography sx={styles.typo_name}>{item.name}</Typography>
-                <Typography sx={styles.typo_category}>
-                  {item.category}
-                </Typography>
-                <Typography sx={styles.typo_price}>{item.price} CAD</Typography>
+        {cartProducts.length > 0 ? (
+          <Box sx={styles.carts_all}>
+            {cartProducts.map((item, index) => (
+              <Box key={index} sx={styles.info_cart_single}>
+                <Box
+                  sx={{
+                    ...styles.cart_image_item,
+                    backgroundImage: `url(${item.images[0]})`,
+                  }}
+                ></Box>
+                <Box sx={styles.typo_info}>
+                  <Typography sx={styles.typo_name}>{item.name}</Typography>
+                  <Typography sx={styles.typo_category}>
+                    {item.category}
+                  </Typography>
+                  <Typography sx={styles.typo_price}>
+                    {item.price} CAD
+                  </Typography>
+                </Box>
+                <Box
+                  sx={styles.icon_delete}
+                  onClick={() => handleDeleteItem(item._id)}
+                >
+                  <DeleteIcon sx={{ fontSize: "1.8rem" }} />
+                </Box>
               </Box>
-              <Box
-                sx={styles.icon_delete}
-                onClick={() => handleDeleteItem(item._id)}
-              >
-                <DeleteIcon sx={{ fontSize: "1.8rem" }} />
-              </Box>
-            </Box>
-          ))}
-        </Box>
+            ))}
+          </Box>
+        ) : (
+          <Box sx={styles.carts_all}>
+            <Typography
+              sx={{
+                color: "#e0e0e0",
+                fontSize: "3rem",
+                textAlign: "center",
+              }}
+            >
+              Cart Empty <RemoveShoppingCartIcon fontSize="" />
+            </Typography>
+          </Box>
+        )}
         <Box sx={styles.reciept_cart}>
           <Typography sx={{ fontSize: "1rem", marginBottom: "5px" }}>
             Subtotal: {sub_total} CAD

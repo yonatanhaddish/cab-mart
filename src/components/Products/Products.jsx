@@ -84,10 +84,10 @@ const styles = {
 
 const categoryMap = {
   0: "",
-  1: "coffee",
-  2: "furniture",
-  3: "pet toys",
-  4: "perfume",
+  1: "Coffee",
+  2: "Furniture",
+  3: "Pet Toy",
+  4: "Perfume",
 };
 function Products() {
   const [value, setValue] = useState(0);
@@ -115,6 +115,7 @@ function Products() {
       setLoading(false);
     }
   }
+  console.log("555", products);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -159,143 +160,239 @@ function Products() {
         </Box>
         {value === 0 && (
           <Box sx={styles.product_list_parent}>
-            {products.map((item, index) => (
-              <Link
-                key={index}
-                href={`/product/${item._id}`}
-                passHref
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <Box sx={styles.product_list}>
-                  <Box sx={styles.product_img}></Box>
-
-                  <Box sx={styles.product_info}>
-                    <Typography sx={styles.typo_product_name}>
-                      {item.name}
-                    </Typography>
-                    <Typography sx={styles.typo_retail_price}>
-                      {" "}
-                      Retail Price: {item.retail_price} CAD
-                    </Typography>
-                    <Typography sx={styles.typo_our_price}>
-                      {item.price} CAD
-                    </Typography>
+            {products.length > 0 ? (
+              products.map((item, index) => (
+                <Link
+                  key={index}
+                  href={`/product/${item._id}`}
+                  passHref
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <Box sx={styles.product_list}>
+                    <Box
+                      sx={{
+                        ...styles.product_img,
+                        backgroundImage: `url(${
+                          item.images?.[0] || "/no-image.png"
+                        })`, // fallback if no image
+                      }}
+                    />
+                    <Box sx={styles.product_info}>
+                      <Typography sx={styles.typo_product_name}>
+                        {item.name}
+                      </Typography>
+                      <Typography sx={styles.typo_retail_price}>
+                        Retail Price: {item.retail_price} CAD
+                      </Typography>
+                      <Typography sx={styles.typo_our_price}>
+                        {item.price} CAD
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
-              </Link>
-            ))}
+                </Link>
+              ))
+            ) : (
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  mt: 8,
+                  color: "gray",
+                  height: "20vh",
+                }}
+              >
+                No products available
+              </Typography>
+            )}
           </Box>
         )}
+
         {value === 1 && (
           <Box sx={styles.product_list_parent}>
-            {products.map((item, index) => (
-              <Link
-                key={index}
-                href={`/product/${item._id}`}
-                passHref
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <Box key={index} sx={styles.product_list}>
-                  <Box sx={styles.product_img}></Box>
-                  <Box sx={styles.product_info}>
-                    <Typography sx={styles.typo_product_name}>
-                      {item.name}
-                    </Typography>
-                    <Typography sx={styles.typo_retail_price}>
-                      {" "}
-                      Retail Price: {item.retail_price} CAD
-                    </Typography>
-                    <Typography sx={styles.typo_our_price}>
-                      {item.price} CAD
-                    </Typography>
+            {products.length > 0 ? (
+              products.map((item, index) => (
+                <Link
+                  key={index}
+                  href={`/product/${item._id}`}
+                  passHref
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <Box sx={styles.product_list}>
+                    <Box
+                      sx={{
+                        ...styles.product_img,
+                        backgroundImage: `url(${
+                          item.images?.[0] || "/no-image.png"
+                        })`, // fallback if no image
+                      }}
+                    />
+                    <Box sx={styles.product_info}>
+                      <Typography sx={styles.typo_product_name}>
+                        {item.name}
+                      </Typography>
+                      <Typography sx={styles.typo_retail_price}>
+                        Retail Price: {item.retail_price} CAD
+                      </Typography>
+                      <Typography sx={styles.typo_our_price}>
+                        {item.price} CAD
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
-              </Link>
-            ))}
+                </Link>
+              ))
+            ) : (
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  mt: 8,
+                  color: "gray",
+                  height: "20vh",
+                }}
+              >
+                No coffee product available at the moment
+              </Typography>
+            )}
           </Box>
         )}
         {value === 2 && (
           <Box sx={styles.product_list_parent}>
-            {products.map((item, index) => (
-              <Link
-                key={index}
-                href={`/product/${item._id}`}
-                passHref
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <Box key={index} sx={styles.product_list}>
-                  <Box sx={styles.product_img}></Box>
-                  <Box sx={styles.product_info}>
-                    <Typography sx={styles.typo_product_name}>
-                      {item.name}
-                    </Typography>
-                    <Typography sx={styles.typo_retail_price}>
-                      {" "}
-                      Retail Price: {item.retail_price} CAD
-                    </Typography>
-                    <Typography sx={styles.typo_our_price}>
-                      {item.price} CAD
-                    </Typography>
+            {products.length > 0 ? (
+              products.map((item, index) => (
+                <Link
+                  key={index}
+                  href={`/product/${item._id}`}
+                  passHref
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <Box sx={styles.product_list}>
+                    <Box
+                      sx={{
+                        ...styles.product_img,
+                        backgroundImage: `url(${
+                          item.images?.[0] || "/no-image.png"
+                        })`,
+                      }}
+                    />
+                    <Box sx={styles.product_info}>
+                      <Typography sx={styles.typo_product_name}>
+                        {item.name}
+                      </Typography>
+                      <Typography sx={styles.typo_retail_price}>
+                        Retail Price: {item.retail_price} CAD
+                      </Typography>
+                      <Typography sx={styles.typo_our_price}>
+                        {item.price} CAD
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
-              </Link>
-            ))}
+                </Link>
+              ))
+            ) : (
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  mt: 8,
+                  color: "gray",
+                  height: "20vh",
+                }}
+              >
+                No furniture available at the moment
+              </Typography>
+            )}
           </Box>
         )}
+
         {value === 3 && (
           <Box sx={styles.product_list_parent}>
-            {products.map((item, index) => (
-              <Link
-                key={index}
-                href={`/product/${item._id}`}
-                passHref
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <Box key={index} sx={styles.product_list}>
-                  <Box sx={styles.product_img}></Box>
-                  <Box sx={styles.product_info}>
-                    <Typography sx={styles.typo_product_name}>
-                      {item.name}
-                    </Typography>
-                    <Typography sx={styles.typo_retail_price}>
-                      {" "}
-                      Retail Price: {item.retail_price} CAD
-                    </Typography>
-                    <Typography sx={styles.typo_our_price}>
-                      {item.price} CAD
-                    </Typography>
+            {products.length > 0 ? (
+              products.map((item, index) => (
+                <Link
+                  key={index}
+                  href={`/product/${item._id}`}
+                  passHref
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <Box sx={styles.product_list}>
+                    <Box
+                      sx={{
+                        ...styles.product_img,
+                        backgroundImage: `url(${
+                          item.images?.[0] || "/no-image.png"
+                        })`, // fallback if no image
+                      }}
+                    />
+                    <Box sx={styles.product_info}>
+                      <Typography sx={styles.typo_product_name}>
+                        {item.name}
+                      </Typography>
+                      <Typography sx={styles.typo_retail_price}>
+                        Retail Price: {item.retail_price} CAD
+                      </Typography>
+                      <Typography sx={styles.typo_our_price}>
+                        {item.price} CAD
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
-              </Link>
-            ))}
+                </Link>
+              ))
+            ) : (
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  mt: 8,
+                  color: "gray",
+                  height: "20vh",
+                }}
+              >
+                No pet toys available at the moment
+              </Typography>
+            )}
           </Box>
         )}
         {value === 4 && (
           <Box sx={styles.product_list_parent}>
-            {products.map((item, index) => (
-              <Link
-                key={index}
-                href={`/product/${item._id}`}
-                passHref
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <Box key={index} sx={styles.product_list}>
-                  <Box sx={styles.product_img}></Box>
-                  <Box sx={styles.product_info}>
-                    <Typography sx={styles.typo_product_name}>
-                      {item.name}
-                    </Typography>
-                    <Typography sx={styles.typo_retail_price}>
-                      {" "}
-                      Retail Price: {item.retail_price} CAD
-                    </Typography>
-                    <Typography sx={styles.typo_our_price}>
-                      {item.price} CAD
-                    </Typography>
+            {products.length > 0 ? (
+              products.map((item, index) => (
+                <Link
+                  key={index}
+                  href={`/product/${item._id}`}
+                  passHref
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <Box sx={styles.product_list}>
+                    <Box
+                      sx={{
+                        ...styles.product_img,
+                        backgroundImage: `url(${
+                          item.images?.[0] || "/no-image.png"
+                        })`, // fallback if no image
+                      }}
+                    />
+                    <Box sx={styles.product_info}>
+                      <Typography sx={styles.typo_product_name}>
+                        {item.name}
+                      </Typography>
+                      <Typography sx={styles.typo_retail_price}>
+                        Retail Price: {item.retail_price} CAD
+                      </Typography>
+                      <Typography sx={styles.typo_our_price}>
+                        {item.price} CAD
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
-              </Link>
-            ))}
+                </Link>
+              ))
+            ) : (
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  mt: 8,
+                  color: "gray",
+                  height: "20vh",
+                }}
+              >
+                No perfume available at the moment
+              </Typography>
+            )}
           </Box>
         )}
       </Box>
