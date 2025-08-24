@@ -13,7 +13,7 @@ export default function Home() {
       <AboutUs />
       <Service />
       <CategoryBox />
-      {/* <Products /> */}
+      <Products />
     </div>
   );
 }

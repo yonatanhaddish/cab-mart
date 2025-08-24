@@ -2,85 +2,20 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Box, Typography, Tabs, Tab, Button } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import {
+  Box,
+  Typography,
+  Tabs,
+  Tab,
+  Button,
+  useMediaQuery,
+} from "@mui/material";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import CoffeeIcon from "@mui/icons-material/Coffee";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 import PetsIcon from "@mui/icons-material/Pets";
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
-
-const styles = {
-  products_parent: {
-    // border: "2px solid blue",
-  },
-  products_body: {
-    // border: "2px solid green",
-  },
-  product_list_parent: {
-    // border: "2px solid green",
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-evenly",
-    rowGap: "50px",
-    width: "93%",
-  },
-  product_list: {
-    // border: "solid #14213d 1px",
-    boxShadow: "0 0 10px #f97316",
-    width: "300px",
-    height: "320px",
-    display: "flex",
-    flexDirection: "column",
-  },
-  product_img: {
-    width: "100%",
-    height: "100px",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundImage: "url('/images/furniture.jpeg')",
-    height: "60%",
-  },
-  product_info: {
-    height: "40%",
-    backgroundColor: "#f97316",
-    color: "#14213d",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-    borderBottom: "solid #14213d 20px",
-  },
-  typo_product_name: {
-    fontSize: "1.2rem",
-    fontWeight: "500",
-    width: "94%",
-    margin: "0 auto",
-  },
-  typo_retail_price: {
-    fontSize: "1.1rem",
-    // fontWeight: "400",
-    textDecoration: "line-through",
-    width: "94%",
-    margin: "0 auto",
-    color: "#e0e0e0",
-    textAlign: "end",
-  },
-  typo_our_price: {
-    fontSize: "1.4rem",
-    fontWeight: "500",
-    color: "red",
-    width: "90%",
-    margin: "0 auto",
-  },
-  caterory_title: {
-    backgroundColor: "#14213d",
-    width: "30%",
-    fontSize: "1.6rem",
-    textAlign: "center",
-    margin: "20px 70px",
-    justifySelf: "end",
-    color: "#fff",
-  },
-};
 
 const categoryMap = {
   0: "",
@@ -93,6 +28,60 @@ function Products() {
   const [value, setValue] = useState(0);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
+  const isSm = useMediaQuery(theme.breakpoints.between("sm", "md")); // tablet
+  const isMd = useMediaQuery(theme.breakpoints.between("md", "lg")); // small desktop
+  const isLg = useMediaQuery(theme.breakpoints.between("lg", "xl")); // desktop
+  const isXl = useMediaQuery(theme.breakpoints.up("xl")); // wide desktop
+
+  const styles = {
+    products_parent: {
+      // border: "solid green 2px",
+    },
+    product_list_parent: {
+      // border: "solid red 2px",
+    },
+    tab_parent: {
+      // border: "solid blue 2px",
+    },
+    tabs: {
+      "& .MuiTabs-flexContainer": {
+        flexWrap: "wrap",
+        justifyContent: isLg || isXl ? "flex-start" : "space-around",
+      },
+      width: isXs
+        ? "90%"
+        : isSm
+        ? "90%"
+        : isMd
+        ? "80%"
+        : isLg
+        ? "100%"
+        : isXl
+        ? "100%"
+        : "30%",
+      // border: "solid red 2px",
+      margin: "0 auto",
+    },
+    caterory_title: {
+      // border: "solid red 2px",
+    },
+    single_tab: {
+      // border: "solid green 2px",
+      width: isXs
+        ? "50%"
+        : isSm
+        ? "40%"
+        : isMd
+        ? "35%"
+        : isLg
+        ? "14%"
+        : isXl
+        ? "10%"
+        : "100%",
+    },
+  };
 
   useEffect(() => {
     fetchProducts();
@@ -123,32 +112,33 @@ function Products() {
 
   return (
     <Box sx={styles.products_parent}>
-      <Typography
-        variant="h4"
-        component="div"
-        sx={{ textAlign: "center", margin: "20px 0" }}
-      >
-        Products
-      </Typography>
+      <Typography>Products</Typography>
       <Box sx={styles.products_body}>
-        <Box>
-          <Tabs value={value} onChange={handleChange}>
+        <Box sx={styles.tab_parent}>
+          <Tabs value={value} onChange={handleChange} sx={styles.tabs}>
             <Tab
-              label="Popular Products"
-              icon={<WhatshotIcon />}
+              label="Coffee"
+              icon={<CoffeeIcon />}
               iconPosition="end"
+              sx={styles.single_tab}
             />
-            <Tab label="Coffee" icon={<CoffeeIcon />} iconPosition="end" />
             <Tab
               label="Furniture"
               icon={<TableRestaurantIcon />}
               iconPosition="end"
+              sx={styles.single_tab}
             />
-            <Tab label="Pet Toys" icon={<PetsIcon />} iconPosition="end" />
+            <Tab
+              label="Pet Toys"
+              icon={<PetsIcon />}
+              iconPosition="end"
+              sx={styles.single_tab}
+            />
             <Tab
               label="Perfume"
               icon={<LocalFloristIcon />}
               iconPosition="end"
+              sx={styles.single_tab}
             />
           </Tabs>
         </Box>
@@ -205,7 +195,6 @@ function Products() {
             )}
           </Box>
         )}
-
         {value === 1 && (
           <Box sx={styles.product_list_parent}>
             {products.length > 0 ? (
@@ -300,7 +289,6 @@ function Products() {
             )}
           </Box>
         )}
-
         {value === 3 && (
           <Box sx={styles.product_list_parent}>
             {products.length > 0 ? (
