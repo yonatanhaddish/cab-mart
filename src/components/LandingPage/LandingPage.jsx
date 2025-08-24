@@ -16,15 +16,15 @@ function LandingPageTest() {
     landing_page_parent: {
       // border: "solid red 2px",
       height: isXs
-        ? "85vh"
+        ? "86vh"
         : isSm
         ? "92vh"
         : isMd
         ? "94vh"
         : isLg
-        ? "88vh"
+        ? "93vh"
         : isXl
-        ? "89vh"
+        ? "92vh"
         : "100vh",
       width: "100%",
       display: "flex",
@@ -93,6 +93,7 @@ function LandingPageTest() {
         : isXl
         ? "2.8rem"
         : "",
+      color: "#14213d",
     },
     typo_desc: {
       // border: "solid blue 2px",
@@ -107,9 +108,10 @@ function LandingPageTest() {
         : isXl
         ? "1.4rem"
         : "",
+      fontStyle: "italic",
     },
     button_box: {
-      // border: "solid yellow 2px",
+      // border: "solid green 2px",
       display: "flex",
       justifyContent: "space-between",
       width: isXs
@@ -130,9 +132,9 @@ function LandingPageTest() {
         : isMd
         ? "60px"
         : isLg
-        ? "40px"
+        ? "35px"
         : isXl
-        ? "45px"
+        ? "40px"
         : "",
     },
     button_start_shopping: {
