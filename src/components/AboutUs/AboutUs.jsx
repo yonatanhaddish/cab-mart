@@ -21,7 +21,7 @@ function AboutUs() {
         : isXs
         ? "40vh"
         : isSm
-        ? "30vh"
+        ? "28vh"
         : isMd
         ? "25vh"
         : isLg

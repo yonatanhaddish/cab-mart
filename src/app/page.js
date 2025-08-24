@@ -2,7 +2,7 @@ import AboutUs from "../components/AboutUs/AboutUs";
 import CategoryBox from "../components/CategoryBox/CategoryBox";
 import LandingPage from "../components/LandingPage/LandingPage";
 import Navbar from "../components/Navbar/Navbar";
-import Products from "../components/Products/Products";
+import Service from "../components/Service/Service";
 
 export default function Home() {
   return (
@@ -10,7 +10,9 @@ export default function Home() {
       <Navbar />
       <LandingPage />
       <AboutUs />
+      <Service />
       {/* <CategoryBox /> */}
+
       {/* <Products /> */}
     </div>
   );
