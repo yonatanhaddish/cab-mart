@@ -38,6 +38,7 @@ function Products() {
   const styles = {
     products_parent: {
       // border: "solid green 2px",
+      backgroundColor: "#e5e5e5",
     },
     product_list_parent: {
       // border: "solid red 2px",
@@ -64,8 +65,9 @@ function Products() {
       // border: "solid red 2px",
       margin: "0 auto",
     },
-    caterory_title: {
+    category_title: {
       // border: "solid red 2px",
+      fontSize: "1.3rem",
     },
     single_tab: {
       // border: "solid green 2px",
@@ -80,6 +82,68 @@ function Products() {
         : isXl
         ? "10%"
         : "100%",
+    },
+    product_list_parent: {
+      // border: "solid purple 2px",
+      display: "flex",
+      flexDirection: "row",
+      flexWrap: "wrap",
+      justifyContent: isMd || isLg || isXl ? "space-evenly" : "space-around",
+      rowGap: isXs
+        ? "50px"
+        : isSm
+        ? "50px"
+        : isMd
+        ? "50px"
+        : isLg
+        ? "50px"
+        : isXl
+        ? "50px"
+        : "",
+      columnGap: isMd ? "100px" : isLg ? "70px" : isXl ? "70px" : "",
+      width: isLg ? "96%" : isXl ? "96%" : "100%",
+      margin: "0 auto",
+    },
+    heading_name: {
+      // border: "solid green 2px",
+    },
+    single_product: {
+      // border: "solid yellow 2px",
+    },
+    product_list: {
+      height: "100%",
+      width: "100%",
+    },
+    product_img: {
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      height: "50%",
+      width: "100%",
+    },
+    product_info: {
+      // border: "solid green 2px",
+      height: "50%",
+      width: isXs || isSm || isMd || isLg ? "92%" : isXl ? "92%" : "100%",
+      margin: "0 auto",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-around",
+    },
+    typo_product_name: {
+      fontSize: isXs || isSm || isMd || isLg || isXl ? "1.2rem" : "",
+      fontWeight: "bold",
+      color: "#14213d",
+    },
+    typo_product_cagetory: {
+      fontStyle: "italic",
+    },
+    typo_retail_price: {
+      textDecoration: "line-through",
+    },
+    typo_our_price: {
+      fontSize: isXs || isSm || isMd || isLg | isXl ? "1.2rem" : "",
+      color: "red",
+      fontSize: isXs || isSm || isMd || isLg || isXl ? "1.2rem" : "",
     },
   };
 
@@ -112,10 +176,16 @@ function Products() {
 
   return (
     <Box sx={styles.products_parent}>
-      <Typography>Products</Typography>
+      <Typography sx={styles.heading_name}>Products</Typography>
       <Box sx={styles.products_body}>
         <Box sx={styles.tab_parent}>
           <Tabs value={value} onChange={handleChange} sx={styles.tabs}>
+            <Tab
+              label="Popular Products"
+              icon={<WhatshotIcon />}
+              iconPosition="end"
+              sx={styles.single_tab}
+            />
             <Tab
               label="Coffee"
               icon={<CoffeeIcon />}
@@ -142,7 +212,7 @@ function Products() {
             />
           </Tabs>
         </Box>
-        <Box sx={styles.caterory_title}>
+        <Box sx={styles.category_title}>
           {(categoryMap[value]
             ? categoryMap[value]
             : "Popular Products"
@@ -156,7 +226,35 @@ function Products() {
                   key={index}
                   href={`/product/${item._id}`}
                   passHref
-                  style={{ textDecoration: "none", color: "inherit" }}
+                  style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                    border: "solid #14213d  1px",
+                    boxShadow: "0 0 10px #14213d",
+                    height: isXs
+                      ? "380px"
+                      : isSm
+                      ? "340px"
+                      : isMd
+                      ? "300px"
+                      : isLg
+                      ? "280px"
+                      : isXl
+                      ? "320px"
+                      : "",
+                    width: isXs
+                      ? "280px"
+                      : isSm
+                      ? "280px"
+                      : isMd
+                      ? "280px"
+                      : isLg
+                      ? "220px"
+                      : isXl
+                      ? "220px"
+                      : "",
+                    backgroundColor: "#fca311",
+                  }}
                 >
                   <Box sx={styles.product_list}>
                     <Box
@@ -170,6 +268,9 @@ function Products() {
                     <Box sx={styles.product_info}>
                       <Typography sx={styles.typo_product_name}>
                         {item.name}
+                      </Typography>
+                      <Typography sx={styles.typo_product_cagetory}>
+                        {item.category} | {item.condition}
                       </Typography>
                       <Typography sx={styles.typo_retail_price}>
                         Retail Price: {item.retail_price} CAD
