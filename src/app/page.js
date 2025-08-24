@@ -9,9 +9,10 @@ export default function Home() {
     <div>
       <Navbar />
       <LandingPage />
-      <AboutUs />
-      <CategoryBox />
-      <Products />
+      {/* <LandingPage /> */}
+      {/* <AboutUs /> */}
+      {/* <CategoryBox /> */}
+      {/* <Products /> */}
     </div>
   );
 }

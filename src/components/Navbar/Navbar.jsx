@@ -51,7 +51,7 @@ export default function RightDrawer() {
   const styles = {
     navbar: {
       // border: "solid blue 2px",
-      backgroundColor: "#e5e5e5",
+      // backgroundColor: "#e5e5e5",
       width: "100%",
       height: 60,
       display: "flex",
@@ -126,7 +126,7 @@ export default function RightDrawer() {
         width: isXs ? 230 : isSm ? 300 : 300,
         p: 2,
         // border: "solid green 2px",
-        backgroundColor: "#e5e5e5",
+        backgroundColor: "#fff",
         height: "100%",
         display: "flex",
         flexDirection: "column",
