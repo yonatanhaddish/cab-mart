@@ -20,7 +20,7 @@ function Services() {
       gap: isXs ? "50px" : isSm ? "40px" : isMd ? "40px" : "",
       display: "flex",
       flexDirection: isXs || isSm || isMd ? "column" : "row",
-      backgroundColor: "#F3EBDD",
+      backgroundColor: "#e5e5e5",
       paddingTop: isXl ? "100px" : "80px",
     },
     card_box: {
