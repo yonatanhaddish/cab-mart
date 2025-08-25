@@ -98,13 +98,22 @@ function Products() {
         flexWrap: "wrap",
         justifyContent: isLg || isXl ? "flex-start" : "space-around",
       },
+      "& .MuiTab-root": {
+        color: "#14213d",
+      },
+      "& .Mui-selected": {
+        color: "#fca311",
+      },
+      "& .MuiTabs-indicator": {
+        display: "none",
+      },
       width: isXs || isSm ? "90%" : "100%",
       margin: "0 auto",
     },
     product_list_parent: {
       display: "flex",
       flexWrap: "wrap",
-      justifyContent: "space-evenly",
+      justifyContent: "space-between",
       rowGap: "50px",
       marginTop: "30px",
       // border: "solid red 2px",
@@ -119,9 +128,10 @@ function Products() {
       backgroundColor: "#fca311",
       transition: "0.2s",
       height: isXs ? "380px" : isSm ? "340px" : isMd ? "300px" : "280px",
-      width: isXs || isSm || isMd || isXl ? "280px" : "240px",
+      width: isXs || isSm || isMd || isXl ? "280px" : isLg ? "280px" : "240px",
       borderRadius: "10px",
       overflow: "hidden",
+      margin: "0 auto",
     },
     product_img: {
       backgroundSize: "cover",
@@ -205,7 +215,7 @@ function Products() {
                   {item.category} | {item.condition}
                 </Typography>
                 <Typography sx={styles.typo_retail_price}>
-                  Retail: {item.retail_price} CAD
+                  Retail Price: {item.retail_price} CAD
                 </Typography>
                 <Typography sx={styles.typo_our_price}>
                   {item.price} CAD

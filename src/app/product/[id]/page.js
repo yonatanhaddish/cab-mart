@@ -1,80 +1,110 @@
 "use client";
 
 import React, { useEffect, useState, use } from "react";
-import { Box, Typography, Drawer } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { Box, Typography, Drawer, useMediaQuery } from "@mui/material";
 
 import useCart from "../../../utils/useCart";
 import AddToCartButtons from "../[id]/AddToCartButton";
 import CartNotification from "../../../components/CartNotification/CartNotification";
-
-const styles = {
-  parent_single_product: { width: "90%", margin: "20px auto" },
-  product_image_parent: {
-    height: "350px",
-    display: "flex",
-    flexDirection: "column",
-    gap: "20px",
-  },
-  image_large: {
-    height: "70%",
-    width: "60%",
-    margin: "0 auto",
-  },
-  images_small_parent: {
-    height: "25%",
-    width: "90%",
-    margin: "0 auto",
-    display: "flex",
-    flexwrap: "wrap",
-  },
-  single_image: {
-    border: "solid #ccc 2px",
-    width: "100%",
-    height: "100%",
-    backgroundImage: "url('/images/furniture.jpeg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  },
-  typo_name: { fontSize: "1.8rem", fontWeight: "600", color: "#14213d" },
-  typo_retail_price: {
-    fontSize: "1.1rem",
-    fontWeight: "500",
-    color: "red",
-    textDecoration: "line-through",
-  },
-  typo_price: { fontSize: "1.4rem", fontWeight: "600", color: "green" },
-  typo_condition: { fontSize: "1.2rem", fontWeight: "500", color: "#14213d" },
-  typo_description: { fontSize: "1rem", fontWeight: "400", color: "#14213d" },
-  footer_bar: {
-    backgroundColor: "rgba(249, 115, 22, 0.8)",
-    position: "sticky",
-    bottom: "0",
-    zIndex: 1000,
-  },
-  image_parent: {
-    width: "60%",
-    height: "50px",
-    display: "flex",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-  },
-  button_add_to_cart: {
-    backgroundColor: "#14213d",
-    color: "#e0e0e0",
-    fontWeight: "600",
-    width: "25%",
-    height: "70%",
-    opacity: "100%",
-  },
-  product_info: { width: "90%", margin: "20px auto" },
-  cart_notification: {},
-};
 
 export default function ProductPage({ params }) {
   const [openModal, setOpenModal] = useState(false);
   const { id } = use(params);
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState("/images/furniture.jpeg");
+
+  const theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
+  const isSm = useMediaQuery(theme.breakpoints.between("sm", "md")); // tablet
+  const isMd = useMediaQuery(theme.breakpoints.between("md", "lg")); // small desktop
+  const isLg = useMediaQuery(theme.breakpoints.between("lg", "xl")); // desktop
+  const isXl = useMediaQuery(theme.breakpoints.up("xl")); // wide desktop
+
+  const styles = {
+    parent_single_product: {
+      // border: "solid green 2px",
+      width: "100%",
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+    },
+    product_image_parent: {
+      // border: "solid blue 2px",
+      height: "500px",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+    },
+    image_large: {
+      height: "60%",
+      // width: "100%",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      // border: "solid red 2px",
+    },
+    images_small_parent: {
+      // border: "solid purple 2px",
+      height: "40%",
+      display: "flex",
+      alignContent: "space-around",
+      justifyContent: "center",
+      flexWrap: "wrap",
+    },
+    single_image: {
+      // border: "solid blue 1px",
+      height: "80px",
+      width: "80px",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    },
+    product_info: {
+      // border: "solid purple 2px",
+      display: "flex",
+      flexDirection: "column",
+      width: "96%",
+      height: "250px",
+      margin: "0 auto",
+      justifyContent: "space-between",
+    },
+    typo_name: {
+      fontSize: isXs ? "2rem" : "",
+      fontWeight: 500,
+    },
+    typo_retail_price: {
+      color: "rgba(0, 0, 0, 0.6)",
+      textDecoration: "line-through",
+    },
+    typo_price: {},
+    typo_condition: {
+      color: "rgba(0, 0, 0, 0.6)",
+    },
+    typo_description: {
+      maxWidth: "100%", // stays inside parent
+      wordWrap: "break-word", // breaks long words
+      overflowWrap: "break-word",
+      whiteSpace: "normal", // allows wrapping
+    },
+    typo_category: {
+      backgroundColor: "#fca311",
+      // border: "solid red 2px",
+      width: isXs ? "25%" : "100%",
+      height: isXs ? "40px" : "",
+      textAlign: "center",
+      alignContent: "center",
+      borderRadius: "120px",
+      fontWeight: "bold",
+      color: "#14213d",
+    },
+    footer_bar: {
+      // border: "solid blue 2px",
+    },
+    image_parent: {},
+    button_add_to_cart: {},
+
+    cart_notification: {},
+  };
 
   // fetch product on client side
   useEffect(() => {
@@ -108,7 +138,7 @@ export default function ProductPage({ params }) {
 
   return (
     <Box sx={styles.parent_single_product}>
-      <Box>
+      <Box style={{ border: "solid green 0px" }}>
         <Drawer
           anchor="top"
           open={openModal}
@@ -132,8 +162,6 @@ export default function ProductPage({ params }) {
             sx={{
               ...styles.image_large,
               backgroundImage: `url(${mainImage})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
             }}
           ></Box>
           <Box sx={styles.images_small_parent}>
@@ -156,18 +184,23 @@ export default function ProductPage({ params }) {
           </Box>
         </Box>
         <Box sx={styles.product_info}>
+          <Typography sx={styles.typo_category}>{product.category}</Typography>
           <Typography sx={styles.typo_name}>{product.name}</Typography>
+          <Typography sx={styles.typo_condition}>
+            Condition:{" "}
+            <span style={{ fontWeight: "bold", color: "#000" }}>
+              {product.condition}
+            </span>
+          </Typography>
           <Typography sx={styles.typo_retail_price}>
             Retail Price: {product.retail_price} CAD
           </Typography>
           <Typography sx={styles.typo_price}>
             Price: {product.price} CAD
           </Typography>
-          <Typography sx={styles.typo_condition}>
-            Condition: {product.condition}
-          </Typography>
+
           <Typography sx={styles.typo_description}>
-            {product.description.repeat(12)}
+            {product.description.repeat(10)}
           </Typography>
         </Box>
       </Box>

@@ -14,6 +14,7 @@ const styles = {
     display: "flex",
     justifyContent: "space-evenly",
     alignItems: "center",
+    // border: "solid blue 10px",
   },
   button_add_to_cart: {
     backgroundColor: "#14213d",
