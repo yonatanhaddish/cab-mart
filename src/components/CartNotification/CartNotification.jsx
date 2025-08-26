@@ -11,7 +11,6 @@ const styles = {
     flexDirection: "column",
     width: "100%",
     height: "100%",
-    justifyContent: "space-between",
   },
   cart_title_close: {
     borderBottom: "solid #14213d 2px",
@@ -26,22 +25,27 @@ const styles = {
   },
   cart_img_name: {
     // border: "solid green 2px",
+    backgroundColor: "#f97316",
     display: "flex",
     justifyContent: "space-around",
-    height: "30%",
+    height: "100%",
   },
   image_box: {
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundImage: "url('/images/furniture.jpeg')",
-    width: "60px",
-    // border: "solid red 2px",
-    width: "25%",
+    width: "30%",
+    height: "80%",
+    alignSelf: "center",
+    // border: "solid green 2px",
   },
   cart_typo_name: {
     fontSize: "1.4rem",
     // border: "solid blue 2px",
-    width: "60%",
+    width: "40%",
+    alignSelf: "center",
+    textAlign: "center",
+    fontWeight: "bold",
   },
   cart_button_link: {
     // border: "solid blue 2px",
@@ -79,10 +83,6 @@ function CartNotification({ product, passDataToProductPage }) {
       <Box sx={styles.cart_img_name}>
         <Box sx={styles.image_box}></Box>
         <Typography sx={styles.cart_typo_name}>{product.name}</Typography>
-      </Box>
-      <Box sx={styles.cart_button_link}>
-        <Button sx={styles.button_view_cart}>View Cart</Button>
-        <Link href={`/`}>Continue Shopping</Link>
       </Box>
     </Box>
   );
