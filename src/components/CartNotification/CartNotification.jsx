@@ -5,7 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const styles = {
   cart_notification_cart: {
-    border: "solid #14213d 1px",
+    // border: "solid red 1px",
     boxShadow: "0 0 10px #14213d",
     display: "flex",
     flexDirection: "column",
@@ -22,10 +22,11 @@ const styles = {
     fontSize: "1.2rem",
     color: "#e0e0e0",
     paddingLeft: "8px",
+    alignSelf: "center",
   },
   cart_img_name: {
     // border: "solid green 2px",
-    backgroundColor: "#f97316",
+    backgroundColor: "#fca311",
     display: "flex",
     justifyContent: "space-around",
     height: "100%",
@@ -46,6 +47,7 @@ const styles = {
     alignSelf: "center",
     textAlign: "center",
     fontWeight: "bold",
+    color: "#14213d",
   },
   cart_button_link: {
     // border: "solid blue 2px",

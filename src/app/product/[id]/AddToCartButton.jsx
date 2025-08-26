@@ -20,42 +20,107 @@ export default function AddToCartButtons({ product, passDataToProductPage }) {
     addcart_parent: {
       // border: "solid red 2px",
       display: "flex",
-      flexDirection: "column",
-      gap: isXs ? "15px" : "",
-      height: "150px",
-      justifyContent: "center",
+      flexDirection: isXs || isSm ? "column" : "row",
+      gap: isXs || isSm ? "15px" : "",
+      height: isXs
+        ? "150px"
+        : isSm
+        ? "140px"
+        : isMd
+        ? "200px"
+        : isLg
+        ? "80px"
+        : isXl
+        ? "100px"
+        : "400px",
+      justifyContent: isXs || isSm ? "center" : "space-evenly",
+      justifyItems: "center",
+      alignItems: "center",
     },
     button_add_to_cart_buy_now: {
       // border: "solid green 2px",
       display: "flex",
-      justifyContent: "space-between",
-      width: isXs ? "90%" : "100%",
-      margin: isXs ? "0 auto" : "",
+      justifyContent:
+        isXs || isSm || isMd || isLg || isXl ? "space-between" : "",
+      width: isXs
+        ? "90%"
+        : isSm
+        ? "55%"
+        : isMd
+        ? "50%"
+        : isLg
+        ? "50%"
+        : isXl
+        ? "42%"
+        : "100%",
+      height: isXs
+        ? "25%"
+        : isSm
+        ? "30%"
+        : isMd
+        ? "30%"
+        : isLg
+        ? "45%"
+        : isXl
+        ? "35%"
+        : "100%",
+      margin: isXs || isSm ? "0 auto" : "",
     },
     button_add_to_cart: {
       // border: "solid blue 2px",
-      width: "45%",
+      width: isXs
+        ? "45%"
+        : isSm
+        ? "40%"
+        : isMd
+        ? "40%"
+        : isLg
+        ? "40%"
+        : isXl
+        ? "35%"
+        : "",
       backgroundColor: "#14213d",
       color: "#e5e5e5",
       boxShadow: "0 0 10px #000",
+      height: "100%",
     },
     button_buy_now: {
       // border: "solid blue 2px",
-      width: "45%",
+      width: isXs
+        ? "45%"
+        : isSm
+        ? "40%"
+        : isMd
+        ? "40%"
+        : isLg
+        ? "40%"
+        : isXl
+        ? "35%"
+        : "",
       backgroundColor: "#14213d",
       color: "#e5e5e5",
       boxShadow: "0 0 10px #000",
+      height: "100%",
     },
     button_my_cart: {
-      // border: "solid blue 2px",
-      width: "100%",
+      // border: "solid green 2px",
+      margin: isXs || isSm ? "0 auto" : "",
+      backgroundColor: "#14213d",
+      boxShadow: "0 0 10px #000",
+      color: "#e5e5e5",
       display: "flex",
       justifySelf: "center",
-      width: isXs ? "90%" : "100%",
-      margin: isXs ? "0 auto" : "",
-      backgroundColor: "#14213d",
-      color: "#e5e5e5",
-      boxShadow: "0 0 10px #000",
+      height: isXs
+        ? "25%"
+        : isSm
+        ? "30%"
+        : isMd
+        ? "30%"
+        : isLg
+        ? "45%"
+        : isXl
+        ? "35%"
+        : "100%",
     },
   };
 
@@ -82,7 +147,23 @@ export default function AddToCartButtons({ product, passDataToProductPage }) {
             <PaymentIcon style={{ paddingLeft: 10 }} />
           </Button>
         </Box>
-        <Button sx={styles.button_my_cart} href={`/cart`}>
+        <Button
+          href={`/cart`}
+          sx={{
+            ...styles.button_my_cart,
+            width: isXs
+              ? "90%"
+              : isSm
+              ? "55%"
+              : isMd
+              ? "20%"
+              : isLg
+              ? "20%"
+              : isXl
+              ? "15%"
+              : "",
+          }}
+        >
           My Cart
           <ShoppingCartIcon style={{ paddingLeft: 10 }} />
         </Button>
