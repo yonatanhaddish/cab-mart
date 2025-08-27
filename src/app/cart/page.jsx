@@ -31,7 +31,16 @@ function Cart() {
     cart_image_item: {
       backgroundSize: "cover",
       backgroundPosition: "center",
-      width: isXs ? "22%" : "100%",
+      width:
+        isXs || isSm
+          ? "22%"
+          : isMd
+          ? "25%"
+          : isLg
+          ? "20%"
+          : isXl
+          ? "20%"
+          : "100%",
       // border: "solid green 2px",
     },
     cart_title: {
@@ -48,7 +57,16 @@ function Cart() {
       bottom: 0,
       // border: "solid blue 2px",
       backgroundColor: "#fca311",
-      height: isXs ? "180px" : "",
+      height:
+        isXs || isSm
+          ? "180px"
+          : isMd
+          ? "200px"
+          : isLg
+          ? "160px"
+          : isXl
+          ? "160px"
+          : "",
     },
     sub_parent: {
       // border: "solid green 2px",
@@ -62,35 +80,96 @@ function Cart() {
       overflowY: "auto",
       display: "flex",
       flexDirection: "column",
-      gap: isXs ? "15px" : "",
+      gap: "20px",
       paddingTop: "20px",
+      width: "100%",
+    },
+    carts_empty: {
+      flex: 1,
+      overflowY: "auto",
+      display: "flex",
+      flexDirection: "column",
+      gap: "15px",
+      paddingTop: "20px",
+      justifyContent: "space-evenly",
     },
     info_cart_single: {
-      border: "solid #14213d 1px",
+      border: "solid #14213d 2px",
       boxShadow: "0 0 8px #14213d",
       display: "flex",
       justifyContent: "space-between",
-      width: isXs ? "90%" : "",
-      margin: isXs ? "0 auto" : "",
       backgroundColor: "#e5e5e5",
+      width: isXs
+        ? "90%"
+        : isSm
+        ? "50%"
+        : isMd
+        ? "50%"
+        : isLg
+        ? "40%"
+        : isXl
+        ? "28%"
+        : "",
+      height: isXs
+        ? "78px"
+        : isSm
+        ? "85px"
+        : isMd
+        ? "90px"
+        : isLg
+        ? "74px"
+        : isXl
+        ? "90px"
+        : "",
+      margin: "0 auto",
     },
     icon_delete: {
       // border: "solid #14213d 1px",
       boxShadow: "0 0 10px #14213d",
-      width: isXs ? "12%" : "100%",
-      height: isXs ? "45px" : "",
+      width: isXs
+        ? "12%"
+        : isSm
+        ? "50px"
+        : isMd
+        ? "10%"
+        : isLg
+        ? "8%"
+        : isXl
+        ? "10%"
+        : "100%",
+      height: isXs
+        ? "45px"
+        : isSm
+        ? "45px"
+        : isMd
+        ? "50px"
+        : isLg
+        ? "40px"
+        : isXl
+        ? "55px"
+        : "",
       backgroundColor: "#14213d",
       borderRadius: "60px",
       display: "flex",
       justifyContent: "center",
       alignSelf: "center",
       color: "#e5e5e5",
-      marginRight: isXs ? "10px" : "",
+      marginRight: "10px",
     },
     typo_info: {
       // border: "solid red 2px",
-      width: isXs ? "65%" : "100%",
+      width:
+        isXs || isSm
+          ? "65%"
+          : isMd
+          ? "65%"
+          : isLg
+          ? "60%"
+          : isXl
+          ? "60%"
+          : "100%",
       textAlign: "center",
+      alignContent: "center",
     },
     your_cart_title: {
       color: "#e5e5e5",
@@ -103,13 +182,15 @@ function Cart() {
       backgroundColor: "#14213d",
       boxShadow: "0 0 10px #14213d",
       color: "#e5e5e5",
-      marginTop: isXs ? "10px" : "",
+      marginTop: "10px",
+      width: "90%",
     },
     typo_name: {
-      fontSize: isXs ? "1.2rem" : "",
+      fontSize: "1.2rem",
+      fontWeight: "bold",
     },
     typo_category: {},
-    typo_price: {},
+    typo_price: { fontSize: "1.1rem" },
   };
 
   useEffect(() => {
@@ -143,6 +224,10 @@ function Cart() {
             color: "#e5e5e5",
             // border: "solid 1px white",
             textDecoration: "none",
+            display: "flex",
+            alignItems: "center",
+            gap: "2px",
+            marginLeft: "15px",
           }}
         >
           <ArrowBackIcon style={{}} /> Continue Shopping
@@ -183,7 +268,25 @@ function Cart() {
             ))}
           </Box>
         ) : (
-          <Box sx={styles.carts_all}>
+          <Box sx={styles.carts_empty}>
+            <Typography
+              sx={{
+                color: "#e0e0e0",
+                fontSize: "3rem",
+                textAlign: "center",
+              }}
+            >
+              Cart Empty <RemoveShoppingCartIcon fontSize="" />
+            </Typography>
+            <Typography
+              sx={{
+                color: "#e0e0e0",
+                fontSize: "3rem",
+                textAlign: "center",
+              }}
+            >
+              Cart Empty <RemoveShoppingCartIcon fontSize="" />
+            </Typography>
             <Typography
               sx={{
                 color: "#e0e0e0",
@@ -199,9 +302,19 @@ function Cart() {
         <Box sx={styles.reciept_cart}>
           <Box
             sx={{
-              width: isXs ? "60%" : "100%",
+              width: isXs
+                ? "60%"
+                : isSm
+                ? "35%"
+                : isMd
+                ? "30%"
+                : isLg
+                ? "20%"
+                : isXl
+                ? "18%"
+                : "100%",
               // border: "solid green 2px",
-              margin: isXs ? "0 auto" : "",
+              margin: "0 auto",
               display: "flex",
               flexDirection: "column",
               height: "100%",
@@ -212,7 +325,7 @@ function Cart() {
               sx={{
                 fontSize: "1rem",
                 marginBottom: "5px",
-                fontWeight: "500",
+                fontWeight: 700,
                 // border: "solid blue 2px",
               }}
             >
@@ -222,7 +335,7 @@ function Cart() {
               sx={{
                 fontSize: "1rem",
                 marginBottom: "5px",
-                fontWeight: "500",
+                fontWeight: 700,
                 // border: "solid blue 2px",
               }}
             >
@@ -230,8 +343,8 @@ function Cart() {
             </Typography>
             <Typography
               sx={{
-                fontSize: "1.2rem",
-                fontWeight: "600",
+                // fontSize: "1.2rem",
+                fontWeight: 700,
                 borderTop: "solid #14213d 1px",
                 width: "90%",
 
