@@ -1,99 +1,116 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useTheme } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Link from "next/link";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Drawer, useMediaQuery, Button } from "@mui/material";
 import useCart from "../../utils/useCart";
 
-const styles = {
-  parent_mycart: {
-    // border: "solid red 2px",
-    width: "90%",
-    minHeight: "90vh",
-    margin: "0 auto",
-    display: "flex",
-    flexDirection: "column",
-    gap: "50px",
-  },
-  cart_image_item: {
-    // backgroundImage: `url(/images/coffee_beans.jpeg)`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    height: "80px",
-    width: "100px",
-  },
-  cart_title: {
-    // border: "solid green 2px",
-    alignSelf: "center",
-  },
-  reciept_cart: {
-    border: "solid #14213d 2px",
-    width: "25%",
-    height: "150px",
-    // paddingTop: "40px",
-    paddingLeft: "20px",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
-    position: "sticky",
-    top: 100,
-  },
-  sub_parent: {
-    display: "flex",
-    justifyContent: "space-evenly",
-  },
-  carts_all: {
-    // border: "solid green 2px",
-    width: "45%",
-    display: "flex",
-    flexDirection: "column",
-    backgroundColor: "#14213d",
-    gap: "15px",
-    padding: "20px 0 20px 0",
-    boxShadow: "0 0 10px #14213d",
-    justifyContent: "center",
-  },
-  info_cart_single: {
-    border: "solid #14213d 1px",
-    boxShadow: "0 0 10px #000",
-    display: "flex",
-    justifyContent: "space-between",
-    width: "85%",
-    margin: "0 auto",
-    backgroundColor: "#f97316",
-  },
-  icon_delete: {
-    alignSelf: "center",
-    paddingRight: "10px",
-  },
-  typo_info: { width: "60%" },
-  your_cart_title: {
-    fontSize: "2rem",
-  },
-  checkout_button: {
-    backgroundColor: "#f97316",
-    color: "#14213d",
-    width: "80%",
-    fontWeight: 700,
-  },
-  typo_name: {
-    fontSize: "1.2rem",
-    fontWeight: 600,
-  },
-  typo_category: {
-    fontStyle: "italic",
-    fontWeight: 500,
-  },
-  typo_price: {
-    fontSize: "1.1rem",
-  },
-};
 function Cart() {
   const { getCart, removeFromCart } = useCart();
 
   const [cartProducts, setCartProducts] = useState([]);
+
+  const theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
+  const isSm = useMediaQuery(theme.breakpoints.between("sm", "md")); // tablet
+  const isMd = useMediaQuery(theme.breakpoints.between("md", "lg")); // small desktop
+  const isLg = useMediaQuery(theme.breakpoints.between("lg", "xl")); // desktop
+  const isXl = useMediaQuery(theme.breakpoints.up("xl")); // wide desktop
+
+  const styles = {
+    parent_mycart: {
+      // border: "solid red 2px",
+      display: "flex",
+      flexDirection: "column",
+      backgroundColor: "#F3EBDD",
+    },
+    cart_image_item: {
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      width: isXs ? "22%" : "100%",
+      // border: "solid green 2px",
+    },
+    cart_title: {
+      // border: "solid green 2px",
+      height: "70px",
+      backgroundColor: "#14213d",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+    },
+    reciept_cart: {
+      // paddingTop: "40px",
+      position: "sticky",
+      bottom: 0,
+      // border: "solid blue 2px",
+      backgroundColor: "#fca311",
+      height: isXs ? "180px" : "",
+    },
+    sub_parent: {
+      // border: "solid green 2px",
+      display: "flex",
+      flexDirection: "column",
+      minHeight: "92vh",
+    },
+    carts_all: {
+      // border: "solid blue 2px",
+      flex: 1,
+      overflowY: "auto",
+      display: "flex",
+      flexDirection: "column",
+      gap: isXs ? "15px" : "",
+      paddingTop: "20px",
+    },
+    info_cart_single: {
+      border: "solid #14213d 1px",
+      boxShadow: "0 0 8px #14213d",
+      display: "flex",
+      justifyContent: "space-between",
+      width: isXs ? "90%" : "",
+      margin: isXs ? "0 auto" : "",
+      backgroundColor: "#e5e5e5",
+    },
+    icon_delete: {
+      // border: "solid #14213d 1px",
+      boxShadow: "0 0 10px #14213d",
+      width: isXs ? "12%" : "100%",
+      height: isXs ? "45px" : "",
+      backgroundColor: "#14213d",
+      borderRadius: "60px",
+      display: "flex",
+      justifyContent: "center",
+      alignSelf: "center",
+      color: "#e5e5e5",
+      marginRight: isXs ? "10px" : "",
+    },
+    typo_info: {
+      // border: "solid red 2px",
+      width: isXs ? "65%" : "100%",
+      textAlign: "center",
+    },
+    your_cart_title: {
+      color: "#e5e5e5",
+      display: "flex",
+      // border: "solid 1px white",
+      justifyContent: "center",
+      gap: "8px",
+    },
+    checkout_button: {
+      backgroundColor: "#14213d",
+      boxShadow: "0 0 10px #14213d",
+      color: "#e5e5e5",
+      marginTop: isXs ? "10px" : "",
+    },
+    typo_name: {
+      fontSize: isXs ? "1.2rem" : "",
+    },
+    typo_category: {},
+    typo_price: {},
+  };
 
   useEffect(() => {
     const cart_products = getCart();
@@ -116,8 +133,20 @@ function Cart() {
   return (
     <Box sx={styles.parent_mycart}>
       <Box sx={styles.cart_title}>
-        <Typography sx={styles.your_cart_title}>Your Cart</Typography>
-        <Link href={`/`}>Continue Shopping</Link>
+        <Typography sx={styles.your_cart_title}>
+          {" "}
+          My Cart <ShoppingCartIcon sx={{}} />{" "}
+        </Typography>
+        <Link
+          href={`/`}
+          style={{
+            color: "#e5e5e5",
+            // border: "solid 1px white",
+            textDecoration: "none",
+          }}
+        >
+          <ArrowBackIcon style={{}} /> Continue Shopping
+        </Link>
       </Box>
       <Box sx={styles.sub_parent}>
         {cartProducts.length > 0 ? (
@@ -143,7 +172,12 @@ function Cart() {
                   sx={styles.icon_delete}
                   onClick={() => handleDeleteItem(item._id)}
                 >
-                  <DeleteIcon sx={{ fontSize: "1.8rem" }} />
+                  <DeleteIcon
+                    sx={{
+                      fontSize: "1.8rem",
+                      alignSelf: "center",
+                    }}
+                  />
                 </Box>
               </Box>
             ))}
@@ -161,25 +195,53 @@ function Cart() {
             </Typography>
           </Box>
         )}
+
         <Box sx={styles.reciept_cart}>
-          <Typography sx={{ fontSize: "1rem", marginBottom: "5px" }}>
-            Subtotal: {sub_total} CAD
-          </Typography>
-          <Typography sx={{ fontSize: "1rem", marginBottom: "5px" }}>
-            Delivery: {delivery_price} CAD
-          </Typography>
-          <Typography
+          <Box
             sx={{
-              fontSize: "1.2rem",
-              fontWeight: "600",
-              borderTop: "solid #14213d 1px",
-              width: "90%",
-              color: "red",
+              width: isXs ? "60%" : "100%",
+              // border: "solid green 2px",
+              margin: isXs ? "0 auto" : "",
+              display: "flex",
+              flexDirection: "column",
+              height: "100%",
+              justifyContent: "center",
             }}
           >
-            TOTAL: {total_price} CAD
-          </Typography>
-          <Button sx={styles.checkout_button}>Checkout</Button>
+            <Typography
+              sx={{
+                fontSize: "1rem",
+                marginBottom: "5px",
+                fontWeight: "500",
+                // border: "solid blue 2px",
+              }}
+            >
+              Subtotal: {sub_total} CAD
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "1rem",
+                marginBottom: "5px",
+                fontWeight: "500",
+                // border: "solid blue 2px",
+              }}
+            >
+              Delivery fee: {delivery_price} CAD
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "1.2rem",
+                fontWeight: "600",
+                borderTop: "solid #14213d 1px",
+                width: "90%",
+
+                // border: "solid blue 2px",
+              }}
+            >
+              TOTAL: {total_price} CAD
+            </Typography>
+            <Button sx={styles.checkout_button}>Checkout</Button>
+          </Box>
         </Box>
       </Box>
     </Box>
