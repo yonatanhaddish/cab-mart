@@ -1,76 +1,8 @@
 "use client";
 import React, { useState } from "react";
+import { useTheme } from "@mui/material/styles";
 import { CldUploadWidget } from "next-cloudinary";
-
-const styles = {
-  form_parent: {
-    // border: "solid blue 2px",
-    height: "99vh",
-    backgroundColor: "#bbc0caff",
-  },
-  form: {
-    border: "solid #14213d 1px",
-    boxShadow: "0 0 10px #14213d",
-    width: "40%",
-    height: "70%",
-    margin: "30px auto",
-    display: "flex",
-    flexDirection: "column",
-    gap: "20px",
-    paddingLeft: "20px",
-    paddingRight: "20px",
-    paddingTop: "30px",
-    backgroundColor: "#e0e0e0",
-    backgroundColor: "#d1d5ddff",
-  },
-  name: {
-    // border: "solid red 2px",
-    border: "solid #14213d 1px",
-    boxShadow: "0 0 10px #14213d",
-    backgroundColor: "#e0e0e0",
-  },
-  description: {
-    // border: "solid green 2px",
-    border: "solid #14213d 1px",
-    boxShadow: "0 0 10px #14213d",
-    backgroundColor: "#e0e0e0",
-  },
-  box_prices: {
-    // border: "solid blue 2px",
-
-    display: "flex",
-    gap: "40px",
-  },
-  box_condition_category: {
-    // border: "solid green 2px",
-    display: "flex",
-    gap: "40px",
-  },
-  box_stock_images: {
-    // border: "solid blue 2px",
-    display: "flex",
-    justifyContent: "space-between",
-    gap: "40px",
-    height: "40px",
-  },
-  box_button: {
-    border: "solid #14213d 1px",
-    boxShadow: "0 0 10px #14213d",
-    width: "50%",
-    alignSelf: "center",
-    textAlign: "center",
-    backgroundColor: "#f97316",
-    marginTop: "40px",
-  },
-  typo_heading: {
-    // border: "solid red 2px",
-    textAlign: "center",
-    fontSize: "2.6rem",
-    paddingTop: "30px",
-    color: "#14213d",
-  },
-};
-
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 import {
   Box,
   TextField,
@@ -82,6 +14,7 @@ import {
   Select,
   Typography,
   Button,
+  useMediaQuery,
 } from "@mui/material";
 
 export default function ImageUplaoder() {
@@ -92,6 +25,99 @@ export default function ImageUplaoder() {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [condition, setCondition] = useState("");
+
+  const theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
+  const isSm = useMediaQuery(theme.breakpoints.between("sm", "md")); // tablet
+  const isMd = useMediaQuery(theme.breakpoints.between("md", "lg")); // small desktop
+  const isLg = useMediaQuery(theme.breakpoints.between("lg", "xl")); // desktop
+  const isXl = useMediaQuery(theme.breakpoints.up("xl")); // wide desktop
+
+  const styles = {
+    form_parent: {
+      // border: "solid green 2px",
+      minHeight: "98vh",
+      display: "flex",
+      flexDirection: "column",
+      gap: isXs ? "20px" : "",
+      backgroundColor: "#e5e5e5",
+    },
+    box_heading: {
+      // border: "solid blue 2px",
+      height: "80px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    typo_heading: {
+      borderBottom: "solid #14213d 1px",
+      fontSize: "1.4rem",
+    },
+    form: {
+      border: "solid #14213d 2px",
+      boxShadow: "0 0 10px #14213d",
+      width: isXs ? "380px" : "100%",
+      display: "flex",
+      flexWrap: "wrap",
+      rowGap: isXs ? "10px" : "",
+      columnGap: "",
+      margin: "0 auto",
+      padding: "30px 0 50px 0",
+      backgroundColor: "#F3EBDD",
+    },
+    name: {
+      border: "solid #14213d 1px",
+      width: isXs ? "90%" : "100%",
+      margin: "0 auto",
+      backgroundColor: "#F3EBDD",
+    },
+    description: {
+      border: "solid #14213d 1px",
+      width: isXs ? "90%" : "100%",
+      margin: "0 auto",
+      backgroundColor: "#F3EBDD",
+    },
+    box_retail_prices: {
+      border: "solid #14213d 1px",
+      width: isXs ? "90%" : "100%",
+      margin: "0 auto",
+      backgroundColor: "#F3EBDD",
+    },
+    box_prices: {
+      border: "solid #14213d 1px",
+      width: isXs ? "90%" : "100%",
+      margin: "0 auto",
+      backgroundColor: "#F3EBDD",
+    },
+    box_category: {
+      border: "solid #14213d 1px",
+      width: isXs ? "40%" : "100%",
+      margin: "0 auto",
+      backgroundColor: "#F3EBDD",
+    },
+    box_condition: {
+      border: "solid #14213d 1px",
+      width: isXs ? "40%" : "100%",
+      margin: "0 auto",
+      backgroundColor: "#F3EBDD",
+    },
+    box_stock_images: {
+      width: isXs ? "90%" : "100%",
+      height: isXs ? "40px" : "",
+      margin: "0 auto",
+      // border: "solid red 2px",
+    },
+    box_button: {
+      // border: "solid red 2px",
+      boxShadow: "0 0 10px #fca311",
+      width: isXs ? "90%" : "100%",
+      height: "40px",
+      margin: "0 auto",
+      textAlign: "center",
+      marginTop: isXs ? "20px" : "",
+      backgroundColor: "#fca311",
+    },
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -115,7 +141,9 @@ export default function ImageUplaoder() {
   };
   return (
     <Box sx={styles.form_parent}>
-      <Typography sx={styles.typo_heading}>Post an Item</Typography>
+      <Box sx={styles.box_heading}>
+        <Typography sx={styles.typo_heading}>Post an Item</Typography>
+      </Box>
       <form onSubmit={handleSubmit} style={styles.form}>
         <Box
           sx={styles.name}
@@ -142,7 +170,7 @@ export default function ImageUplaoder() {
             fullWidth
           />
         </Box>
-        <Box sx={styles.box_prices}>
+        <Box sx={styles.box_retail_prices}>
           <FormControl fullWidth>
             <OutlinedInput
               id="outlined-adornment-amount"
@@ -155,31 +183,27 @@ export default function ImageUplaoder() {
                 </InputAdornment>
               }
               label="Retail Price"
-              sx={{
-                border: "solid #14213d 1px",
-                boxShadow: "0 0 10px #14213d",
-                backgroundColor: "#e0e0e0",
-              }}
               onChange={(e) => setRetailPrice(e.target.value)}
             />
           </FormControl>
+        </Box>
+        <Box sx={styles.box_prices}>
           <FormControl fullWidth>
             <OutlinedInput
               id="outlined-adornment-amount"
               startAdornment={
-                <InputAdornment position="start">Price</InputAdornment>
+                <InputAdornment
+                  position="start "
+                  onChange={(e) => setPrice(e.target.value)}
+                >
+                  Price
+                </InputAdornment>
               }
               label="Price"
-              sx={{
-                border: "solid #14213d 1px",
-                boxShadow: "0 0 10px #14213d",
-                backgroundColor: "#e0e0e0",
-              }}
-              onChange={(e) => setPrice(e.target.value)}
             />
           </FormControl>
         </Box>
-        <Box sx={styles.box_condition_category}>
+        <Box sx={styles.box_category}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Category</InputLabel>
             <Select
@@ -188,11 +212,6 @@ export default function ImageUplaoder() {
               value={category}
               label="Category"
               onChange={(e) => setCategory(e.target.value)}
-              sx={{
-                border: "solid #14213d 1px",
-                boxShadow: "0 0 10px #14213d",
-                backgroundColor: "#e0e0e0",
-              }}
             >
               <MenuItem value={"Coffee"}>Coffee</MenuItem>
               <MenuItem value={"Furniture"}>Furniture</MenuItem>
@@ -200,6 +219,8 @@ export default function ImageUplaoder() {
               <MenuItem value={"Perfume"}>Perfume</MenuItem>
             </Select>
           </FormControl>
+        </Box>
+        <Box sx={styles.box_condition}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Condition</InputLabel>
             <Select
@@ -208,11 +229,6 @@ export default function ImageUplaoder() {
               value={condition}
               label="Condition"
               onChange={(e) => setCondition(e.target.value)}
-              sx={{
-                border: "solid #14213d 1px",
-                boxShadow: "0 0 10px #14213d",
-                backgroundColor: "#e0e0e0",
-              }}
             >
               <MenuItem value={"New"}>New</MenuItem>
               <MenuItem value={"Open Box / Like New"}>
@@ -236,31 +252,30 @@ export default function ImageUplaoder() {
                 type="button"
                 onClick={() => open()}
                 style={{
-                  width: "50%",
-                  textAlign: "start",
-                  border: "solid #e0e0e0 1px",
-                  boxShadow: "0 0 10px #14213d",
-                  backgroundColor: "#e0e0e0",
+                  height: "100%",
+                  width: isXs ? "45%" : "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  // border: "solid green 2px",
+                  backgroundColor: "#14213d",
+                  color: "#e5e5e5",
+                  gap: "10px",
                 }}
               >
-                Upload Images
+                Upload Images <FileUploadIcon />
               </button>
             )}
           </CldUploadWidget>
-          <Typography
-            style={{
-              //   border: "solid green 2px",
-              width: "50%",
-              height: "100%",
-              alignContent: "center",
-              fontWeight: "bold",
-            }}
-          >
-            Qty: 1
-          </Typography>
         </Box>
         <Box sx={styles.box_button}>
-          <Button type="submit" sx={{ color: "#14213d", fontWeight: 700 }}>
+          <Button
+            type="submit"
+            sx={{
+              color: "#14213d",
+              fontWeight: "bold",
+              fontSize: isXs ? "1.0rem" : "",
+            }}
+          >
             POST
           </Button>
         </Box>
