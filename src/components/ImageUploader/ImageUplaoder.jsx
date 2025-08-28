@@ -36,11 +36,11 @@ export default function ImageUplaoder() {
   const styles = {
     form_parent: {
       // border: "solid green 2px",
-      minHeight: "98vh",
+      // minHeight: "98vh",
       display: "flex",
       flexDirection: "column",
-      gap: isXs ? "20px" : "",
-      backgroundColor: "#e5e5e5",
+      backgroundColor: "#F3EBDD",
+      paddingTop: isSm ? "50px" : isMd ? "80px" : "",
     },
     box_heading: {
       // border: "solid blue 2px",
@@ -52,70 +52,167 @@ export default function ImageUplaoder() {
     typo_heading: {
       borderBottom: "solid #14213d 1px",
       fontSize: "1.4rem",
+      color: "#14213d",
     },
     form: {
-      border: "solid #14213d 2px",
-      boxShadow: "0 0 10px #14213d",
-      width: isXs ? "380px" : "100%",
+      // border: "solid grey 1px",
+      boxShadow: "0 0 10px grey",
+      width: isXs
+        ? "90%"
+        : isSm
+        ? "80%"
+        : isMd
+        ? "60%"
+        : isLg
+        ? "80%"
+        : isXl
+        ? "40%"
+        : "100%",
       display: "flex",
       flexWrap: "wrap",
-      rowGap: isXs ? "10px" : "",
+      rowGap: isXs
+        ? "15px"
+        : isSm || isMd
+        ? "20px"
+        : isLg || isXl
+        ? "15px"
+        : "",
       columnGap: "",
       margin: "0 auto",
       padding: "30px 0 50px 0",
-      backgroundColor: "#F3EBDD",
+      backgroundColor: "#e5e5e5",
     },
     name: {
-      border: "solid #14213d 1px",
-      width: isXs ? "90%" : "100%",
+      // border: "solid #14213d 1px",
+      width: isXs
+        ? "85%"
+        : isSm
+        ? "80%"
+        : isMd
+        ? "80%"
+        : isLg
+        ? "60%"
+        : isXl
+        ? "60%"
+        : "100%",
       margin: "0 auto",
-      backgroundColor: "#F3EBDD",
+      backgroundColor: "#e5e5e5",
     },
     description: {
-      border: "solid #14213d 1px",
-      width: isXs ? "90%" : "100%",
+      // border: "solid #14213d 1px",
+      width: isXs
+        ? "85%"
+        : isSm
+        ? "80%"
+        : isMd
+        ? "80%"
+        : isLg
+        ? "60%"
+        : isXl
+        ? "60%"
+        : "100%",
       margin: "0 auto",
-      backgroundColor: "#F3EBDD",
+      backgroundColor: "#e5e5e5",
     },
     box_retail_prices: {
-      border: "solid #14213d 1px",
-      width: isXs ? "90%" : "100%",
+      width: isXs
+        ? "85%"
+        : isSm
+        ? "80%"
+        : isMd
+        ? "80%"
+        : isLg
+        ? "60%"
+        : isXl
+        ? "60%"
+        : "100%",
       margin: "0 auto",
-      backgroundColor: "#F3EBDD",
+      backgroundColor: "#e5e5e5",
     },
     box_prices: {
-      border: "solid #14213d 1px",
-      width: isXs ? "90%" : "100%",
+      // border: "solid #14213d 1px",
+      width: isXs
+        ? "85%"
+        : isSm
+        ? "80%"
+        : isMd
+        ? "80%"
+        : isLg
+        ? "60%"
+        : isXl
+        ? "60%"
+        : "100%",
       margin: "0 auto",
-      backgroundColor: "#F3EBDD",
+      backgroundColor: "#e5e5e5",
     },
     box_category: {
-      border: "solid #14213d 1px",
-      width: isXs ? "40%" : "100%",
+      // border: "solid #14213d 1px",
+      width: isXs
+        ? "85%"
+        : isSm
+        ? "80%"
+        : isMd
+        ? "80%"
+        : isLg
+        ? "60%"
+        : isXl
+        ? "60%"
+        : "100%",
       margin: "0 auto",
-      backgroundColor: "#F3EBDD",
+      backgroundColor: "#e5e5e5",
     },
     box_condition: {
-      border: "solid #14213d 1px",
-      width: isXs ? "40%" : "100%",
+      // border: "solid #14213d 1px",
+      width: isXs
+        ? "85%"
+        : isSm
+        ? "80%"
+        : isMd
+        ? "80%"
+        : isLg
+        ? "60%"
+        : isXl
+        ? "60%"
+        : "100%",
       margin: "0 auto",
-      backgroundColor: "#F3EBDD",
+      backgroundColor: "#e5e5e5",
     },
     box_stock_images: {
-      width: isXs ? "90%" : "100%",
-      height: isXs ? "40px" : "",
+      width: isXs
+        ? "85%"
+        : isSm
+        ? "80%"
+        : isMd
+        ? "80%"
+        : isLg
+        ? "60%"
+        : isXl
+        ? "60%"
+        : "100%",
+      height: isLg || isXl ? "40px" : "45px",
       margin: "0 auto",
       // border: "solid red 2px",
     },
     box_button: {
-      // border: "solid red 2px",
+      // border: "solid #fca311 2px",
       boxShadow: "0 0 10px #fca311",
-      width: isXs ? "90%" : "100%",
-      height: "40px",
+      width: isXs
+        ? "90%"
+        : isSm
+        ? "80%"
+        : isMd
+        ? "80%"
+        : isLg
+        ? "60%"
+        : isXl
+        ? "60%"
+        : "100%",
+      height: isXs || isSm || isMd ? "50px" : isLg || isXl ? "40px" : "100px",
       margin: "0 auto",
       textAlign: "center",
-      marginTop: isXs ? "20px" : "",
+      marginTop: isXs || isSm || isMd || isLg || isXl ? "20px" : "",
       backgroundColor: "#fca311",
+      alignContent: "center",
     },
   };
 
@@ -142,7 +239,7 @@ export default function ImageUplaoder() {
   return (
     <Box sx={styles.form_parent}>
       <Box sx={styles.box_heading}>
-        <Typography sx={styles.typo_heading}>Post an Item</Typography>
+        <Typography sx={styles.typo_heading}>Post Item</Typography>
       </Box>
       <form onSubmit={handleSubmit} style={styles.form}>
         <Box
@@ -156,6 +253,7 @@ export default function ImageUplaoder() {
             label="Name"
             variant="outlined"
             fullWidth
+            size="small"
           />
         </Box>
         <Box
@@ -171,7 +269,7 @@ export default function ImageUplaoder() {
           />
         </Box>
         <Box sx={styles.box_retail_prices}>
-          <FormControl fullWidth>
+          <FormControl fullWidth size="small">
             <OutlinedInput
               id="outlined-adornment-amount"
               startAdornment={
@@ -188,7 +286,7 @@ export default function ImageUplaoder() {
           </FormControl>
         </Box>
         <Box sx={styles.box_prices}>
-          <FormControl fullWidth>
+          <FormControl fullWidth size="small">
             <OutlinedInput
               id="outlined-adornment-amount"
               startAdornment={
@@ -204,7 +302,7 @@ export default function ImageUplaoder() {
           </FormControl>
         </Box>
         <Box sx={styles.box_category}>
-          <FormControl fullWidth>
+          <FormControl fullWidth size="small">
             <InputLabel id="demo-simple-select-label">Category</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -221,7 +319,7 @@ export default function ImageUplaoder() {
           </FormControl>
         </Box>
         <Box sx={styles.box_condition}>
-          <FormControl fullWidth>
+          <FormControl fullWidth size="small">
             <InputLabel id="demo-simple-select-label">Condition</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -253,13 +351,25 @@ export default function ImageUplaoder() {
                 onClick={() => open()}
                 style={{
                   height: "100%",
-                  width: isXs ? "45%" : "100%",
+                  width: isXs
+                    ? "55%"
+                    : isSm
+                    ? "45%"
+                    : isMd
+                    ? "40%"
+                    : isLg
+                    ? "40%"
+                    : isXl
+                    ? "40%"
+                    : "100%",
                   display: "flex",
                   alignItems: "center",
                   // border: "solid green 2px",
                   backgroundColor: "#14213d",
                   color: "#e5e5e5",
                   gap: "10px",
+                  fontSize: "1.0rem",
+                  paddingLeft: "10px",
                 }}
               >
                 Upload Images <FileUploadIcon />
