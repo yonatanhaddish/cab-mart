@@ -8,11 +8,15 @@ import useCart from "../../../utils/useCart";
 import AddToCartButtons from "../[id]/AddToCartButton";
 import CartNotification from "../../../components/CartNotification/CartNotification";
 
+import CircularProgress from "@mui/material/CircularProgress";
+import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
+
 export default function ProductPage({ params }) {
   const [openModal, setOpenModal] = useState(false);
   const { id } = use(params);
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState("/images/furniture.jpeg");
+  const [loading, setLoading] = useState(true);
 
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
@@ -285,6 +289,9 @@ export default function ProductPage({ params }) {
       }
     }
     getSingleProduct();
+
+    const timer = setTimeout(() => setLoading(false), 500);
+    return () => clearTimeout(timer);
   }, [id]);
   // console.log("555", product.images[0]);
 
@@ -296,10 +303,28 @@ export default function ProductPage({ params }) {
     setOpenModal(false);
   }
 
-  console.log("openModal", openModal);
+  // if (!product) {
+  //   return <Typography>Loading...</Typography>;
+  // }
 
-  if (!product) {
-    return <Typography>Loading...</Typography>;
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          backgroundColor: "#d9d9d9",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <LocalTaxiIcon sx={{ height: 100, width: 100, color: "#fca311" }} />
+        <CircularProgress
+          sx={{ width: 100, height: 100, mt: 2, color: "#fca311" }}
+        />
+      </Box>
+    );
   }
 
   return (
