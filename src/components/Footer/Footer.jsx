@@ -13,7 +13,7 @@ function Footer() {
 
   const styles = {
     parent_footer: {
-      //   border: "solid green 2px",
+      borderBottom: "solid #fca311 1px",
       display: "flex",
       flexDirection: isXs || isSm ? "column" : "row",
       gap: isMd || isLg ? "" : "40px",

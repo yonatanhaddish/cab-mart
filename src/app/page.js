@@ -8,6 +8,7 @@ import Navbar from "../components/Navbar/Navbar";
 import Service from "../components/Service/Service";
 import Products from "../components/Products/Products";
 import Footer from "../components/Footer/Footer";
+import FooterTwo from "../components/FooterTwo/FooterTwo";
 
 import { Box } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -54,6 +55,7 @@ export default function Home() {
       <CategoryBox />
       <Products />
       <Footer />
+      <FooterTwo />
     </>
   );
 }
