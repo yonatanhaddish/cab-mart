@@ -15,7 +15,10 @@ function CategoryBox() {
   const styles = {
     category_parent: {
       // border: "solid red 2px",
+      display: "flex",
+      flexDirection: "column",
       backgroundColor: "#F3EBDD",
+      gap: "20px",
     },
     category_sub_parent: {
       // border: "solid green 2px",
@@ -34,6 +37,7 @@ function CategoryBox() {
         ? "50px"
         : "",
       paddingTop: "30px",
+      paddingBottom: "50px",
       justifyContent: "space-around",
     },
     category_single: {
@@ -215,7 +219,65 @@ function CategoryBox() {
   };
   return (
     <Box sx={styles.category_parent}>
-      <Typography sx={styles.typo_heading}>Categories</Typography>
+      <Typography
+        style={{
+          fontFamily: "Karma, sans-serif",
+          borderBottom: "solid #14213d 2px",
+          // backgroundColor: "#fca311",
+          fontSize: isXs
+            ? "2.0rem"
+            : isSm
+            ? "2.0rem"
+            : isMd
+            ? "2.2rem"
+            : isLg
+            ? "1.8rem"
+            : isXl
+            ? "1.8rem"
+            : "",
+          width: isXs
+            ? "50%"
+            : isSm
+            ? "30%"
+            : isMd
+            ? "28%"
+            : isLg
+            ? "20%"
+            : isXl
+            ? "15%"
+            : "",
+          display: "flex",
+          justifyContent: "center",
+          justifySelf: "end",
+          color: "#14213d",
+          marginRight: isXs
+            ? "10%"
+            : isSm
+            ? "10%"
+            : isMd
+            ? "10%"
+            : isLg
+            ? "10%"
+            : isXl
+            ? "10%"
+            : "",
+          paddingTop: isXs
+            ? "50px"
+            : isSm
+            ? "50px"
+            : isMd
+            ? "50px"
+            : isLg
+            ? "50px"
+            : isXl
+            ? "50px"
+            : "",
+          alignSelf: "end",
+          // border: "solid red 2px",
+        }}
+      >
+        Categories
+      </Typography>
       <Box sx={styles.category_sub_parent}>
         <Box sx={styles.category_single}>
           <Box sx={styles.image_coffee}></Box>

@@ -51,8 +51,8 @@ export default function Home() {
       <Navbar />
       <LandingPage />
       <AboutUs />
-      <Service />
       <CategoryBox />
+      <Service />
       <Products />
       <Footer />
       <FooterTwo />

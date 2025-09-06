@@ -23,7 +23,7 @@ function Footer() {
       alignItems: isSm || isXs ? "center" : "",
     },
     logo_motto: {
-      //   border: "solid blue 2px",
+      // border: "solid blue 2px",
       width: isXs
         ? "80%"
         : isSm
@@ -68,11 +68,11 @@ function Footer() {
     },
     cabmart_logo: {
       fontSize: isXs
-        ? "5.4rem"
+        ? "4.0rem"
         : isSm
-        ? "6rem"
+        ? "5rem"
         : isMd
-        ? "6rem"
+        ? "5rem"
         : isLg
         ? "5.6rem"
         : isXl
@@ -82,11 +82,11 @@ function Footer() {
     },
     typo_cabmart: {
       fontSize: isXs
-        ? "1.8rem"
+        ? "1.6rem"
         : isSm
-        ? "1.8rem"
+        ? "1.6rem"
         : isMd
-        ? "1.8rem"
+        ? "1.6rem"
         : isLg
         ? "1.8rem"
         : isXl
@@ -95,7 +95,7 @@ function Footer() {
       color: "#e5e5e5",
     },
     typo_motto: {
-      fontSize: "1.1rem",
+      fontSize: "1.0rem",
       color: "#e5e5e5",
     },
     typo_parent_link: {

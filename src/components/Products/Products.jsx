@@ -92,7 +92,14 @@ function Products() {
   };
 
   const styles = {
-    products_parent: { backgroundColor: "#e5e5e5", padding: "20px" },
+    products_parent: {
+      backgroundColor: "#e5e5e5",
+      // border: "solid red 2px",
+      gap: "20px",
+      display: "flex",
+      flexDirection: isXs || isSm || isMd || isLg || isXl ? "column" : "row",
+      paddingBottom: "50px",
+    },
     tabs: {
       "& .MuiTabs-flexContainer": {
         flexWrap: "wrap",
@@ -128,7 +135,7 @@ function Products() {
       backgroundColor: "#fca311",
       transition: "0.2s",
       height: isXs ? "380px" : isSm ? "340px" : isMd ? "300px" : "280px",
-      width: isXs || isSm || isMd || isXl ? "280px" : isLg ? "280px" : "240px",
+      width: isXs || isSm || isMd || isXl ? "280px" : isLg ? "240px" : "240px",
       borderRadius: "10px",
       overflow: "hidden",
       margin: "0 auto",
@@ -165,7 +172,62 @@ function Products() {
 
   return (
     <Box sx={styles.products_parent}>
-      <Typography variant="h4" align="center" mb={3}>
+      <Typography
+        style={{
+          fontFamily: "Karma, sans-serif",
+          borderBottom: "solid #14213d 2px",
+          // backgroundColor: "#fca311",
+          fontSize: isXs
+            ? "2.0rem"
+            : isSm
+            ? "2.0rem"
+            : isMd
+            ? "2.2rem"
+            : isLg
+            ? "1.8rem"
+            : isXl
+            ? "1.8rem"
+            : "",
+          width: isXs
+            ? "50%"
+            : isSm
+            ? "25%"
+            : isMd
+            ? "30%"
+            : isLg
+            ? "15%"
+            : isXl
+            ? "15%"
+            : "",
+          display: "flex",
+          justifyContent: "center",
+          justifySelf: "end",
+          color: "#14213d",
+          marginRight: isXs
+            ? "10%"
+            : isSm
+            ? "10%"
+            : isMd
+            ? "10%"
+            : isLg
+            ? "10%"
+            : isXl
+            ? "10%"
+            : "",
+          paddingTop: isXs
+            ? "50px"
+            : isSm
+            ? "50px"
+            : isMd
+            ? "50px"
+            : isLg
+            ? "50px"
+            : isXl
+            ? "50px"
+            : "",
+          alignSelf: "end",
+        }}
+      >
         Products
       </Typography>
 
