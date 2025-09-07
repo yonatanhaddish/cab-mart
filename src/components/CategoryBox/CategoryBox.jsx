@@ -218,7 +218,7 @@ function CategoryBox() {
     },
   };
   return (
-    <Box sx={styles.category_parent}>
+    <Box sx={styles.category_parent} id="categories">
       <Typography
         style={{
           fontFamily: "Karma, sans-serif",

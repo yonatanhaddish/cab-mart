@@ -65,6 +65,7 @@ function AboutUs() {
   };
   return (
     <Box
+      id="about_us"
       sx={{
         backgroundColor: "#fca311",
         // border: "solid red 2px",

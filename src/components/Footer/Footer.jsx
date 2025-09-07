@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Typography, Button, useMediaQuery } from "@mui/material";
+import { Link } from "react-scroll";
 import { useTheme } from "@mui/material/styles";
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
 
@@ -23,7 +24,7 @@ function Footer() {
       alignItems: isSm || isXs ? "center" : "",
     },
     logo_motto: {
-      // border: "solid blue 2px",
+      border: "solid blue 2px",
       width: isXs
         ? "80%"
         : isSm
@@ -35,7 +36,8 @@ function Footer() {
         : isXl
         ? "15%"
         : "",
-      //   margin: isXl ? "" : "0 auto",
+      height: "100%",
+      cursor: "pointer",
     },
     link_parent: {
       //   border: "solid red 2px",
@@ -112,13 +114,21 @@ function Footer() {
   };
   return (
     <Box sx={styles.parent_footer}>
-      <Box sx={styles.logo_motto}>
-        <LocalTaxiIcon sx={styles.cabmart_logo} />
-        <Typography sx={styles.typo_cabmart}>CabMart</Typography>
-        <Typography sx={styles.typo_motto}>
-          The Market That Moves With You
-        </Typography>
-      </Box>
+      <Link
+        sx={styles.logo_motto}
+        to="home_page"
+        duration={500}
+        smooth={true}
+        offset={isMd || isLg ? -60 : -60}
+      >
+        <Box>
+          <LocalTaxiIcon sx={styles.cabmart_logo} />
+          <Typography sx={styles.typo_cabmart}>CabMart</Typography>
+          <Typography sx={styles.typo_motto}>
+            The Market That Moves With You
+          </Typography>
+        </Box>
+      </Link>
       <Box sx={styles.link_parent}>
         <Box sx={styles.link_product}>
           <Typography sx={styles.typo_parent_link}>Products</Typography>
@@ -129,11 +139,47 @@ function Footer() {
         </Box>
         <Box sx={styles.link_links}>
           <Typography sx={styles.typo_parent_link}>Links</Typography>
-          <Button sx={styles.typo_link}>Home</Button>
-          <Button sx={styles.typo_link}>About Us</Button>
-          <Button sx={styles.typo_link}>Service</Button>
-          <Button sx={styles.typo_link}>Categories</Button>
-          <Button sx={styles.typo_link}>Products</Button>
+          <Link
+            to="home_page"
+            duration={500}
+            smooth={true}
+            offset={isMd || isLg ? -60 : -60}
+          >
+            <Button sx={styles.typo_link}>Home</Button>
+          </Link>
+          <Link
+            to="about_us"
+            duration={500}
+            smooth={true}
+            offset={isMd || isLg ? -60 : -60}
+          >
+            {" "}
+            <Button sx={styles.typo_link}>About Us</Button>
+          </Link>
+          <Link
+            to="why_choose_us"
+            duration={500}
+            smooth={true}
+            offset={isMd || isLg ? -60 : -60}
+          >
+            <Button sx={styles.typo_link}>Service</Button>
+          </Link>
+          <Link
+            to="categories"
+            duration={500}
+            smooth={true}
+            offset={isMd || isLg ? -60 : -60}
+          >
+            <Button sx={styles.typo_link}>Categories</Button>
+          </Link>
+          <Link
+            to="products"
+            duration={500}
+            smooth={true}
+            offset={isMd || isLg ? -60 : -60}
+          >
+            <Button sx={styles.typo_link}>Products</Button>
+          </Link>
         </Box>
       </Box>
     </Box>

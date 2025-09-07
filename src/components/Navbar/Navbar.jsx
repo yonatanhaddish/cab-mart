@@ -11,15 +11,16 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import CloseIcon from "@mui/icons-material/Close";
 import HomeIcon from "@mui/icons-material/Home";
-import CoffeeIcon from "@mui/icons-material/Coffee";
-import ChairIcon from "@mui/icons-material/Chair";
-import PetsIcon from "@mui/icons-material/Pets";
-import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import MenuIcon from "@mui/icons-material/Menu";
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import BusinessIcon from "@mui/icons-material/Business";
+import CategoryIcon from "@mui/icons-material/Category";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import { Typography, useMediaQuery } from "@mui/material";
+import InventoryIcon from "@mui/icons-material/Inventory";
 import { useTheme } from "@mui/material/styles";
+import { Link } from "react-scroll";
 
 export default function RightDrawer() {
   const [open, setOpen] = React.useState(false);
@@ -35,12 +36,16 @@ export default function RightDrawer() {
     setOpen(state);
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const menuItems = [
-    { text: "Home", icon: <HomeIcon /> },
-    { text: "Coffee", icon: <CoffeeIcon /> },
-    { text: "Furniture", icon: <ChairIcon /> },
-    { text: "Pet Toy", icon: <PetsIcon /> },
-    { text: "Perfume", icon: <LocalFloristIcon /> },
+    { text: "Home", icon: <HomeIcon />, id: "home_page" },
+    { text: "About Us", icon: <BusinessIcon />, id: "about_us" },
+    { text: "Categories", icon: <CategoryIcon />, id: "categories" },
+    { text: "Why Choose Us?", icon: <SupportAgentIcon />, id: "why_choose_us" },
+    { text: "Products", icon: <InventoryIcon />, id: "products" },
   ];
 
   const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
@@ -50,11 +55,14 @@ export default function RightDrawer() {
   const isXl = useMediaQuery(theme.breakpoints.up("xl")); // wide desktop
   const styles = {
     navbar: {
-      // border: "solid blue 2px",
-      // backgroundColor: "#e5e5e5",
+      borderBottom: "solid #14213d 1px",
+      backgroundColor: "#e5e5e5",
       width: "100%",
       height: 60,
       display: "flex",
+      position: "sticky",
+      top: 0,
+      zIndex: 1100,
     },
     navbar_parent: {
       // border: "solid red 2px",
@@ -83,11 +91,14 @@ export default function RightDrawer() {
       color: "#14213d",
     },
     nav_bar_parent: {
-      // border: "solid red 2px",
+      borderBottom: "solid #14213d 1px",
       height: isMd || isLg ? 60 : 80,
       display: "flex",
       alignItems: "center",
       backgroundColor: "#e5e5e5",
+      position: "sticky",
+      top: 0,
+      zIndex: 1200,
     },
     nav_bar_sub_parent: {
       // border: "solid green 2px",
@@ -100,6 +111,7 @@ export default function RightDrawer() {
       // border: "solid red 2px",
       display: "flex",
       alignSelf: "center",
+      cursor: "pointer",
     },
     nav_list_parent: {
       // border: "solid blue 2px",
@@ -123,7 +135,7 @@ export default function RightDrawer() {
   const list = (
     <Box
       sx={{
-        width: isXs ? 230 : isSm ? 300 : 300,
+        width: isXs ? 250 : isSm ? 350 : 300,
         p: 2,
         // border: "solid green 2px",
         backgroundColor: "#fff",
@@ -131,6 +143,7 @@ export default function RightDrawer() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-around",
+        backgroundColor: "#e5e5e5",
       }}
       role="presentation"
       onClick={toggleDrawer(false)}
@@ -156,31 +169,58 @@ export default function RightDrawer() {
       </Box>
       <List>
         {menuItems.map((item) => (
-          <ListItem key={item.text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon sx={{ color: "#fca311", fontSize: "4rem" }}>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={item.text}
-                sx={{
-                  color: "#14213d",
-                }}
-              />
-            </ListItemButton>
-          </ListItem>
+          <Link
+            key={item.id}
+            to={item.id}
+            duration={500}
+            smooth={true}
+            offset={isMd || isLg ? -10 : -50}
+            onClick={handleClose}
+          >
+            <ListItem
+              key={item.text}
+              disablePadding
+              sx={{
+                height: "45px",
+                width: "90%",
+                borderBottom: "solid #14213d 1px",
+                margin: 1.2,
+              }}
+            >
+              <ListItemButton>
+                <ListItemIcon
+                  sx={{
+                    color: "#fca311",
+                    fontSize: "4rem",
+                  }}
+                >
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.text}
+                  sx={{
+                    color: "#14213d",
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         ))}
       </List>
-      <Button sx={styles.button_box}>
+      <Button sx={styles.button_box} href={`/cart`}>
         <ShoppingCartIcon />
       </Button>
     </Box>
   );
 
   return isXs || isSm ? (
-    <>
-      <Box sx={styles.navbar}>
-        <Box sx={styles.navbar_parent}>
+    <Box sx={styles.navbar}>
+      <Box sx={styles.navbar_parent}>
+        <a
+          href="/"
+          style={{ textDecoration: "none", color: "#14213f" }}
+          offset={isMd || isLg ? -60 : -70}
+        >
           <Box sx={styles.logo}>
             <LocalTaxiIcon
               sx={{
@@ -197,70 +237,114 @@ export default function RightDrawer() {
               CabMart
             </Typography>
           </Box>
-          <MenuIcon
-            onClick={toggleDrawer(true)}
-            sx={styles.menu_button}
-          ></MenuIcon>
-        </Box>
-        <Drawer
-          anchor="right"
-          open={open}
-          onClose={toggleDrawer(false)}
-          PaperProps={{
-            sx: {
-              // border: "solid red 2px",
-              height: isXs ? "400px" : isSm ? "450px" : "900px",
-            },
-          }}
-        >
-          {list}
-        </Drawer>
+        </a>
+        <MenuIcon
+          onClick={toggleDrawer(true)}
+          sx={styles.menu_button}
+        ></MenuIcon>
       </Box>
-    </>
+      <Drawer
+        anchor="right"
+        open={open}
+        onClose={toggleDrawer(false)}
+        PaperProps={{
+          sx: {
+            // border: "solid red 2px",
+            height: isXs ? "450px" : isSm ? "450px" : "900px",
+          },
+        }}
+      >
+        {list}
+      </Drawer>
+    </Box>
   ) : (
     <Box sx={styles.nav_bar_parent}>
       <Box sx={styles.nav_bar_sub_parent}>
-        <Box sx={styles.logo_name}>
-          <LocalTaxiIcon
-            sx={{
-              color: "#fca311",
-              fontSize: isXs
-                ? "1.8rem"
-                : isSm
-                ? "2.2rem"
-                : isMd
-                ? "1.8rem"
-                : isLg
-                ? "2.0rem"
-                : "2.2rem",
-            }}
-          />
-          <Typography
-            sx={{
-              fontWeight: 600,
-              fontSize: isXs
-                ? "1.2rem"
-                : isSm
-                ? "1.4rem"
-                : isMd
-                ? "1rem"
-                : isLg
-                ? "1.1rem"
-                : "1.4rem",
-              alignSelf: "center",
-            }}
-          >
-            CabMart
-          </Typography>
-        </Box>
+        <a
+          href="/"
+          style={{ textDecoration: "none" }}
+          offset={isMd || isLg ? -60 : -90}
+        >
+          <Box sx={styles.logo_name}>
+            <LocalTaxiIcon
+              sx={{
+                color: "#fca311",
+                fontSize: isXs
+                  ? "1.8rem"
+                  : isSm
+                  ? "2.2rem"
+                  : isMd
+                  ? "1.8rem"
+                  : isLg
+                  ? "2.0rem"
+                  : "2.2rem",
+              }}
+            />
+            <Typography
+              sx={{
+                fontWeight: 600,
+                fontSize: isXs
+                  ? "1.2rem"
+                  : isSm
+                  ? "1.4rem"
+                  : isMd
+                  ? "1rem"
+                  : isLg
+                  ? "1.1rem"
+                  : "1.4rem",
+                alignSelf: "center",
+                color: "#14213d",
+              }}
+            >
+              CabMart
+            </Typography>
+          </Box>
+        </a>
         <Box sx={styles.nav_list_parent}>
-          <Button sx={styles.button_link}>Home</Button>
-          <Button sx={styles.button_link}>Coffee</Button>
-          <Button sx={styles.button_link}>Furniture</Button>
-          <Button sx={styles.button_link}>Pet Toy</Button>
-          <Button sx={styles.button_link}> Perfume</Button>
+          <Link
+            to="home_page"
+            duration={500}
+            smooth={true}
+            offset={isMd || isLg ? -60 : -60}
+          >
+            {" "}
+            <Button sx={styles.button_link}>Home</Button>
+          </Link>
+          <Link
+            to="about_us"
+            duration={500}
+            smooth={true}
+            offset={isMd || isLg ? -60 : -60}
+          >
+            {" "}
+            <Button sx={styles.button_link}>About Us</Button>
+          </Link>
+          <Link
+            to="categories"
+            duration={500}
+            smooth={true}
+            offset={isMd || isLg ? -60 : -60}
+          >
+            <Button sx={styles.button_link}>Categories</Button>
+          </Link>
+          <Link
+            to="why_choose_us"
+            duration={500}
+            smooth={true}
+            offset={isMd || isLg ? -60 : -60}
+          >
+            <Button sx={styles.button_link}>Why choose us?</Button>
+          </Link>
+          <Link
+            to="products"
+            duration={500}
+            smooth={true}
+            offset={isMd || isLg ? -60 : -60}
+          >
+            <Button sx={styles.button_link}>Products</Button>
+          </Link>
         </Box>
-        <Button sx={styles.button_cart}>
+        <Button sx={styles.button_cart} href={`/cart`}>
           <ShoppingCartIcon />
         </Button>
       </Box>

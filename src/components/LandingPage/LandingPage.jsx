@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useTheme } from "@mui/material/styles";
+import { Link } from "react-scroll";
 import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 
 function LandingPageTest() {
@@ -140,7 +141,8 @@ function LandingPageTest() {
     button_start_shopping: {
       // border: "solid #fca311 1px",
       boxShadow: "0 0 10px #fca311",
-      width: "40%",
+      width: "100%",
+      height: "100%",
       backgroundColor: "#fca311",
       color: "#14213d",
       fontSize: isMd ? "1.2rem" : "",
@@ -148,7 +150,7 @@ function LandingPageTest() {
     button_learn_more: {
       // border: "solid #14213d 1px",
       boxShadow: "0 0 10px #14213d",
-      width: "40%",
+      width: "100%",
       height: "100%",
       backgroundColor: "#14213d",
       color: "#e5e5e5",
@@ -157,7 +159,7 @@ function LandingPageTest() {
   };
 
   return (
-    <Box sx={styles.landing_page_parent}>
+    <Box id="home_page" sx={styles.landing_page_parent}>
       <Box sx={styles.images_box}>
         <Box sx={styles.single_image}></Box>
       </Box>
@@ -174,8 +176,24 @@ function LandingPageTest() {
           have items delivered while you travel
         </Typography>
         <Box sx={styles.button_box}>
-          <Button sx={styles.button_start_shopping}>Start Shopping</Button>
-          <Button sx={styles.button_learn_more}>Learn More</Button>
+          <Link
+            style={{ width: "40%" }}
+            to="products"
+            duration={500}
+            smooth={true}
+            offset={isMd || isLg ? -60 : -60}
+          >
+            <Button sx={styles.button_start_shopping}>Start Shopping</Button>
+          </Link>
+          <Link
+            style={{ width: "40%" }}
+            to="about_us"
+            duration={500}
+            smooth={true}
+            offset={isMd || isLg ? -60 : -60}
+          >
+            <Button sx={styles.button_learn_more}>Learn More</Button>
+          </Link>
         </Box>
       </Box>
     </Box>

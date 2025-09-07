@@ -32,11 +32,18 @@ export async function POST(request) {
       images,
     } = body;
 
-    // console.log("44", body);
+    console.log("44", body);
 
-    if (!name || !price) {
+    if (
+      !name ||
+      !description ||
+      !price ||
+      !retail_price ||
+      !category ||
+      !condition
+    ) {
       return NextResponse.json(
-        { message: "Name and price are required" },
+        { message: "All fields are required" },
         { status: 400 }
       );
     }

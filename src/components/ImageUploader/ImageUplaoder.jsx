@@ -235,6 +235,11 @@ export default function ImageUplaoder() {
 
     const data = await res.json();
     console.log("Created product:", data);
+    if (data) {
+      console.log("data", res);
+    } else if (!data) {
+      console.log("222222");
+    }
   };
   return (
     <Box sx={styles.form_parent}>
@@ -298,6 +303,7 @@ export default function ImageUplaoder() {
                 </InputAdornment>
               }
               label="Price"
+              onChange={(e) => setPrice(e.target.value)}
             />
           </FormControl>
         </Box>

@@ -47,7 +47,7 @@ export default function Home() {
     );
   }
   return (
-    <>
+    <Box>
       <Navbar />
       <LandingPage />
       <AboutUs />
@@ -56,6 +56,6 @@ export default function Home() {
       <Products />
       <Footer />
       <FooterTwo />
-    </>
+    </Box>
   );
 }

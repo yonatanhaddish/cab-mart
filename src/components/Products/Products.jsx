@@ -171,7 +171,7 @@ function Products() {
   };
 
   return (
-    <Box sx={styles.products_parent}>
+    <Box id="products" sx={styles.products_parent}>
       <Typography
         style={{
           fontFamily: "Karma, sans-serif",

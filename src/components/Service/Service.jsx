@@ -20,7 +20,7 @@ function Services() {
       display: "flex",
       flexDirection: isXs || isSm || isMd || isLg || isXl ? "column" : "row",
       backgroundColor: "#e5e5e5",
-      gap: "50px",
+      gap: isXl ? "90px" : "50px",
     },
     parent_cards: {
       // border: "solid green 2px",
@@ -87,7 +87,7 @@ function Services() {
     },
   };
   return (
-    <Box sx={styles.service_parent}>
+    <Box sx={styles.service_parent} id="why_choose_us">
       <Typography
         style={{
           fontFamily: "Karma, sans-serif",

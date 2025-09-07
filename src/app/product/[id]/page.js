@@ -378,22 +378,23 @@ export default function ProductPage({ params }) {
               }}
             ></Box>
             <Box sx={styles.images_small_parent}>
-              {Array.from({ length: 10 }).map((_, i) => {
-                const img = product.images?.[i]; // real image if exists
-                return (
-                  <Box
-                    key={i}
-                    sx={{
-                      ...styles.single_image,
-                      backgroundImage: img ? `url(${img})` : "none",
-                      backgroundColor: img ? "transparent" : "#e0e0e0", // placeholder color
-                      border: img ? "none" : "1px dashed #999", // dashed border for empty slots
-                      cursor: img ? "pointer" : "default",
-                    }}
-                    onClick={() => img && setMainImage(img)} // only clickable if image exists
-                  />
-                );
-              })}
+              {product?.images &&
+                Array.from({ length: 10 }).map((_, i) => {
+                  const img = product.images[i]; // safe, since product.images is confirmed
+                  return (
+                    <Box
+                      key={i}
+                      sx={{
+                        ...styles.single_image,
+                        backgroundImage: img ? `url(${img})` : "none",
+                        backgroundColor: img ? "transparent" : "#e0e0e0",
+                        border: img ? "none" : "1px dashed #999",
+                        cursor: img ? "pointer" : "default",
+                      }}
+                      onClick={() => img && setMainImage(img)}
+                    />
+                  );
+                })}
             </Box>
           </Box>
           <Box sx={styles.product_info}>
@@ -412,7 +413,7 @@ export default function ProductPage({ params }) {
               </span>
             </Typography>
             <Typography sx={styles.typo_description}>
-              {product.description.repeat(100)}
+              {product.description}
             </Typography>
           </Box>
         </Box>
