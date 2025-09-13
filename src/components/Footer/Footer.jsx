@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Typography, Button, useMediaQuery } from "@mui/material";
 import { Link } from "react-scroll";
 import { useTheme } from "@mui/material/styles";
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
 
-function Footer() {
+function Footer({ setSelectedCategory }) {
+  const [selectedFooterLink, setSelectedFooterLink] = useState("products");
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
   const isSm = useMediaQuery(theme.breakpoints.between("sm", "md")); // tablet
@@ -112,6 +113,14 @@ function Footer() {
       color: "#e5e5e5",
     },
   };
+
+  const sendDataToProductComponent = (data) => {
+    setSelectedFooterLink("products");
+
+    setTimeout(() => {
+      setSelectedCategory(data);
+    }, 300);
+  };
   return (
     <Box sx={styles.parent_footer}>
       <Link
@@ -132,10 +141,38 @@ function Footer() {
       <Box sx={styles.link_parent}>
         <Box sx={styles.link_product}>
           <Typography sx={styles.typo_parent_link}>Products</Typography>
-          <Button sx={styles.typo_link}>Coffee</Button>
-          <Button sx={styles.typo_link}>Furniture</Button>
-          <Button sx={styles.typo_link}>Pet Toy</Button>
-          <Button sx={styles.typo_link}>Perfume</Button>
+          <Link to={selectedFooterLink} duration={500} smooth={true}>
+            <Button
+              sx={styles.typo_link}
+              onClick={() => sendDataToProductComponent(1)}
+            >
+              Coffee
+            </Button>
+          </Link>
+          <Link to={selectedFooterLink} duration={500} smooth={true}>
+            <Button
+              sx={styles.typo_link}
+              onClick={() => sendDataToProductComponent(2)}
+            >
+              Furniture
+            </Button>
+          </Link>
+          <Link to={selectedFooterLink} duration={500} smooth={true}>
+            <Button
+              sx={styles.typo_link}
+              onClick={() => sendDataToProductComponent(3)}
+            >
+              Pet Toy
+            </Button>
+          </Link>
+          <Link to={selectedFooterLink} duration={500} smooth={true}>
+            <Button
+              sx={styles.typo_link}
+              onClick={() => sendDataToProductComponent(4)}
+            >
+              Perfume
+            </Button>
+          </Link>
         </Box>
         <Box sx={styles.link_links}>
           <Typography sx={styles.typo_parent_link}>Links</Typography>

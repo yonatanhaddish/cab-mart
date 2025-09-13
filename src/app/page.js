@@ -17,6 +17,8 @@ import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
 export default function Home() {
   // const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [selectedDataFromCategory, setSelectedDataFromCategory] = useState(0);
+  const [selectedDataFromFooter, setSelectedDataFromFooter] = useState(0);
 
   useEffect(() => {
     // setMounted(true);
@@ -25,6 +27,12 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
+  const dataFromCategoryComponent = (data) => {
+    setSelectedDataFromCategory(data);
+  };
+  const dataFromFooterComponent = (data) => {
+    setSelectedDataFromFooter(data);
+  };
   // if (!mounted) return null;
 
   if (loading) {
@@ -51,10 +59,13 @@ export default function Home() {
       <Navbar />
       <LandingPage />
       <AboutUs />
-      <CategoryBox />
+      <CategoryBox setSelectedCategory={dataFromCategoryComponent} />
       <Service />
-      <Products />
-      <Footer />
+      <Products
+        dataProductCategoryComponent={selectedDataFromCategory}
+        dataProductFooterComponent={selectedDataFromFooter}
+      />
+      <Footer setSelectedCategory={dataFromFooterComponent} />
       <FooterTwo />
     </Box>
   );

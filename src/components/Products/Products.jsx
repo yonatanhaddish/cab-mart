@@ -25,7 +25,10 @@ const categoryMap = {
   4: "Perfume",
 };
 
-function Products() {
+function Products({
+  dataProductCategoryComponent,
+  dataProductFooterComponent,
+}) {
   const [value, setValue] = useState(0);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -68,6 +71,14 @@ function Products() {
       setItemsPage(8);
     }
   });
+
+  useEffect(() => {
+    setValue(dataProductCategoryComponent);
+  }, [dataProductCategoryComponent]);
+
+  useEffect(() => {
+    setValue(dataProductFooterComponent);
+  }, [dataProductFooterComponent]);
 
   async function fetchProducts() {
     setLoading(true);
@@ -233,15 +244,36 @@ function Products() {
 
       {/* Tabs */}
       <Tabs value={value} onChange={handleTabChange} sx={styles.tabs} centered>
-        <Tab label="Popular" icon={<WhatshotIcon />} iconPosition="end" />
-        <Tab label="Coffee" icon={<CoffeeIcon />} iconPosition="end" />
+        <Tab
+          label="Popular"
+          icon={<WhatshotIcon />}
+          iconPosition="end"
+          style={{ color: value === 0 ? "#fca311" : "" }}
+        />
+        <Tab
+          label="Coffee"
+          icon={<CoffeeIcon />}
+          iconPosition="end"
+          style={{ color: value === 1 ? "#fca311" : "" }}
+        />
         <Tab
           label="Furniture"
           icon={<TableRestaurantIcon />}
           iconPosition="end"
+          style={{ color: value === 2 ? "#fca311" : "" }}
         />
-        <Tab label="Pet Toys" icon={<PetsIcon />} iconPosition="end" />
-        <Tab label="Perfume" icon={<LocalFloristIcon />} iconPosition="end" />
+        <Tab
+          label="Pet Toys"
+          icon={<PetsIcon />}
+          iconPosition="end"
+          style={{ color: value === 3 ? "#fca311" : "" }}
+        />
+        <Tab
+          label="Perfume"
+          icon={<LocalFloristIcon />}
+          iconPosition="end"
+          style={{ color: value === 4 ? "#fca311" : "" }}
+        />
       </Tabs>
 
       {/* Category Title */}

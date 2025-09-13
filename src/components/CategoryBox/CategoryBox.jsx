@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Box, Typography, Button, useMediaQuery } from "@mui/material";
 
-function CategoryBox() {
+function CategoryBox({ setSelectedCategory }) {
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
   const isSm = useMediaQuery(theme.breakpoints.between("sm", "md")); // tablet
@@ -217,6 +217,10 @@ function CategoryBox() {
       // paddingTop: "80px",
     },
   };
+
+  const sendDataToProductComponent = (data) => {
+    setSelectedCategory(data);
+  };
   return (
     <Box sx={styles.category_parent} id="categories">
       <Typography
@@ -288,7 +292,12 @@ function CategoryBox() {
               High-quality fresh green coffee beans and freshly roasted coffee
               beans
             </Typography>
-            <Button sx={styles.button_see_more}>See More</Button>
+            <Button
+              sx={styles.button_see_more}
+              onClick={() => sendDataToProductComponent(1)}
+            >
+              See More
+            </Button>
           </Box>
         </Box>
         <Box sx={styles.category_single}>
@@ -300,7 +309,12 @@ function CategoryBox() {
               Premium-quality perfumes offering a wide variety of captivating
               scentsy
             </Typography>
-            <Button sx={styles.button_see_more}>See More</Button>
+            <Button
+              sx={styles.button_see_more}
+              onClick={() => sendDataToProductComponent(4)}
+            >
+              See More
+            </Button>
           </Box>
         </Box>
         <Box sx={styles.category_single}>
@@ -311,7 +325,12 @@ function CategoryBox() {
               {" "}
               Durable and safe pet toys designed for endless fun and play
             </Typography>
-            <Button sx={styles.button_see_more}>See More</Button>
+            <Button
+              sx={styles.button_see_more}
+              onClick={() => sendDataToProductComponent(3)}
+            >
+              See More
+            </Button>
           </Box>
         </Box>
         <Box sx={styles.category_single}>
@@ -323,7 +342,12 @@ function CategoryBox() {
               High-quality, stylish furniture crafted for comfort and
               durability.
             </Typography>
-            <Button sx={styles.button_see_more}>See More</Button>
+            <Button
+              sx={styles.button_see_more}
+              onClick={() => sendDataToProductComponent(2)}
+            >
+              See More
+            </Button>
           </Box>
         </Box>
       </Box>
