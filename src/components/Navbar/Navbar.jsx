@@ -115,7 +115,7 @@ export default function RightDrawer() {
     },
     nav_list_parent: {
       // border: "solid blue 2px",
-      width: isMd ? "48%" : isLg ? "43%" : isXl ? "35%" : "50%",
+      width: isMd ? "48%" : isLg ? "50%" : isXl ? "35%" : "50%",
       display: "flex",
       justifyContent: "space-between",
     },

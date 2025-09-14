@@ -5,14 +5,22 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import CloseIcon from "@mui/icons-material/Close";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import TextField from "@mui/material/TextField";
 import Link from "next/link";
 import { Box, Typography, Drawer, useMediaQuery, Button } from "@mui/material";
 import useCart from "../../utils/useCart";
 
+import InputAdornment from "@mui/material/InputAdornment";
+
 function Cart() {
   const { getCart, removeFromCart } = useCart();
-
   const [cartProducts, setCartProducts] = useState([]);
+  const [openDrawer, setOpenDrawer] = useState(true);
+  const [currentPageForm, setCurrentPageForm] = useState("payment-form");
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [deliverAddress, setDeliveryAddress] = useState({});
 
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
@@ -100,13 +108,13 @@ function Cart() {
       justifyContent: "space-between",
       backgroundColor: "#e5e5e5",
       width: isXs
-        ? "90%"
+        ? "86%"
         : isSm
         ? "50%"
         : isMd
         ? "50%"
         : isLg
-        ? "40%"
+        ? "30%"
         : isXl
         ? "28%"
         : "",
@@ -133,7 +141,7 @@ function Cart() {
         : isMd
         ? "10%"
         : isLg
-        ? "8%"
+        ? "10%"
         : isXl
         ? "10%"
         : "100%",
@@ -192,6 +200,78 @@ function Cart() {
     typo_category: {},
     typo_price: { fontSize: "1.1rem" },
   };
+  const styles_drawer = {
+    parent_drawer: {
+      // border: "solid red 2px",
+      height: "100vh",
+      backgroundColor: "#e5e5e5",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-around",
+    },
+    close_box: {
+      // border: "solid green 2px",
+      height: "50px",
+      display: "flex",
+      justifyContent: "end",
+      alignItems: "center",
+      backgroundColor: "#14213d",
+    },
+    parent_tabs: {
+      // border: "solid green 2px",
+      display: "flex",
+      justifyContent: "center",
+      margin: "0 auto",
+      width: "80%",
+      gap: "20px",
+    },
+    single_tab: {
+      // border: "solid red 2px",
+      display: "flex",
+      gap: "10px",
+    },
+    parent_payments: {
+      // border: "solid blue 2px",
+      display: "flex",
+      justifyContent: "space-between",
+      width: "60%",
+      margin: "0 auto",
+    },
+    single_payment: {
+      border: "solid grey 1px",
+      boxShadow: "0 0 2px #14213d",
+      width: "40%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-around",
+      height: "100px",
+    },
+    next_back_parent: {
+      // border: "solid green 2px",
+      width: "60%",
+      margin: "0 auto",
+      display: "flex",
+      justifyContent: "space-between",
+    },
+    parent_address: {
+      // border: "solid blue 2px",
+      width: "60%",
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "space-between",
+      margin: "0 auto",
+      rowGap: "15px",
+    },
+    single_input: {
+      // border: "solid red 2px",
+      width: "30%",
+    },
+  };
+
+  const toggleFormDrawer = (newOpen) => () => {
+    setOpenDrawer(newOpen);
+  };
+  console.log("33", openDrawer);
 
   useEffect(() => {
     const cart_products = getCart();
@@ -210,6 +290,278 @@ function Cart() {
     removeFromCart(id);
     setCartProducts((prev) => prev.filter((item) => item._id !== id));
   };
+
+  const handleNextButton = () => {
+    if (currentPageForm === "payment-form") {
+      setCurrentPageForm("address-form");
+    }
+    if (currentPageForm === "address-form") {
+      setCurrentPageForm("check-form");
+    }
+  };
+  const handleBackButton = () => {
+    if (currentPageForm === "check-form") {
+      setCurrentPageForm("address-form");
+    }
+    if (currentPageForm === "address-form") {
+      setCurrentPageForm("payment-form");
+    }
+  };
+
+  const handleCashPaymentButton = () => {
+    setPaymentMethod("cash-payment");
+  };
+  const handleOnlinePaymentButton = () => {
+    setPaymentMethod("online-payment");
+  };
+
+  console.log("444", paymentMethod);
+
+  const DrawerList = (
+    <Box sx={styles_drawer.parent_drawer} role="presentation">
+      <Box onClick={toggleFormDrawer(false)} sx={styles_drawer.close_box}>
+        <CloseIcon sx={{ fontSize: 30, marginRight: 3, color: "#e5e5e5" }} />
+      </Box>
+      <Box sx={styles_drawer.parent_tabs}>
+        <Box sx={styles_drawer.single_tab}>
+          <Typography>1</Typography>
+          <Typography>Payment Type</Typography>
+        </Box>
+        <Box sx={styles_drawer.single_tab}>
+          <Typography>-------------------</Typography>
+          <Typography>2</Typography>
+          <Typography>Delivery Address</Typography>
+        </Box>
+        <Box sx={styles_drawer.single_tab}>
+          <Typography>-------------------</Typography>
+          <Typography>3</Typography>
+          <Typography>Confirm Order</Typography>
+        </Box>
+      </Box>
+      {currentPageForm === "payment-form" && (
+        <Typography sx={{ width: "80%", margin: "0 auto", fontWeight: "bold" }}>
+          Choose payment method
+        </Typography>
+      )}
+      {currentPageForm === "address-form" && (
+        <Typography sx={{ width: "80%", margin: "0 auto", fontWeight: "bold" }}>
+          Fill delivery address
+        </Typography>
+      )}
+      <Box
+        sx={{
+          minHeight: "50%",
+          // border: "solid blue 2px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+        }}
+      >
+        {currentPageForm === "payment-form" && (
+          <Box sx={styles_drawer.parent_payments}>
+            <Box
+              sx={styles_drawer.single_payment}
+              onClick={handleOnlinePaymentButton}
+            >
+              <Typography sx={{ fontWeight: "bold", paddingLeft: "10px" }}>
+                Online Payment
+              </Typography>
+              <Typography sx={{ fontFamily: "italic", paddingLeft: "10px" }}>
+                Pay securely by card through Stripe. Fast and confirmed
+                instantly
+              </Typography>
+              <AttachMoneyIcon sx={{ color: "green", alignSelf: "end" }} />
+            </Box>
+            <Box
+              sx={styles_drawer.single_payment}
+              onClick={handleCashPaymentButton}
+            >
+              <Typography sx={{ fontWeight: "bold", paddingLeft: "10px" }}>
+                Cash on Delivery
+              </Typography>
+              <Typography sx={{ fontFamily: "italic", paddingLeft: "10px" }}>
+                Pay with cash when your order arrives.
+              </Typography>
+              <AttachMoneyIcon sx={{ color: "green", alignSelf: "end" }} />
+            </Box>
+          </Box>
+        )}
+        {currentPageForm === "address-form" && (
+          <Box component="form" sx={styles_drawer.parent_address}>
+            <TextField
+              id="outlined-start-adornment"
+              label="Full Name"
+              variant="outlined"
+              size="small"
+              sx={styles_drawer.single_input}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start"></InputAdornment>
+                  ),
+                },
+              }}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Email"
+              variant="outlined"
+              size="small"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start"></InputAdornment>
+                  ),
+                },
+              }}
+              sx={styles_drawer.single_input}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Phone Number"
+              variant="outlined"
+              size="small"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start"></InputAdornment>
+                  ),
+                },
+              }}
+              sx={styles_drawer.single_input}
+            />
+
+            <TextField
+              id="outlined-basic"
+              label="Address"
+              variant="outlined"
+              size="small"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start"></InputAdornment>
+                  ),
+                },
+              }}
+              sx={styles_drawer.single_input}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Apt"
+              variant="outlined"
+              size="small"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start"></InputAdornment>
+                  ),
+                },
+              }}
+              sx={styles_drawer.single_input}
+            />
+            <TextField
+              id="outlined-basic"
+              label="City"
+              variant="outlined"
+              size="small"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start"></InputAdornment>
+                  ),
+                },
+              }}
+              sx={styles_drawer.single_input}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Province"
+              variant="outlined"
+              size="small"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start"></InputAdornment>
+                  ),
+                },
+              }}
+              sx={styles_drawer.single_input}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Postal Code"
+              variant="outlined"
+              size="small"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start"></InputAdornment>
+                  ),
+                },
+              }}
+              sx={styles_drawer.single_input}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Country"
+              variant="outlined"
+              size="small"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start"></InputAdornment>
+                  ),
+                },
+              }}
+              sx={styles_drawer.single_input}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Delivery Instruction"
+              variant="outlined"
+              multiline
+              minRows={4}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start"></InputAdornment>
+                  ),
+                },
+              }}
+              sx={{
+                ...styles_drawer.single_input,
+                width: "100%",
+              }}
+            />
+          </Box>
+        )}
+      </Box>
+      <Box sx={styles_drawer.next_back_parent}>
+        <Button
+          sx={{
+            border: "solid #14213d 1px",
+            backgroundColor: "#fca311",
+            color: "#14213d",
+            width: "140px",
+          }}
+          onClick={handleBackButton}
+        >
+          Back
+        </Button>
+        <Button
+          sx={{
+            border: "solid #14213d 1px",
+            backgroundColor: "#fca311",
+            color: "#14213d",
+            width: "140px",
+          }}
+          onClick={handleNextButton}
+        >
+          Next
+        </Button>
+      </Box>
+    </Box>
+  );
 
   return (
     <Box sx={styles.parent_mycart}>
@@ -353,7 +705,19 @@ function Cart() {
             >
               TOTAL: {total_price} CAD
             </Typography>
-            <Button sx={styles.checkout_button}>Checkout</Button>
+            <Button
+              sx={styles.checkout_button}
+              onClick={toggleFormDrawer(true)}
+            >
+              Checkout
+            </Button>
+            <Drawer
+              open={openDrawer}
+              onClose={toggleFormDrawer(false)}
+              anchor="top"
+            >
+              {DrawerList}
+            </Drawer>
           </Box>
         </Box>
       </Box>
