@@ -20,7 +20,18 @@ function Cart() {
   const [openDrawer, setOpenDrawer] = useState(true);
   const [currentPageForm, setCurrentPageForm] = useState("payment-form");
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [deliverAddress, setDeliveryAddress] = useState({});
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    address: "",
+    apt: "",
+    city: "",
+    province: "",
+    postalCode: "",
+    country: "",
+    deliveryInstruction: "",
+  });
 
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
@@ -294,9 +305,12 @@ function Cart() {
   const handleNextButton = () => {
     if (currentPageForm === "payment-form") {
       setCurrentPageForm("address-form");
+      console.log("paymentDetail", paymentMethod);
     }
     if (currentPageForm === "address-form") {
       setCurrentPageForm("check-form");
+
+      console.log("addressDetail", formData);
     }
   };
   const handleBackButton = () => {
@@ -315,7 +329,12 @@ function Cart() {
     setPaymentMethod("online-payment");
   };
 
-  console.log("444", paymentMethod);
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const DrawerList = (
     <Box sx={styles_drawer.parent_drawer} role="presentation">
@@ -390,6 +409,7 @@ function Cart() {
           <Box component="form" sx={styles_drawer.parent_address}>
             <TextField
               id="outlined-start-adornment"
+              name="fullName"
               label="Full Name"
               variant="outlined"
               size="small"
@@ -401,9 +421,12 @@ function Cart() {
                   ),
                 },
               }}
+              onChange={handleChange}
+              value={formData.fullName}
             />
             <TextField
               id="outlined-basic"
+              name="email"
               label="Email"
               variant="outlined"
               size="small"
@@ -415,9 +438,12 @@ function Cart() {
                 },
               }}
               sx={styles_drawer.single_input}
+              value={formData.email}
+              onChange={handleChange}
             />
             <TextField
               id="outlined-basic"
+              name="phone"
               label="Phone Number"
               variant="outlined"
               size="small"
@@ -429,10 +455,12 @@ function Cart() {
                 },
               }}
               sx={styles_drawer.single_input}
+              value={formData.phone}
+              onChange={handleChange}
             />
-
             <TextField
               id="outlined-basic"
+              name="address"
               label="Address"
               variant="outlined"
               size="small"
@@ -444,9 +472,12 @@ function Cart() {
                 },
               }}
               sx={styles_drawer.single_input}
+              value={formData.address}
+              onChange={handleChange}
             />
             <TextField
               id="outlined-basic"
+              name="apt"
               label="Apt"
               variant="outlined"
               size="small"
@@ -458,9 +489,12 @@ function Cart() {
                 },
               }}
               sx={styles_drawer.single_input}
+              value={formData.apt}
+              onChange={handleChange}
             />
             <TextField
               id="outlined-basic"
+              name="city"
               label="City"
               variant="outlined"
               size="small"
@@ -472,9 +506,12 @@ function Cart() {
                 },
               }}
               sx={styles_drawer.single_input}
+              value={formData.city}
+              onChange={handleChange}
             />
             <TextField
               id="outlined-basic"
+              name="province"
               label="Province"
               variant="outlined"
               size="small"
@@ -486,9 +523,12 @@ function Cart() {
                 },
               }}
               sx={styles_drawer.single_input}
+              value={formData.province}
+              onChange={handleChange}
             />
             <TextField
               id="outlined-basic"
+              name="postalCode"
               label="Postal Code"
               variant="outlined"
               size="small"
@@ -500,9 +540,12 @@ function Cart() {
                 },
               }}
               sx={styles_drawer.single_input}
+              value={formData.postalCode}
+              onChange={handleChange}
             />
             <TextField
               id="outlined-basic"
+              name="country"
               label="Country"
               variant="outlined"
               size="small"
@@ -514,9 +557,12 @@ function Cart() {
                 },
               }}
               sx={styles_drawer.single_input}
+              value={formData.country}
+              onChange={handleChange}
             />
             <TextField
               id="outlined-basic"
+              name="deliveryInstruction"
               label="Delivery Instruction"
               variant="outlined"
               multiline
@@ -532,6 +578,8 @@ function Cart() {
                 ...styles_drawer.single_input,
                 width: "100%",
               }}
+              value={formData.deliveryInstruction}
+              onChange={handleChange}
             />
           </Box>
         )}
