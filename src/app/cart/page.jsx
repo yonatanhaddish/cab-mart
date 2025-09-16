@@ -9,7 +9,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import TextField from "@mui/material/TextField";
 import Link from "next/link";
-import { Box, Typography, Drawer, useMediaQuery, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Drawer,
+  useMediaQuery,
+  Button,
+  Popover,
+} from "@mui/material";
 import useCart from "../../utils/useCart";
 
 import InputAdornment from "@mui/material/InputAdornment";
@@ -18,8 +25,11 @@ function Cart() {
   const { getCart, removeFromCart } = useCart();
   const [cartProducts, setCartProducts] = useState([]);
   const [openDrawer, setOpenDrawer] = useState(true);
+  const [selectedPaymentStyle, setSelectedPaymentStyle] = useState("");
   const [currentPageForm, setCurrentPageForm] = useState("payment-form");
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [errorMessageSnippet, setErrorMessageSnippet] = useState("");
+  const [errorPopover, setErrorPopover] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -256,6 +266,16 @@ function Cart() {
       flexDirection: "column",
       justifyContent: "space-around",
       height: "100px",
+      borderRadius: "8px",
+      cursor: "pointer",
+      transition: "all 0.25s ease-in-out",
+      // transform: "scale(1.2)",
+
+      "&:hover": {
+        border: "solid #fca311 1px",
+        boxShadow: "0 0 6px #fca311",
+        transform: "scale(1.05)",
+      },
     },
     next_back_parent: {
       // border: "solid green 2px",
@@ -277,13 +297,31 @@ function Cart() {
       // border: "solid red 2px",
       width: "30%",
     },
+    online_payment: {
+      border:
+        selectedPaymentStyle === "online_payment"
+          ? "solid #fca311 1px"
+          : "solid grey 1px",
+      boxShadow:
+        selectedPaymentStyle === "online_payment"
+          ? "0 0 10px #fca311"
+          : "0 0 2px #14213d",
+    },
+    cash_payment: {
+      border:
+        selectedPaymentStyle === "cash_payment"
+          ? "solid #fca311 1px"
+          : "solid grey 1px",
+      boxShadow:
+        selectedPaymentStyle === "cash_payment"
+          ? "0 0 10px #fca311"
+          : "0 0 2px #14213d",
+    },
   };
 
   const toggleFormDrawer = (newOpen) => () => {
     setOpenDrawer(newOpen);
   };
-  console.log("33", openDrawer);
-
   useEffect(() => {
     const cart_products = getCart();
     setCartProducts(cart_products);
@@ -303,16 +341,18 @@ function Cart() {
   };
 
   const handleNextButton = () => {
-    if (currentPageForm === "payment-form") {
+    if (currentPageForm === "payment-form" && paymentMethod !== "") {
       setCurrentPageForm("address-form");
-      console.log("paymentDetail", paymentMethod);
+    }
+    if (currentPageForm === "payment-form" && paymentMethod === "") {
+      setErrorMessageSnippet("please select payment method");
+      setErrorPopover(true);
     }
     if (currentPageForm === "address-form") {
       setCurrentPageForm("check-form");
-
-      console.log("addressDetail", formData);
     }
   };
+
   const handleBackButton = () => {
     if (currentPageForm === "check-form") {
       setCurrentPageForm("address-form");
@@ -320,13 +360,22 @@ function Cart() {
     if (currentPageForm === "address-form") {
       setCurrentPageForm("payment-form");
     }
+    if (currentPageForm === "payment-form") {
+      setOpenDrawer(false);
+      setSelectedPaymentStyle("");
+      setPaymentMethod("");
+    }
   };
 
   const handleCashPaymentButton = () => {
     setPaymentMethod("cash-payment");
+    setSelectedPaymentStyle("cash_payment");
+    setErrorPopover(false);
   };
   const handleOnlinePaymentButton = () => {
     setPaymentMethod("online-payment");
+    setSelectedPaymentStyle("online_payment");
+    setErrorPopover(false);
   };
 
   const handleChange = (e) => {
@@ -379,7 +428,10 @@ function Cart() {
         {currentPageForm === "payment-form" && (
           <Box sx={styles_drawer.parent_payments}>
             <Box
-              sx={styles_drawer.single_payment}
+              sx={{
+                ...styles_drawer.single_payment,
+                ...styles_drawer.online_payment,
+              }}
               onClick={handleOnlinePaymentButton}
             >
               <Typography sx={{ fontWeight: "bold", paddingLeft: "10px" }}>
@@ -392,7 +444,10 @@ function Cart() {
               <AttachMoneyIcon sx={{ color: "green", alignSelf: "end" }} />
             </Box>
             <Box
-              sx={styles_drawer.single_payment}
+              sx={{
+                ...styles_drawer.single_payment,
+                ...styles_drawer.cash_payment,
+              }}
               onClick={handleCashPaymentButton}
             >
               <Typography sx={{ fontWeight: "bold", paddingLeft: "10px" }}>
@@ -585,28 +640,48 @@ function Cart() {
         )}
       </Box>
       <Box sx={styles_drawer.next_back_parent}>
-        <Button
-          sx={{
-            border: "solid #14213d 1px",
-            backgroundColor: "#fca311",
-            color: "#14213d",
+        <div
+          style={{
+            // border: "2px solid red",
             width: "140px",
+            height: "80px",
           }}
-          onClick={handleBackButton}
         >
-          Back
-        </Button>
-        <Button
-          sx={{
-            border: "solid #14213d 1px",
-            backgroundColor: "#fca311",
-            color: "#14213d",
+          <Button
+            sx={{
+              border: "solid #14213d 1px",
+              backgroundColor: "#fca311",
+              color: "#14213d",
+              width: "140px",
+            }}
+            onClick={handleBackButton}
+          >
+            Back
+          </Button>
+        </div>
+        <div
+          style={{
+            // border: "2px solid red",
             width: "140px",
+            height: "80px",
           }}
-          onClick={handleNextButton}
         >
-          Next
-        </Button>
+          <Button
+            sx={{
+              border: "solid #14213d 1px",
+              backgroundColor: "#fca311",
+              color: "#14213d",
+              width: "100%",
+            }}
+            onClick={handleNextButton}
+            // disabled={paymentMethod === ""}
+          >
+            Next
+          </Button>
+          {errorPopover && (
+            <Box sx={{ color: "red" }}>{errorMessageSnippet}</Box>
+          )}
+        </div>
       </Box>
     </Box>
   );
