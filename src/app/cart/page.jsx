@@ -8,6 +8,10 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CloseIcon from "@mui/icons-material/Close";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import LooksOneIcon from "@mui/icons-material/LooksOne";
+import LooksTwoIcon from "@mui/icons-material/LooksTwo";
+import Looks3Icon from "@mui/icons-material/Looks3";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -248,33 +252,75 @@ function Cart() {
       display: "flex",
       justifyContent: "center",
       margin: "0 auto",
-      width: "80%",
-      gap: "20px",
+      width: isXs ? "90%" : isSm ? "80%" : "80%",
+      gap: isXs
+        ? "20px"
+        : isMd
+        ? "50px"
+        : isLg
+        ? "80px"
+        : isXl
+        ? "100px"
+        : "30px",
     },
     single_tab: {
-      // border: "solid red 2px",
       display: "flex",
       gap: "10px",
+    },
+    single_tab_payment: {
+      borderBottom: `1px solid ${
+        currentPageForm === "address-form" || currentPageForm === "check-form"
+          ? "#fca311"
+          : "grey"
+      }`,
+    },
+    single_tab_address: {
+      borderBottom: `1px solid ${
+        currentPageForm === "check-form" ? "#fca311" : "grey"
+      }`,
+    },
+    single_tab_confirm_order: {
+      borderBottom: `1px solid ${confirmedCheckBox ? "#fca311" : "grey"}`,
     },
     parent_payments: {
       // border: "solid blue 2px",
       display: "flex",
+      flexDirection: isXs || isSm ? "column" : "row",
       justifyContent: "space-between",
-      width: "60%",
+      width: isXs
+        ? "80%"
+        : isSm
+        ? "60%"
+        : isMd || isLg
+        ? "60%"
+        : isXl
+        ? "45%"
+        : "100%",
+      height: isXs ? "60%" : isSm ? "55%" : isMd ? "30%" : "70%",
       margin: "0 auto",
     },
     single_payment: {
       border: "solid grey 1px",
       boxShadow: "0 0 2px #14213d",
-      width: "40%",
+      width: isXs
+        ? "100%"
+        : isSm
+        ? "80%"
+        : isMd
+        ? "45%"
+        : isLg
+        ? "45%"
+        : isXl
+        ? "40%"
+        : "100%",
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-around",
-      height: "100px",
+      height: "120px",
       borderRadius: "8px",
       cursor: "pointer",
       transition: "all 0.25s ease-in-out",
-      // transform: "scale(1.2)",
+      margin: "0 auto",
 
       "&:hover": {
         border: "solid #fca311 1px",
@@ -284,14 +330,24 @@ function Cart() {
     },
     next_back_parent: {
       // border: "solid green 2px",
-      width: "60%",
+      width: isXs
+        ? "80%"
+        : isSm
+        ? "50%"
+        : isMd
+        ? "55%"
+        : isLg
+        ? "55%"
+        : isXl
+        ? "40%"
+        : "100%",
       margin: "0 auto",
       display: "flex",
       justifyContent: "space-between",
     },
     parent_address: {
       // border: "solid blue 2px",
-      width: "60%",
+      width: isXs ? "80%" : isSm ? "60%" : "100%",
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "space-between",
@@ -479,23 +535,66 @@ function Cart() {
         <CloseIcon sx={{ fontSize: 30, marginRight: 3, color: "#e5e5e5" }} />
       </Box>
       <Box sx={styles_drawer.parent_tabs}>
-        <Box sx={styles_drawer.single_tab}>
-          <Typography>1</Typography>
+        <Box
+          sx={{
+            ...styles_drawer.single_tab,
+            ...styles_drawer.single_tab_payment,
+          }}
+        >
+          {currentPageForm === "address-form" ||
+          currentPageForm === "check-form" ? (
+            <CheckCircleOutlineIcon sx={{ color: "#fca311" }} />
+          ) : (
+            <LooksOneIcon sx={{ color: "grey" }} />
+          )}
           <Typography>Payment Type</Typography>
         </Box>
-        <Box sx={styles_drawer.single_tab}>
-          <Typography>-------------------</Typography>
-          <Typography>2</Typography>
+        <Box
+          sx={{
+            ...styles_drawer.single_tab,
+            ...styles_drawer.single_tab_address,
+          }}
+        >
+          {currentPageForm === "check-form" ? (
+            <CheckCircleOutlineIcon sx={{ color: "#fca311" }} />
+          ) : (
+            <LooksTwoIcon sx={{ color: "grey" }} />
+          )}
           <Typography>Delivery Address</Typography>
         </Box>
-        <Box sx={styles_drawer.single_tab}>
-          <Typography>-------------------</Typography>
-          <Typography>3</Typography>
+        <Box
+          sx={{
+            ...styles_drawer.single_tab,
+            ...styles_drawer.single_tab_confirm_order,
+          }}
+        >
+          {confirmedCheckBox ? (
+            <CheckCircleOutlineIcon sx={{ color: "#fca311" }} />
+          ) : (
+            <Looks3Icon sx={{ color: "grey" }} />
+          )}
           <Typography>Confirm Order</Typography>
         </Box>
       </Box>
       {currentPageForm === "payment-form" && (
-        <Typography sx={{ width: "80%", margin: "0 auto", fontWeight: "bold" }}>
+        <Typography
+          sx={{
+            width: isXs
+              ? "80%"
+              : isSm
+              ? "60%"
+              : isMd
+              ? "60%"
+              : isLg
+              ? "60%"
+              : isXl
+              ? "45%"
+              : "100%",
+            margin: "0 auto",
+            fontWeight: "bold",
+            // border: "solid green 2px",
+          }}
+        >
           Choose payment method
         </Typography>
       )}
@@ -505,17 +604,24 @@ function Cart() {
         </Typography>
       )}
       {currentPageForm === "check-form" && (
-        <Typography sx={{ width: "80%", margin: "0 auto", fontWeight: "bold" }}>
-          Confirm Info
+        <Typography
+          sx={{
+            width: "80%",
+            margin: "0 auto",
+            fontWeight: "bold",
+            visibility: "hidden",
+          }}
+        >
+          .
         </Typography>
       )}
       <Box
         sx={{
           minHeight: "50%",
-          // border: "solid blue 2px",
+          // border: "solid red 2px",
           display: "flex",
           flexDirection: "column",
-          gap: "20px",
+          // gap: "20px",
         }}
       >
         {currentPageForm === "payment-form" && (
