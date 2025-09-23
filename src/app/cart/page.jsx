@@ -7,7 +7,10 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CloseIcon from "@mui/icons-material/Close";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import Link from "next/link";
 import {
   Box,
@@ -42,6 +45,8 @@ function Cart() {
     country: "",
     deliveryInstruction: "",
   });
+  const [confirmedCheckBox, setConfirmedCheckBox] = useState(false);
+  const [buttonText, setButtonText] = useState("Next");
 
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
@@ -340,6 +345,25 @@ function Cart() {
     setCartProducts((prev) => prev.filter((item) => item._id !== id));
   };
 
+  useEffect(() => {
+    if (currentPageForm === "check-form" && confirmedCheckBox) {
+      setErrorPopover(false);
+      setErrorMessageSnippet("");
+    }
+    if (
+      currentPageForm === "check-form" &&
+      paymentMethod === "online-payment"
+    ) {
+      setButtonText("Payment");
+    }
+    if (currentPageForm === "check-form" && paymentMethod === "cash-payment") {
+      setButtonText("Place Order");
+    }
+    if (currentPageForm !== "check-form") {
+      setButtonText("Next");
+    }
+  });
+
   const handleNextButton = () => {
     if (currentPageForm === "payment-form" && paymentMethod !== "") {
       setCurrentPageForm("address-form");
@@ -348,8 +372,34 @@ function Cart() {
       setErrorMessageSnippet("please select payment method");
       setErrorPopover(true);
     }
-    if (currentPageForm === "address-form") {
+    if (
+      currentPageForm === "address-form" &&
+      validateEmail(formData.email) &&
+      validatePhoneNumber(formData.phone) &&
+      validateFormData(formData)
+    ) {
       setCurrentPageForm("check-form");
+      setErrorPopover(false);
+    }
+
+    if (currentPageForm === "address-form" && !validateEmail(formData.email)) {
+      setErrorMessageSnippet("Please enter valid email");
+      setErrorPopover(true);
+    }
+    if (
+      currentPageForm === "address-form" &&
+      !validatePhoneNumber(formData.phone)
+    ) {
+      setErrorMessageSnippet("Please enter valid phone number");
+      setErrorPopover(true);
+    }
+    if (currentPageForm === "address-form" && !validateFormData(formData)) {
+      setErrorMessageSnippet("error! check form again");
+      setErrorPopover(true);
+    }
+    if (currentPageForm === "check-form" && !confirmedCheckBox) {
+      setErrorMessageSnippet("Please confirm the checkbox above");
+      setErrorPopover(true);
     }
   };
 
@@ -360,7 +410,7 @@ function Cart() {
     if (currentPageForm === "address-form") {
       setCurrentPageForm("payment-form");
     }
-    if (currentPageForm === "payment-form") {
+    if (currentPageForm === "`payment-form`") {
       setOpenDrawer(false);
       setSelectedPaymentStyle("");
       setPaymentMethod("");
@@ -378,11 +428,49 @@ function Cart() {
     setErrorPopover(false);
   };
 
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+  const validatePhoneNumber = (phone) => {
+    const regex = /^\d{10}$/;
+    return regex.test(phone);
+  };
+  const validateFormData = (data) => {
+    if (
+      data.address &&
+      data.apt &&
+      data.city &&
+      data.country &&
+      data.fullName &&
+      data.phone &&
+      data.postalCode &&
+      data.province
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const handlePhoneChange = (e) => {
+    const value = e.target.value.replace(/\D/g, "");
+    if (value.length <= 10) {
+      setFormData((prev) => ({
+        ...prev,
+        phone: value,
+      }));
+    }
+  };
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+  const handleCheckBox = (e) => {
+    setConfirmedCheckBox(e.target.checked);
   };
 
   const DrawerList = (
@@ -414,6 +502,11 @@ function Cart() {
       {currentPageForm === "address-form" && (
         <Typography sx={{ width: "80%", margin: "0 auto", fontWeight: "bold" }}>
           Fill delivery address
+        </Typography>
+      )}
+      {currentPageForm === "check-form" && (
+        <Typography sx={{ width: "80%", margin: "0 auto", fontWeight: "bold" }}>
+          Confirm Info
         </Typography>
       )}
       <Box
@@ -463,6 +556,7 @@ function Cart() {
         {currentPageForm === "address-form" && (
           <Box component="form" sx={styles_drawer.parent_address}>
             <TextField
+              required
               id="outlined-start-adornment"
               name="fullName"
               label="Full Name"
@@ -482,7 +576,8 @@ function Cart() {
             <TextField
               id="outlined-basic"
               name="email"
-              label="Email"
+              type="email"
+              label="Email (optional)"
               variant="outlined"
               size="small"
               slotProps={{
@@ -497,8 +592,10 @@ function Cart() {
               onChange={handleChange}
             />
             <TextField
+              required
               id="outlined-basic"
               name="phone"
+              type="tel"
               label="Phone Number"
               variant="outlined"
               size="small"
@@ -509,11 +606,17 @@ function Cart() {
                   ),
                 },
               }}
+              inputProps={{
+                inputMode: "numeric", // mobile shows number keypad
+                pattern: "[0-9]*", // digits only
+                maxLength: 10, // restrict to 10 digits
+              }}
               sx={styles_drawer.single_input}
               value={formData.phone}
-              onChange={handleChange}
+              onChange={handlePhoneChange}
             />
             <TextField
+              required
               id="outlined-basic"
               name="address"
               label="Address"
@@ -531,6 +634,7 @@ function Cart() {
               onChange={handleChange}
             />
             <TextField
+              required
               id="outlined-basic"
               name="apt"
               label="Apt"
@@ -548,6 +652,7 @@ function Cart() {
               onChange={handleChange}
             />
             <TextField
+              required
               id="outlined-basic"
               name="city"
               label="City"
@@ -565,6 +670,7 @@ function Cart() {
               onChange={handleChange}
             />
             <TextField
+              required
               id="outlined-basic"
               name="province"
               label="Province"
@@ -582,6 +688,7 @@ function Cart() {
               onChange={handleChange}
             />
             <TextField
+              required
               id="outlined-basic"
               name="postalCode"
               label="Postal Code"
@@ -599,6 +706,7 @@ function Cart() {
               onChange={handleChange}
             />
             <TextField
+              required
               id="outlined-basic"
               name="country"
               label="Country"
@@ -618,10 +726,10 @@ function Cart() {
             <TextField
               id="outlined-basic"
               name="deliveryInstruction"
-              label="Delivery Instruction"
+              label="Delivery Instruction (optional)"
               variant="outlined"
               multiline
-              minRows={4}
+              maxRows={4}
               slotProps={{
                 input: {
                   startAdornment: (
@@ -629,6 +737,7 @@ function Cart() {
                   ),
                 },
               }}
+              inputProps={{ maxLength: 200 }}
               sx={{
                 ...styles_drawer.single_input,
                 width: "100%",
@@ -636,6 +745,95 @@ function Cart() {
               value={formData.deliveryInstruction}
               onChange={handleChange}
             />
+          </Box>
+        )}
+        {currentPageForm === "check-form" && (
+          <Box
+            sx={{
+              width: "60%",
+              // border: "solid green 2px",
+              margin: "0 auto",
+            }}
+          >
+            <Box sx={{}}>
+              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+                <span style={{ fontWeight: "bold" }}>Payment Method: </span>
+                <span style={{ fontStyle: "italic" }}>{paymentMethod}</span>
+              </Typography>
+            </Box>
+            <Box sx={{}}>
+              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+                <span style={{ fontWeight: "bold" }}>Name: </span>
+                <span style={{ fontStyle: "italic" }}>{formData.fullName}</span>
+              </Typography>
+              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+                <span style={{ fontWeight: "bold" }}>Phone Number: </span>
+                <span style={{ fontStyle: "italic" }}>{formData.phone}</span>
+              </Typography>
+              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+                <span style={{ fontWeight: "bold" }}>Email: </span>
+                <span style={{ fontStyle: "italic" }}>{formData.email}</span>
+              </Typography>
+              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+                <span style={{ fontWeight: "bold" }}>Address: </span>
+                <span style={{ fontStyle: "italic" }}>{formData.address}</span>
+              </Typography>
+              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+                <span style={{ fontWeight: "bold" }}>Apartment Number: </span>
+                <span style={{ fontStyle: "italic" }}>{formData.apt}</span>
+              </Typography>
+              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+                <span style={{ fontWeight: "bold" }}>City: </span>
+                <span style={{ fontStyle: "italic" }}>{formData.city}</span>
+              </Typography>
+              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+                <span style={{ fontWeight: "bold" }}>Province: </span>
+                <span style={{ fontStyle: "italic" }}>{formData.province}</span>
+              </Typography>
+              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+                <span style={{ fontWeight: "bold" }}>Postal Code: </span>
+                <span style={{ fontStyle: "italic" }}>
+                  {formData.postalCode}
+                </span>
+              </Typography>
+              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+                <span style={{ fontWeight: "bold" }}>Country: </span>
+                <span style={{ fontStyle: "italic" }}>{formData.country}</span>
+              </Typography>
+              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+                <span style={{ fontWeight: "bold" }}>
+                  Delivery Instruction:
+                </span>
+                <span style={{ fontStyle: "italic" }}>
+                  {formData.deliveryInstruction}
+                </span>
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                width: "80%",
+                margin: "0 auto",
+                paddingTop: "20px",
+                fontStyle: "italic",
+              }}
+            >
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    onChange={handleCheckBox}
+                    checked={confirmedCheckBox}
+                  />
+                }
+                label="I confirm that my order details are correct and cannot be modified after submission."
+              />
+            </Box>
+            <Box
+              sx={{
+                // border: "solid red 2px",
+                width: "80%",
+                margin: "0 auto",
+              }}
+            ></Box>
           </Box>
         )}
       </Box>
@@ -674,9 +872,8 @@ function Cart() {
               width: "100%",
             }}
             onClick={handleNextButton}
-            // disabled={paymentMethod === ""}
           >
-            Next
+            {buttonText} {buttonText === "Payment" && <ArrowRightAltIcon />}
           </Button>
           {errorPopover && (
             <Box sx={{ color: "red" }}>{errorMessageSnippet}</Box>
