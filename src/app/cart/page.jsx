@@ -33,7 +33,7 @@ function Cart() {
   const [cartProducts, setCartProducts] = useState([]);
   const [openDrawer, setOpenDrawer] = useState(true);
   const [selectedPaymentStyle, setSelectedPaymentStyle] = useState("");
-  const [currentPageForm, setCurrentPageForm] = useState("payment-form");
+  const [currentPageForm, setCurrentPageForm] = useState("check-form");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [errorMessageSnippet, setErrorMessageSnippet] = useState("");
   const [errorPopover, setErrorPopover] = useState(false);
@@ -237,10 +237,11 @@ function Cart() {
       backgroundColor: "#e5e5e5",
       display: "flex",
       flexDirection: "column",
-      justifyContent: "space-around",
+      gap: isXs ? "30px" : "",
+      // justifyContent: isXs ? "space-between" : "space-around",
     },
     close_box: {
-      // border: "solid green 2px",
+      // border: "solid white 2px",
       height: "50px",
       display: "flex",
       justifyContent: "end",
@@ -283,10 +284,11 @@ function Cart() {
       borderBottom: `1px solid ${confirmedCheckBox ? "#fca311" : "grey"}`,
     },
     parent_payments: {
-      // border: "solid blue 2px",
+      // border: "solid green 2px",
       display: "flex",
       flexDirection: isXs || isSm ? "column" : "row",
-      justifyContent: "space-between",
+      // justifyContent: "space-between",
+      gap: isXs ? "40px" : "",
       width: isXs
         ? "80%"
         : isSm
@@ -296,8 +298,9 @@ function Cart() {
         : isXl
         ? "45%"
         : "100%",
-      height: isXs ? "60%" : isSm ? "55%" : isMd ? "30%" : "70%",
+      height: isXs ? "400px" : isSm ? "55%" : isMd ? "30%" : "70%",
       margin: "0 auto",
+      // minHeight: isXs ? "450px" : "200px",
     },
     single_payment: {
       border: "solid grey 1px",
@@ -344,19 +347,32 @@ function Cart() {
       margin: "0 auto",
       display: "flex",
       justifyContent: "space-between",
+      marginTop: "10px",
     },
     parent_address: {
       // border: "solid blue 2px",
-      width: isXs ? "80%" : isSm ? "60%" : "100%",
+      width: isXs
+        ? "80%"
+        : isSm
+        ? "60%"
+        : isMd || isLg
+        ? "60%"
+        : isXl
+        ? "45%"
+        : "100%",
+      height: isXs ? "400px" : isSm ? "55%" : isMd ? "30%" : "70%",
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "space-between",
       margin: "0 auto",
-      rowGap: "15px",
+      alignContent: "space-between",
+      // minHeight: isXs ? "300px" : "200px",
     },
     single_input: {
       // border: "solid red 2px",
-      width: "30%",
+      width: "100%",
+      // height: "100%",
+      // margin: "0 auto",
     },
     online_payment: {
       border:
@@ -617,7 +633,7 @@ function Cart() {
       )}
       <Box
         sx={{
-          minHeight: "50%",
+          // minHeight: "50%",
           // border: "solid red 2px",
           display: "flex",
           flexDirection: "column",
@@ -735,7 +751,10 @@ function Cart() {
                   ),
                 },
               }}
-              sx={styles_drawer.single_input}
+              sx={{
+                ...styles_drawer.single_input,
+                width: isXs ? "70%" : "100%",
+              }}
               value={formData.address}
               onChange={handleChange}
             />
@@ -753,7 +772,10 @@ function Cart() {
                   ),
                 },
               }}
-              sx={styles_drawer.single_input}
+              sx={{
+                ...styles_drawer.single_input,
+                width: isXs ? "25%" : "100%",
+              }}
               value={formData.apt}
               onChange={handleChange}
             />
@@ -771,7 +793,10 @@ function Cart() {
                   ),
                 },
               }}
-              sx={styles_drawer.single_input}
+              sx={{
+                ...styles_drawer.single_input,
+                width: isXs ? "55%" : "100%",
+              }}
               value={formData.city}
               onChange={handleChange}
             />
@@ -789,7 +814,10 @@ function Cart() {
                   ),
                 },
               }}
-              sx={styles_drawer.single_input}
+              sx={{
+                ...styles_drawer.single_input,
+                width: isXs ? "40%" : "100%",
+              }}
               value={formData.province}
               onChange={handleChange}
             />
@@ -807,7 +835,10 @@ function Cart() {
                   ),
                 },
               }}
-              sx={styles_drawer.single_input}
+              sx={{
+                ...styles_drawer.single_input,
+                width: isXs ? "45%" : "100%",
+              }}
               value={formData.postalCode}
               onChange={handleChange}
             />
@@ -825,7 +856,10 @@ function Cart() {
                   ),
                 },
               }}
-              sx={styles_drawer.single_input}
+              sx={{
+                ...styles_drawer.single_input,
+                width: isXs ? "45%" : "100%",
+              }}
               value={formData.country}
               onChange={handleChange}
             />
@@ -846,7 +880,7 @@ function Cart() {
               inputProps={{ maxLength: 200 }}
               sx={{
                 ...styles_drawer.single_input,
-                width: "100%",
+                // height: isXs ? "10%" : isSm ? "55%" : isMd ? "30%" : "70%",
               }}
               value={formData.deliveryInstruction}
               onChange={handleChange}
@@ -856,57 +890,140 @@ function Cart() {
         {currentPageForm === "check-form" && (
           <Box
             sx={{
-              width: "60%",
+              width: "100%",
               // border: "solid green 2px",
-              margin: "0 auto",
+              // margin: "0 auto",
+              height: isXs ? "400px" : isSm ? "55%" : isMd ? "30%" : "70%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
             }}
           >
             <Box sx={{}}>
-              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+              <Typography
+                sx={{
+                  width: "80%",
+                  margin: "0 auto",
+                  // border: "solid red 2px",
+                  display: "flex",
+                  // justifyContent: "space-between",
+                }}
+              >
                 <span style={{ fontWeight: "bold" }}>Payment Method: </span>
                 <span style={{ fontStyle: "italic" }}>{paymentMethod}</span>
               </Typography>
-            </Box>
-            <Box sx={{}}>
-              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+              <Typography
+                sx={{
+                  width: "80%",
+                  margin: "0 auto",
+                  display: "flex",
+                  // justifyContent: "space-between",
+                }}
+              >
                 <span style={{ fontWeight: "bold" }}>Name: </span>
                 <span style={{ fontStyle: "italic" }}>{formData.fullName}</span>
               </Typography>
-              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+              <Typography
+                sx={{
+                  width: "80%",
+                  margin: "0 auto",
+                  display: "flex",
+                  // justifyContent: "space-between",
+                }}
+              >
                 <span style={{ fontWeight: "bold" }}>Phone Number: </span>
                 <span style={{ fontStyle: "italic" }}>{formData.phone}</span>
               </Typography>
-              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+              <Typography
+                sx={{
+                  width: "80%",
+                  margin: "0 auto",
+                  display: "flex",
+                  // justifyContent: "space-between",
+                }}
+              >
                 <span style={{ fontWeight: "bold" }}>Email: </span>
                 <span style={{ fontStyle: "italic" }}>{formData.email}</span>
               </Typography>
-              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+              <Typography
+                sx={{
+                  width: "80%",
+                  margin: "0 auto",
+                  display: "flex",
+                  // justifyContent: "space-between",
+                }}
+              >
                 <span style={{ fontWeight: "bold" }}>Address: </span>
                 <span style={{ fontStyle: "italic" }}>{formData.address}</span>
               </Typography>
-              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+              <Typography
+                sx={{
+                  width: "80%",
+                  margin: "0 auto",
+                  display: "flex",
+                  // justifyContent: "space-between",
+                }}
+              >
                 <span style={{ fontWeight: "bold" }}>Apartment Number: </span>
                 <span style={{ fontStyle: "italic" }}>{formData.apt}</span>
               </Typography>
-              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+              <Typography
+                sx={{
+                  width: "80%",
+                  margin: "0 auto",
+                  // display: "flex",
+                  // justifyContent: "space-between",
+                }}
+              >
                 <span style={{ fontWeight: "bold" }}>City: </span>
                 <span style={{ fontStyle: "italic" }}>{formData.city}</span>
               </Typography>
-              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+              <Typography
+                sx={{
+                  width: "80%",
+                  margin: "0 auto",
+                  display: "flex",
+                  // justifyContent: "space-between",
+                }}
+              >
                 <span style={{ fontWeight: "bold" }}>Province: </span>
                 <span style={{ fontStyle: "italic" }}>{formData.province}</span>
               </Typography>
-              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+              <Typography
+                sx={{
+                  width: "80%",
+                  margin: "0 auto",
+                  display: "flex",
+                  // justifyContent: "space-between",
+                }}
+              >
                 <span style={{ fontWeight: "bold" }}>Postal Code: </span>
                 <span style={{ fontStyle: "italic" }}>
                   {formData.postalCode}
                 </span>
               </Typography>
-              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+              <Typography
+                sx={{
+                  width: "80%",
+                  margin: "0 auto",
+                  display: "flex",
+                  // justifyContent: "space-between",
+                }}
+              >
                 <span style={{ fontWeight: "bold" }}>Country: </span>
                 <span style={{ fontStyle: "italic" }}>{formData.country}</span>
               </Typography>
-              <Typography sx={{ width: "80%", margin: "0 auto" }}>
+              <Typography
+                sx={{
+                  width: "80%",
+                  margin: "0 auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  wordWrap: "break-word",
+                  overflowWrap: "anywhere",
+                  whiteSpace: "pre-wrap",
+                }}
+              >
                 <span style={{ fontWeight: "bold" }}>
                   Delivery Instruction:
                 </span>
@@ -919,8 +1036,9 @@ function Cart() {
               sx={{
                 width: "80%",
                 margin: "0 auto",
-                paddingTop: "20px",
+                // paddingTop: "20px",
                 fontStyle: "italic",
+                // border: "solid red 2px",
               }}
             >
               <FormControlLabel
@@ -933,13 +1051,6 @@ function Cart() {
                 label="I confirm that my order details are correct and cannot be modified after submission."
               />
             </Box>
-            <Box
-              sx={{
-                // border: "solid red 2px",
-                width: "80%",
-                margin: "0 auto",
-              }}
-            ></Box>
           </Box>
         )}
       </Box>
