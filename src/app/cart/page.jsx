@@ -33,7 +33,7 @@ function Cart() {
   const [cartProducts, setCartProducts] = useState([]);
   const [openDrawer, setOpenDrawer] = useState(true);
   const [selectedPaymentStyle, setSelectedPaymentStyle] = useState("");
-  const [currentPageForm, setCurrentPageForm] = useState("check-form");
+  const [currentPageForm, setCurrentPageForm] = useState("address-form");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [errorMessageSnippet, setErrorMessageSnippet] = useState("");
   const [errorPopover, setErrorPopover] = useState(false);
@@ -237,8 +237,6 @@ function Cart() {
       backgroundColor: "#e5e5e5",
       display: "flex",
       flexDirection: "column",
-      gap: isXs ? "30px" : "",
-      // justifyContent: isXs ? "space-between" : "space-around",
     },
     close_box: {
       // border: "solid white 2px",
@@ -263,6 +261,7 @@ function Cart() {
         : isXl
         ? "100px"
         : "30px",
+      marginTop: isXs || isSm ? "30px" : "",
     },
     single_tab: {
       display: "flex",
@@ -287,8 +286,7 @@ function Cart() {
       // border: "solid green 2px",
       display: "flex",
       flexDirection: isXs || isSm ? "column" : "row",
-      // justifyContent: "space-between",
-      gap: isXs ? "40px" : "",
+      gap: isXs || isSm ? "40px" : "",
       width: isXs
         ? "80%"
         : isSm
@@ -298,9 +296,9 @@ function Cart() {
         : isXl
         ? "45%"
         : "100%",
-      height: isXs ? "400px" : isSm ? "55%" : isMd ? "30%" : "70%",
+      height: isXs ? "450px" : isSm ? "600px" : isMd ? "30%" : "70%",
       margin: "0 auto",
-      // minHeight: isXs ? "450px" : "200px",
+      marginTop: isXs || isSm ? "40px" : "",
     },
     single_payment: {
       border: "solid grey 1px",
@@ -336,7 +334,7 @@ function Cart() {
       width: isXs
         ? "80%"
         : isSm
-        ? "50%"
+        ? "60%"
         : isMd
         ? "55%"
         : isLg
@@ -347,7 +345,7 @@ function Cart() {
       margin: "0 auto",
       display: "flex",
       justifyContent: "space-between",
-      marginTop: "10px",
+      marginTop: isXs || isSm ? "30px" : "",
     },
     parent_address: {
       // border: "solid blue 2px",
@@ -360,13 +358,13 @@ function Cart() {
         : isXl
         ? "45%"
         : "100%",
-      height: isXs ? "400px" : isSm ? "55%" : isMd ? "30%" : "70%",
+      height: isXs ? "450px" : isSm ? "600px" : isMd ? "30%" : "70%",
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "space-between",
       margin: "0 auto",
       alignContent: "space-between",
-      // minHeight: isXs ? "300px" : "200px",
+      marginTop: isXs || isSm ? "40px" : "",
     },
     single_input: {
       // border: "solid red 2px",
@@ -592,7 +590,7 @@ function Cart() {
           <Typography>Confirm Order</Typography>
         </Box>
       </Box>
-      {currentPageForm === "payment-form" && (
+      {/* {currentPageForm === "payment-form" && (
         <Typography
           sx={{
             width: isXs
@@ -613,13 +611,20 @@ function Cart() {
         >
           Choose payment method
         </Typography>
-      )}
-      {currentPageForm === "address-form" && (
-        <Typography sx={{ width: "80%", margin: "0 auto", fontWeight: "bold" }}>
+      )} */}
+      {/* {currentPageForm === "address-form" && (
+        <Typography
+          sx={{
+            width: "80%",
+            margin: "0 auto",
+            fontWeight: "bold",
+            marginTop: isXs ? "30px" : "",
+          }}
+        >
           Fill delivery address
         </Typography>
-      )}
-      {currentPageForm === "check-form" && (
+      )} */}
+      {/* {currentPageForm === "check-form" && (
         <Typography
           sx={{
             width: "80%",
@@ -630,13 +635,13 @@ function Cart() {
         >
           .
         </Typography>
-      )}
+      )} */}
       <Box
         sx={{
           // minHeight: "50%",
           // border: "solid red 2px",
           display: "flex",
-          flexDirection: "column",
+
           // gap: "20px",
         }}
       >
@@ -869,7 +874,8 @@ function Cart() {
               label="Delivery Instruction (optional)"
               variant="outlined"
               multiline
-              maxRows={4}
+              minRows={2}
+              maxRows={3}
               slotProps={{
                 input: {
                   startAdornment: (
@@ -877,10 +883,9 @@ function Cart() {
                   ),
                 },
               }}
-              inputProps={{ maxLength: 200 }}
+              inputProps={{ maxLength: 120 }}
               sx={{
                 ...styles_drawer.single_input,
-                // height: isXs ? "10%" : isSm ? "55%" : isMd ? "30%" : "70%",
               }}
               value={formData.deliveryInstruction}
               onChange={handleChange}
@@ -890,16 +895,22 @@ function Cart() {
         {currentPageForm === "check-form" && (
           <Box
             sx={{
-              width: "100%",
+              width: isXs ? "100%" : isSm ? "80%" : "100%",
               // border: "solid green 2px",
-              // margin: "0 auto",
-              height: isXs ? "400px" : isSm ? "55%" : isMd ? "30%" : "70%",
+              margin: "0 auto",
+              height: isXs ? "450px" : isSm ? "600px" : isMd ? "30%" : "70%",
               display: "flex",
               flexDirection: "column",
-              justifyContent: "space-between",
+              marginTop: isXs || isSm ? "40px" : "",
             }}
           >
-            <Box sx={{}}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: isXs ? "" : isSm ? "7px" : "",
+              }}
+            >
               <Typography
                 sx={{
                   width: "80%",
@@ -1039,6 +1050,7 @@ function Cart() {
                 // paddingTop: "20px",
                 fontStyle: "italic",
                 // border: "solid red 2px",
+                marginTop: isXs ? "30px" : isSm ? "50px" : "",
               }}
             >
               <FormControlLabel
@@ -1068,6 +1080,7 @@ function Cart() {
               backgroundColor: "#fca311",
               color: "#14213d",
               width: "140px",
+              height: "55%",
             }}
             onClick={handleBackButton}
           >
@@ -1087,6 +1100,7 @@ function Cart() {
               backgroundColor: "#fca311",
               color: "#14213d",
               width: "100%",
+              height: "55%",
             }}
             onClick={handleNextButton}
           >
