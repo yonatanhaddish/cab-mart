@@ -31,9 +31,9 @@ import InputAdornment from "@mui/material/InputAdornment";
 function Cart() {
   const { getCart, removeFromCart } = useCart();
   const [cartProducts, setCartProducts] = useState([]);
-  const [openDrawer, setOpenDrawer] = useState(true);
+  const [openDrawer, setOpenDrawer] = useState(false);
   const [selectedPaymentStyle, setSelectedPaymentStyle] = useState("");
-  const [currentPageForm, setCurrentPageForm] = useState("address-form");
+  const [currentPageForm, setCurrentPageForm] = useState("payment-form");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [errorMessageSnippet, setErrorMessageSnippet] = useState("");
   const [errorPopover, setErrorPopover] = useState(false);
@@ -245,23 +245,43 @@ function Cart() {
       justifyContent: "end",
       alignItems: "center",
       backgroundColor: "#14213d",
+      cursor: "pointer",
     },
     parent_tabs: {
       // border: "solid green 2px",
       display: "flex",
       justifyContent: "center",
       margin: "0 auto",
-      width: isXs ? "90%" : isSm ? "80%" : "80%",
+      width: isXs
+        ? "90%"
+        : isSm
+        ? "80%"
+        : isMd
+        ? "70%"
+        : isLg
+        ? "60%"
+        : isXl
+        ? "50%"
+        : "80%",
       gap: isXs
         ? "20px"
         : isMd
         ? "50px"
         : isLg
-        ? "80px"
-        : isXl
         ? "100px"
+        : isXl
+        ? "150px"
         : "30px",
-      marginTop: isXs || isSm ? "30px" : "",
+      marginTop:
+        isXs || isSm
+          ? "30px"
+          : isMd
+          ? "50px"
+          : isLg
+          ? "30px"
+          : isXl
+          ? "50px"
+          : "",
     },
     single_tab: {
       display: "flex",
@@ -285,20 +305,33 @@ function Cart() {
     parent_payments: {
       // border: "solid green 2px",
       display: "flex",
-      flexDirection: isXs || isSm ? "column" : "row",
-      gap: isXs || isSm ? "40px" : "",
+      flexDirection: isXs || isSm || isLg || isXl ? "column" : "row",
+      gap: isXs || isSm || isMd || isLg || isXl ? "40px" : "",
       width: isXs
         ? "80%"
         : isSm
         ? "60%"
-        : isMd || isLg
-        ? "60%"
+        : isMd
+        ? "50%"
+        : isLg
+        ? "40%"
         : isXl
-        ? "45%"
+        ? "25%"
         : "100%",
-      height: isXs ? "450px" : isSm ? "600px" : isMd ? "30%" : "70%",
+      height: isXs
+        ? "450px"
+        : isSm
+        ? "600px"
+        : isMd
+        ? "600px"
+        : isLg
+        ? "300px"
+        : isXl
+        ? "400px"
+        : "70%",
       margin: "0 auto",
-      marginTop: isXs || isSm ? "40px" : "",
+      marginTop:
+        isXs || isSm ? "40px" : isMd ? "50px" : isLg || isXl ? "40px" : "",
     },
     single_payment: {
       border: "solid grey 1px",
@@ -310,9 +343,9 @@ function Cart() {
         : isMd
         ? "45%"
         : isLg
-        ? "45%"
+        ? "80%"
         : isXl
-        ? "40%"
+        ? "80%"
         : "100%",
       display: "flex",
       flexDirection: "column",
@@ -336,16 +369,16 @@ function Cart() {
         : isSm
         ? "60%"
         : isMd
-        ? "55%"
+        ? "50%"
         : isLg
-        ? "55%"
-        : isXl
         ? "40%"
+        : isXl
+        ? "25%"
         : "100%",
       margin: "0 auto",
       display: "flex",
       justifyContent: "space-between",
-      marginTop: isXs || isSm ? "30px" : "",
+      marginTop: isXs || isSm || isMd ? "50px" : isLg || isXl ? "60px" : "",
     },
     parent_address: {
       // border: "solid blue 2px",
@@ -353,18 +386,31 @@ function Cart() {
         ? "80%"
         : isSm
         ? "60%"
-        : isMd || isLg
-        ? "60%"
+        : isMd
+        ? "50%"
+        : isLg
+        ? "40%"
         : isXl
-        ? "45%"
+        ? "25%"
         : "100%",
-      height: isXs ? "450px" : isSm ? "600px" : isMd ? "30%" : "70%",
+      height: isXs
+        ? "450px"
+        : isSm
+        ? "600px"
+        : isMd
+        ? "600px"
+        : isLg
+        ? "300px"
+        : isXl
+        ? "400px"
+        : "",
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "space-between",
       margin: "0 auto",
       alignContent: "space-between",
-      marginTop: isXs || isSm ? "40px" : "",
+      marginTop:
+        isXs || isSm ? "40px" : isMd ? "50px" : isLg || isXl ? "40px" : "",
     },
     single_input: {
       // border: "solid red 2px",
@@ -431,6 +477,7 @@ function Cart() {
     }
     if (currentPageForm !== "check-form") {
       setButtonText("Next");
+      setConfirmedCheckBox(false);
     }
   });
 
@@ -480,11 +527,25 @@ function Cart() {
     if (currentPageForm === "address-form") {
       setCurrentPageForm("payment-form");
     }
-    if (currentPageForm === "`payment-form`") {
+    if (currentPageForm === "payment-form") {
       setOpenDrawer(false);
       setSelectedPaymentStyle("");
       setPaymentMethod("");
+      setFormData({
+        fullName: "",
+        email: "",
+        phone: "",
+        address: "",
+        apt: "",
+        city: "",
+        province: "",
+        postalCode: "",
+        country: "",
+        deliveryInstruction: "",
+      });
     }
+    setErrorPopover(false);
+    setErrorMessageSnippet("");
   };
 
   const handleCashPaymentButton = () => {
@@ -543,9 +604,30 @@ function Cart() {
     setConfirmedCheckBox(e.target.checked);
   };
 
+  const handleCloseIcon = (e) => {
+    setOpenDrawer(false);
+    setPaymentMethod("");
+    setCurrentPageForm("payment-form");
+    setSelectedPaymentStyle("");
+    setFormData({
+      fullName: "",
+      email: "",
+      phone: "",
+      address: "",
+      apt: "",
+      city: "",
+      province: "",
+      postalCode: "",
+      country: "",
+      deliveryInstruction: "",
+    });
+    setErrorMessageSnippet("");
+    setErrorPopover(false);
+  };
+
   const DrawerList = (
     <Box sx={styles_drawer.parent_drawer} role="presentation">
-      <Box onClick={toggleFormDrawer(false)} sx={styles_drawer.close_box}>
+      <Box onClick={handleCloseIcon} sx={styles_drawer.close_box}>
         <CloseIcon sx={{ fontSize: 30, marginRight: 3, color: "#e5e5e5" }} />
       </Box>
       <Box sx={styles_drawer.parent_tabs}>
@@ -590,52 +672,6 @@ function Cart() {
           <Typography>Confirm Order</Typography>
         </Box>
       </Box>
-      {/* {currentPageForm === "payment-form" && (
-        <Typography
-          sx={{
-            width: isXs
-              ? "80%"
-              : isSm
-              ? "60%"
-              : isMd
-              ? "60%"
-              : isLg
-              ? "60%"
-              : isXl
-              ? "45%"
-              : "100%",
-            margin: "0 auto",
-            fontWeight: "bold",
-            // border: "solid green 2px",
-          }}
-        >
-          Choose payment method
-        </Typography>
-      )} */}
-      {/* {currentPageForm === "address-form" && (
-        <Typography
-          sx={{
-            width: "80%",
-            margin: "0 auto",
-            fontWeight: "bold",
-            marginTop: isXs ? "30px" : "",
-          }}
-        >
-          Fill delivery address
-        </Typography>
-      )} */}
-      {/* {currentPageForm === "check-form" && (
-        <Typography
-          sx={{
-            width: "80%",
-            margin: "0 auto",
-            fontWeight: "bold",
-            visibility: "hidden",
-          }}
-        >
-          .
-        </Typography>
-      )} */}
       <Box
         sx={{
           // minHeight: "50%",
@@ -714,7 +750,10 @@ function Cart() {
                   ),
                 },
               }}
-              sx={styles_drawer.single_input}
+              sx={{
+                ...styles_drawer.single_input,
+                width: isLg || isXl ? "55%" : "100%",
+              }}
               value={formData.email}
               onChange={handleChange}
             />
@@ -738,7 +777,10 @@ function Cart() {
                 pattern: "[0-9]*", // digits only
                 maxLength: 10, // restrict to 10 digits
               }}
-              sx={styles_drawer.single_input}
+              sx={{
+                ...styles_drawer.single_input,
+                width: isLg || isXl ? "40%" : "100%",
+              }}
               value={formData.phone}
               onChange={handlePhoneChange}
             />
@@ -758,7 +800,7 @@ function Cart() {
               }}
               sx={{
                 ...styles_drawer.single_input,
-                width: isXs ? "70%" : "100%",
+                width: isXs ? "70%" : isLg ? "50%" : isXl ? "70%" : "100%",
               }}
               value={formData.address}
               onChange={handleChange}
@@ -779,7 +821,7 @@ function Cart() {
               }}
               sx={{
                 ...styles_drawer.single_input,
-                width: isXs ? "25%" : "100%",
+                width: isXs ? "25%" : isLg ? "20%" : isXl ? "25%" : "100%",
               }}
               value={formData.apt}
               onChange={handleChange}
@@ -800,7 +842,7 @@ function Cart() {
               }}
               sx={{
                 ...styles_drawer.single_input,
-                width: isXs ? "55%" : "100%",
+                width: isXs ? "55%" : isLg ? "25%" : isXl ? "45%" : "100%",
               }}
               value={formData.city}
               onChange={handleChange}
@@ -821,7 +863,7 @@ function Cart() {
               }}
               sx={{
                 ...styles_drawer.single_input,
-                width: isXs ? "40%" : "100%",
+                width: isXs ? "40%" : isLg ? "30%" : isXl ? "45%" : "100%",
               }}
               value={formData.province}
               onChange={handleChange}
@@ -842,7 +884,7 @@ function Cart() {
               }}
               sx={{
                 ...styles_drawer.single_input,
-                width: isXs ? "45%" : "100%",
+                width: isXs ? "45%" : isLg ? "30%" : isXl ? "45%" : "100%",
               }}
               value={formData.postalCode}
               onChange={handleChange}
@@ -863,7 +905,7 @@ function Cart() {
               }}
               sx={{
                 ...styles_drawer.single_input,
-                width: isXs ? "45%" : "100%",
+                width: isXs ? "45%" : isLg ? "30%" : isXl ? "45%" : "100%",
               }}
               value={formData.country}
               onChange={handleChange}
@@ -895,13 +937,40 @@ function Cart() {
         {currentPageForm === "check-form" && (
           <Box
             sx={{
-              width: isXs ? "100%" : isSm ? "80%" : "100%",
+              width: isXs
+                ? "80%"
+                : isSm
+                ? "60%"
+                : isMd
+                ? "50%"
+                : isLg
+                ? "55%"
+                : isXl
+                ? "25%"
+                : "100%",
               // border: "solid green 2px",
               margin: "0 auto",
-              height: isXs ? "450px" : isSm ? "600px" : isMd ? "30%" : "70%",
+              height: isXs
+                ? "450px"
+                : isSm
+                ? "600px"
+                : isMd
+                ? "600px"
+                : isLg
+                ? "300px"
+                : isXl
+                ? "400px"
+                : "70%",
               display: "flex",
               flexDirection: "column",
-              marginTop: isXs || isSm ? "40px" : "",
+              marginTop:
+                isXs || isSm
+                  ? "40px"
+                  : isMd
+                  ? "50px"
+                  : isLg || isXl
+                  ? "40px"
+                  : "",
             }}
           >
             <Box
@@ -909,12 +978,13 @@ function Cart() {
                 display: "flex",
                 flexDirection: "column",
                 gap: isXs ? "" : isSm ? "7px" : "",
+                // border: "solid red 2px",
               }}
             >
               <Typography
                 sx={{
                   width: "80%",
-                  margin: "0 auto",
+                  margin: isMd || isXl ? "" : "0 auto",
                   // border: "solid red 2px",
                   display: "flex",
                   // justifyContent: "space-between",
@@ -926,9 +996,10 @@ function Cart() {
               <Typography
                 sx={{
                   width: "80%",
-                  margin: "0 auto",
+                  margin: isMd || isXl ? "" : "0 auto",
                   display: "flex",
                   // justifyContent: "space-between",
+                  // border: "solid red 2px",
                 }}
               >
                 <span style={{ fontWeight: "bold" }}>Name: </span>
@@ -937,7 +1008,7 @@ function Cart() {
               <Typography
                 sx={{
                   width: "80%",
-                  margin: "0 auto",
+                  margin: isMd || isXl ? "" : "0 auto",
                   display: "flex",
                   // justifyContent: "space-between",
                 }}
@@ -948,7 +1019,7 @@ function Cart() {
               <Typography
                 sx={{
                   width: "80%",
-                  margin: "0 auto",
+                  margin: isMd || isXl ? "" : "0 auto",
                   display: "flex",
                   // justifyContent: "space-between",
                 }}
@@ -959,7 +1030,7 @@ function Cart() {
               <Typography
                 sx={{
                   width: "80%",
-                  margin: "0 auto",
+                  margin: isMd || isXl ? "" : "0 auto",
                   display: "flex",
                   // justifyContent: "space-between",
                 }}
@@ -970,7 +1041,7 @@ function Cart() {
               <Typography
                 sx={{
                   width: "80%",
-                  margin: "0 auto",
+                  margin: isMd || isXl ? "" : "0 auto",
                   display: "flex",
                   // justifyContent: "space-between",
                 }}
@@ -981,7 +1052,7 @@ function Cart() {
               <Typography
                 sx={{
                   width: "80%",
-                  margin: "0 auto",
+                  margin: isMd || isXl ? "" : "0 auto",
                   // display: "flex",
                   // justifyContent: "space-between",
                 }}
@@ -992,7 +1063,7 @@ function Cart() {
               <Typography
                 sx={{
                   width: "80%",
-                  margin: "0 auto",
+                  margin: isMd || isXl ? "" : "0 auto",
                   display: "flex",
                   // justifyContent: "space-between",
                 }}
@@ -1003,7 +1074,7 @@ function Cart() {
               <Typography
                 sx={{
                   width: "80%",
-                  margin: "0 auto",
+                  margin: isMd || isXl ? "" : "0 auto",
                   display: "flex",
                   // justifyContent: "space-between",
                 }}
@@ -1016,7 +1087,7 @@ function Cart() {
               <Typography
                 sx={{
                   width: "80%",
-                  margin: "0 auto",
+                  margin: isMd || isXl ? "" : "0 auto",
                   display: "flex",
                   // justifyContent: "space-between",
                 }}
@@ -1027,12 +1098,13 @@ function Cart() {
               <Typography
                 sx={{
                   width: "80%",
-                  margin: "0 auto",
+                  margin: isMd || isXl ? "" : "0 auto",
                   display: "flex",
                   flexDirection: "column",
                   wordWrap: "break-word",
                   overflowWrap: "anywhere",
                   whiteSpace: "pre-wrap",
+                  // border: "solid green 2px",
                 }}
               >
                 <span style={{ fontWeight: "bold" }}>
@@ -1045,12 +1117,18 @@ function Cart() {
             </Box>
             <Box
               sx={{
-                width: "80%",
-                margin: "0 auto",
+                width: isLg ? "100%" : "80%",
+                margin: isMd || isLg || isXl ? "" : "0 auto",
                 // paddingTop: "20px",
                 fontStyle: "italic",
                 // border: "solid red 2px",
-                marginTop: isXs ? "30px" : isSm ? "50px" : "",
+                marginTop: isXs
+                  ? "30px"
+                  : isSm
+                  ? "50px"
+                  : isMd || isXl
+                  ? "50px"
+                  : "",
               }}
             >
               <FormControlLabel
