@@ -2,12 +2,14 @@
 
 import React, { useEffect, useState, use } from "react";
 import { useTheme } from "@mui/material/styles";
+import Link from "next/link";
 import { Box, Typography, Drawer, useMediaQuery } from "@mui/material";
 
 import useCart from "../../../utils/useCart";
 import AddToCartButtons from "../[id]/AddToCartButton";
 import CartNotification from "../../../components/CartNotification/CartNotification";
 
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CircularProgress from "@mui/material/CircularProgress";
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
 
@@ -303,9 +305,9 @@ export default function ProductPage({ params }) {
     setOpenModal(false);
   }
 
-  // if (!product) {
-  //   return <Typography>Loading...</Typography>;
-  // }
+  if (!product) {
+    return <Typography>Loading...</Typography>;
+  }
 
   if (loading) {
     return (
@@ -329,7 +331,24 @@ export default function ProductPage({ params }) {
 
   return (
     <Box>
-      <Box sx={styles.cart_navbar}></Box>
+      <Box sx={styles.cart_navbar}>
+        <Link
+          href={`/`}
+          style={{
+            color: "#e5e5e5",
+            // border: "solid 1px white",
+            textDecoration: "none",
+            display: "flex",
+            marginLeft: "15px",
+            height: "100%",
+            width: "fit-content",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
+        >
+          <ArrowBackIcon style={{}} /> Home
+        </Link>
+      </Box>
       <Box sx={styles.parent_single_product}>
         <Box style={styles.sub_parent_single_product}>
           <Drawer
@@ -398,9 +417,11 @@ export default function ProductPage({ params }) {
             </Box>
           </Box>
           <Box sx={styles.product_info}>
-            <Typography sx={styles.typo_category}>
-              {product.category}
-            </Typography>
+            {product?.category && (
+              <Typography sx={styles.typo_category}>
+                {product.category}
+              </Typography>
+            )}
             <Typography sx={styles.typo_name}>{product.name}</Typography>
             <Typography sx={styles.typo_retail_price}>
               Retail Price: {product.retail_price} CAD

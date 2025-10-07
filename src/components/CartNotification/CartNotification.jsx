@@ -34,7 +34,7 @@ const styles = {
   image_box: {
     backgroundSize: "cover",
     backgroundPosition: "center",
-    backgroundImage: "url('/images/furniture.jpeg')",
+    // backgroundImage: "url('/images/furniture.jpeg')",
     width: "30%",
     height: "80%",
     alignSelf: "center",
@@ -71,6 +71,9 @@ function CartNotification({ product, passDataToProductPage }) {
   function handlePassDataToProductPage() {
     passDataToProductPage();
   }
+
+  console.log("444", product);
+
   return (
     <Box sx={styles.cart_notification_cart}>
       <Box sx={styles.cart_title_close}>
@@ -83,7 +86,12 @@ function CartNotification({ product, passDataToProductPage }) {
         </Button>
       </Box>
       <Box sx={styles.cart_img_name}>
-        <Box sx={styles.image_box}></Box>
+        <Box
+          sx={{
+            ...styles.image_box,
+            backgroundImage: `url(${product.images[0]})`,
+          }}
+        ></Box>
         <Typography sx={styles.cart_typo_name}>{product.name}</Typography>
       </Box>
     </Box>

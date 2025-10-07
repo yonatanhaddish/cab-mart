@@ -16,6 +16,7 @@ import CoffeeIcon from "@mui/icons-material/Coffee";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 import PetsIcon from "@mui/icons-material/Pets";
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 
 const categoryMap = {
   0: "",
@@ -179,6 +180,16 @@ function Products({
       color: "red",
       fontWeight: "bold",
     },
+    carts_empty: {
+      flex: 1,
+      overflowY: "auto",
+      display: "flex",
+      flexDirection: "column",
+      gap: "15px",
+      paddingTop: "20px",
+      justifyContent: "space-evenly",
+      height: "15vh",
+    },
   };
 
   return (
@@ -318,7 +329,18 @@ function Products({
             </Link>
           ))
         ) : (
-          <Typography>No products available</Typography>
+          <Box sx={styles.carts_empty}>
+            <Typography
+              sx={{
+                color: "#fca311",
+                fontSize: "3rem",
+                textAlign: "center",
+                opacity: 0.5,
+              }}
+            >
+              Out of Stock <RemoveShoppingCartIcon fontSize="" />
+            </Typography>
+          </Box>
         )}
       </Box>
 
