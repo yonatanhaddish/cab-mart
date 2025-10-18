@@ -346,7 +346,7 @@ export default function ProductPage({ params }) {
             cursor: "pointer",
           }}
         >
-          <ArrowBackIcon style={{}} /> Home
+          <ArrowBackIcon style={{}} /> Continue Shopping
         </Link>
       </Box>
       <Box sx={styles.parent_single_product}>

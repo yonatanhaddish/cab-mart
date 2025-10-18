@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
+import { useRouter } from "next/navigation";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -9,6 +10,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CircularProgress from "@mui/material/CircularProgress";
+import DoneIcon from "@mui/icons-material/Done";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import Looks3Icon from "@mui/icons-material/Looks3";
@@ -37,6 +40,8 @@ function Cart() {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [errorMessageSnippet, setErrorMessageSnippet] = useState("");
   const [errorPopover, setErrorPopover] = useState(false);
+  const [orderClicked, setOrderClicked] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -51,6 +56,8 @@ function Cart() {
   });
   const [confirmedCheckBox, setConfirmedCheckBox] = useState(false);
   const [buttonText, setButtonText] = useState("Next");
+
+  const router = useRouter();
 
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
@@ -481,7 +488,7 @@ function Cart() {
     }
   });
 
-  const handleNextButton = () => {
+  const handleNextButton = async () => {
     if (currentPageForm === "payment-form" && paymentMethod !== "") {
       setCurrentPageForm("address-form");
     }
@@ -517,6 +524,49 @@ function Cart() {
     if (currentPageForm === "check-form" && !confirmedCheckBox) {
       setErrorMessageSnippet("Please confirm the checkbox above");
       setErrorPopover(true);
+    }
+    if (
+      currentPageForm === "check-form" &&
+      confirmedCheckBox &&
+      buttonText == "Place Order"
+    ) {
+      setOrderClicked(true);
+      setOrderSuccess(false);
+
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          paymentMethod,
+          phone_number: formData.phone,
+          email: formData.email,
+          apartment: formData.apt,
+          city: formData.city,
+          province: formData.province,
+          postal_code: formData.postalCode,
+          country: formData.country,
+          devivery_instruction: formData.deliveryInstruction,
+          quantity: 1,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data) {
+        setTimeout(() => {
+          setOrderSuccess(true);
+          setOrderClicked(false);
+        }, 1000);
+
+        setTimeout(() => {
+          router.push("/");
+        }, 2000);
+      }
+
+      // console.log("Created order:", data);
+
+      // console.log("formData:", formData, paymentMethod);
     }
   };
 
@@ -1182,7 +1232,18 @@ function Cart() {
             }}
             onClick={handleNextButton}
           >
-            {buttonText} {buttonText === "Payment" && <ArrowRightAltIcon />}
+            {orderClicked ? (
+              <CircularProgress size={24} sx={{ color: "#14213d" }} />
+            ) : orderSuccess ? (
+              <DoneIcon sx={{ color: "green" }} />
+            ) : (
+              <>
+                {buttonText}
+                {buttonText === "Payment" && (
+                  <ArrowRightAltIcon sx={{ ml: 1 }} />
+                )}
+              </>
+            )}
           </Button>
           {errorPopover && (
             <Box sx={{ color: "red" }}>{errorMessageSnippet}</Box>
