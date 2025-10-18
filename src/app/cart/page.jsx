@@ -530,6 +530,8 @@ function Cart() {
       confirmedCheckBox &&
       buttonText == "Place Order"
     ) {
+      console.log("444", cartProducts);
+
       setOrderClicked(true);
       setOrderSuccess(false);
 
@@ -547,7 +549,7 @@ function Cart() {
           postal_code: formData.postalCode,
           country: formData.country,
           devivery_instruction: formData.deliveryInstruction,
-          quantity: 1,
+          items: cartProducts,
         }),
       });
 
@@ -564,9 +566,9 @@ function Cart() {
         }, 2000);
       }
 
-      // console.log("Created order:", data);
+      console.log("Created order:", data);
 
-      // console.log("formData:", formData, paymentMethod);
+      console.log("formData:", formData, paymentMethod);
     }
   };
 

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
-    name: {
+    fullName: {
       type: String,
     },
     payment_method: {
@@ -35,9 +35,14 @@ const orderSchema = new mongoose.Schema(
     devivery_instruction: {
       type: String,
     },
-    quantity: {
-      type: Number,
-    },
+    items: [
+      {
+        id: { type: String },
+        name: { type: String },
+        price: { type: Number },
+        // quantity: { type: String },
+      },
+    ],
   },
   {
     timestamps: true,

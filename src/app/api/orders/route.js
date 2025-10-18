@@ -10,7 +10,7 @@ export async function POST(request) {
   try {
     const body = await request.json();
     const {
-      name,
+      fullName,
       payment_method,
       phone_number,
       email,
@@ -20,11 +20,11 @@ export async function POST(request) {
       postal_code,
       country,
       devivery_instruction,
-      quantity,
+      items,
     } = body;
 
     const newOrder = await Order.create({
-      name,
+      fullName,
       payment_method,
       phone_number,
       email,
@@ -34,7 +34,7 @@ export async function POST(request) {
       postal_code,
       country,
       devivery_instruction,
-      quantity,
+      items,
     });
 
     return NextResponse.json(newOrder, { status: 201 });
