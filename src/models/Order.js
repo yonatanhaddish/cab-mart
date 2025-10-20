@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { v4 as uuidv4 } from "uuid";
 
 const orderSchema = new mongoose.Schema(
   {
@@ -37,10 +38,11 @@ const orderSchema = new mongoose.Schema(
     },
     items: [
       {
-        id: { type: String },
+        id: { type: String, default: uuidv4 },
         name: { type: String },
+        quantity: { type: Number },
         price: { type: Number },
-        // quantity: { type: String },
+        total_price: { type: Number },
       },
     ],
   },

@@ -25,6 +25,7 @@ export default function ImageUplaoder() {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [condition, setCondition] = useState("");
+  const [stock, setStock] = useState(1);
 
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
@@ -193,6 +194,22 @@ export default function ImageUplaoder() {
       margin: "0 auto",
       // border: "solid red 2px",
     },
+    box_quantity: {
+      // border: "solid #14213d 1px",
+      width: isXs
+        ? "85%"
+        : isSm
+        ? "80%"
+        : isMd
+        ? "80%"
+        : isLg
+        ? "60%"
+        : isXl
+        ? "60%"
+        : "100%",
+      margin: "0 auto",
+      backgroundColor: "#e5e5e5",
+    },
     box_button: {
       // border: "solid #fca311 2px",
       boxShadow: "0 0 10px #fca311",
@@ -230,6 +247,7 @@ export default function ImageUplaoder() {
         category,
         condition,
         images,
+        stock,
       }),
     });
 
@@ -336,6 +354,20 @@ export default function ImageUplaoder() {
               <MenuItem value={"Used"}>Used</MenuItem>
             </Select>
           </FormControl>
+        </Box>
+        <Box
+          sx={styles.box_quantity}
+          noValidate
+          autoComplete="off"
+          onChange={(e) => setStock(e.target.value)}
+        >
+          <TextField
+            id="outlined-basic"
+            label="Quantity"
+            variant="outlined"
+            fullWidth
+            size="small"
+          />
         </Box>
         <Box sx={styles.box_stock_images}>
           <CldUploadWidget

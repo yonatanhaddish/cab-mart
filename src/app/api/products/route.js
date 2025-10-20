@@ -30,6 +30,7 @@ export async function POST(request) {
       category,
       condition,
       images,
+      stock,
     } = body;
 
     console.log("44", body);
@@ -40,7 +41,8 @@ export async function POST(request) {
       !price ||
       !retail_price ||
       !category ||
-      !condition
+      !condition ||
+      !stock
     ) {
       return NextResponse.json(
         { message: "All fields are required" },
@@ -55,7 +57,8 @@ export async function POST(request) {
       price,
       category,
       condition,
-      images, // array of Cloudinary URLs
+      images,
+      stock,
     });
 
     return NextResponse.json(newProduct, { status: 201 });
@@ -64,6 +67,54 @@ export async function POST(request) {
     return NextResponse.json(
       { message: "Failed to create product", error: error.message },
       { status: 500 }
+    );
+  }
+}
+
+export async function PUT(request) {
+  await dbConnect();
+  console.log("8888888888888888888888", request);
+  try {
+    const body = await request.json();
+    const { product_id, stock } = body;
+
+    console.log("66666666666666666666", body);
+
+    if (!product_id || stock === undefined) {
+      return NextResponse.json(
+        {
+          message: "Product Id and new stock value are required",
+        },
+        { status: 400 }
+      );
+    }
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      product_id,
+      { stock },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return NextResponse.json(
+        {
+          message: "Product not found",
+        },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(updatedProduct, { status: 200 });
+  } catch (error) {
+    console.error("Error updating stock:", error);
+    return NextResponse.json(
+      {
+        message: "Failed to update product stock:",
+        error: error.message,
+      },
+      {
+        status: 500,
+      }
     );
   }
 }

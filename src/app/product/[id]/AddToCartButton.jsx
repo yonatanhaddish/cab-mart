@@ -129,6 +129,7 @@ export default function AddToCartButtons({ product, passDataToProductPage }) {
   function handlePassDataToProductPage() {
     passDataToProductPage();
   }
+  console.log("product", product);
 
   return (
     <Box>

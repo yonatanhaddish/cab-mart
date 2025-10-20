@@ -155,17 +155,17 @@ function Cart() {
         : isXl
         ? "28%"
         : "",
-      height: isXs
-        ? "78px"
-        : isSm
-        ? "85px"
-        : isMd
-        ? "90px"
-        : isLg
-        ? "74px"
-        : isXl
-        ? "90px"
-        : "",
+      // height: isXs
+      //   ? "78px"
+      //   : isSm
+      //   ? "85px"
+      //   : isMd
+      //   ? "90px"
+      //   : isLg
+      //   ? "74px"
+      //   : isXl
+      //   ? "90px"
+      //   : "",
       margin: "0 auto",
     },
     icon_delete: {
@@ -231,11 +231,23 @@ function Cart() {
       width: "90%",
     },
     typo_name: {
-      fontSize: "1.2rem",
+      fontSize: "1.0rem",
       fontWeight: "bold",
     },
     typo_category: {},
-    typo_price: { fontSize: "1.1rem" },
+    typo_price: {
+      fontSize: "1.1rem",
+      backgroundColor: "#54df9eff",
+      justifySelf: "center",
+      borderRadius: "60px",
+      width: "50%",
+    },
+    typo_qty: {
+      backgroundColor: "#fca311",
+      justifySelf: "center",
+      borderRadius: "60px",
+      width: "30%",
+    },
   };
   const styles_drawer = {
     parent_drawer: {
@@ -456,8 +468,10 @@ function Cart() {
   }, []);
 
   const sub_total = cartProducts.reduce((acc, item) => {
-    return acc + Number(item.price);
+    return acc + Number(item.price * item.quantity);
   }, 0);
+
+  console.log("sub_total", sub_total);
 
   const delivery_price = sub_total > 100 || sub_total <= 0 ? 0 : 20;
 
@@ -465,9 +479,31 @@ function Cart() {
 
   const handleDeleteItem = (id) => {
     removeFromCart(id);
-    setCartProducts((prev) => prev.filter((item) => item._id !== id));
+    const updated_cart = getCart();
+    setCartProducts(updated_cart);
   };
+  console.log("cartProducts00000000", cartProducts);
 
+  const updateProductStock = async () => {
+    try {
+      const res = await fetch("/api/products", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          product_id: cartProducts._id,
+          stock: cartProducts.stock,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed with status", res.status);
+      }
+      const updatedProduct = await res.json();
+      console.log("✅ Stock updated successfully:", updatedProduct);
+    } catch (error) {
+      console.error("❌ Error updating product stock:", error);
+    }
+  };
   useEffect(() => {
     if (currentPageForm === "check-form" && confirmedCheckBox) {
       setErrorPopover(false);
@@ -549,13 +585,32 @@ function Cart() {
           postal_code: formData.postalCode,
           country: formData.country,
           devivery_instruction: formData.deliveryInstruction,
-          items: cartProducts,
+          items: cartProducts.map((item) => ({
+            id: item._id,
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price,
+            total_price: item.price * item.quantity,
+          })),
         }),
       });
 
       const data = await res.json();
 
       if (data) {
+        await Promise.all(
+          cartProducts.map((item) =>
+            fetch("/api/products", {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                product_id: item._id,
+                stock: item.stock - item.quantity,
+              }),
+            })
+          )
+        );
+
         setTimeout(() => {
           setOrderSuccess(true);
           setOrderClicked(false);
@@ -565,10 +620,6 @@ function Cart() {
           router.push("/");
         }, 2000);
       }
-
-      console.log("Created order:", data);
-
-      console.log("formData:", formData, paymentMethod);
     }
   };
 
@@ -1293,8 +1344,11 @@ function Cart() {
                   <Typography sx={styles.typo_category}>
                     {item.category}
                   </Typography>
+                  <Typography sx={styles.typo_qty}>
+                    Qty: {item.quantity}
+                  </Typography>
                   <Typography sx={styles.typo_price}>
-                    {item.price} CAD
+                    {item.price * item.quantity} CAD
                   </Typography>
                 </Box>
                 <Box
