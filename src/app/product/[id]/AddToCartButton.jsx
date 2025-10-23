@@ -3,12 +3,15 @@
 import { Box, Button, useMediaQuery } from "@mui/material";
 import Link from "next/link";
 import { useTheme } from "@mui/material/styles";
+import { useRouter } from "next/navigation";
 import useCart from "../../../utils/useCart";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PaymentIcon from "@mui/icons-material/Payment";
 
 export default function AddToCartButtons({ product, passDataToProductPage }) {
+  const router = useRouter();
+
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
   const isSm = useMediaQuery(theme.breakpoints.between("sm", "md"));
@@ -129,6 +132,11 @@ export default function AddToCartButtons({ product, passDataToProductPage }) {
   function handlePassDataToProductPage() {
     passDataToProductPage();
   }
+  function routeChangeToMyCart() {
+    setTimeout(() => {
+      router.push("/cart");
+    }, 1000);
+  }
   console.log("product", product);
 
   return (
@@ -143,7 +151,14 @@ export default function AddToCartButtons({ product, passDataToProductPage }) {
           >
             Add to Cart <AddShoppingCartIcon style={{ paddingLeft: 10 }} />
           </Button>
-          <Button sx={styles.button_buy_now}>
+          <Button
+            sx={styles.button_buy_now}
+            onClick={() => {
+              addToCart(product),
+                handlePassDataToProductPage(),
+                routeChangeToMyCart();
+            }}
+          >
             Buy Now
             <PaymentIcon style={{ paddingLeft: 10 }} />
           </Button>

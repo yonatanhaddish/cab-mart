@@ -73,12 +73,10 @@ export async function POST(request) {
 
 export async function PUT(request) {
   await dbConnect();
-  console.log("8888888888888888888888", request);
+
   try {
     const body = await request.json();
     const { product_id, stock } = body;
-
-    console.log("66666666666666666666", body);
 
     if (!product_id || stock === undefined) {
       return NextResponse.json(
