@@ -34,9 +34,9 @@ import InputAdornment from "@mui/material/InputAdornment";
 function Cart() {
   const { getCart, removeFromCart } = useCart();
   const [cartProducts, setCartProducts] = useState([]);
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(true);
   const [selectedPaymentStyle, setSelectedPaymentStyle] = useState("");
-  const [currentPageForm, setCurrentPageForm] = useState("payment-form");
+  const [currentPageForm, setCurrentPageForm] = useState("check-form");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [errorMessageSnippet, setErrorMessageSnippet] = useState("");
   const [errorPopover, setErrorPopover] = useState(false);
@@ -57,6 +57,8 @@ function Cart() {
   const [confirmedCheckBox, setConfirmedCheckBox] = useState(false);
   const [buttonText, setButtonText] = useState("Next");
   const [checkoutButtonText, setCheckoutButtonText] = useState("checkout");
+
+  const [test, setTest] = useState();
 
   const router = useRouter();
 
@@ -611,7 +613,7 @@ function Cart() {
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 product_id: item._id,
-                stock: item.stock - item.quantity,
+                stock: item.stock,
               }),
             })
           )
@@ -627,7 +629,62 @@ function Cart() {
         }, 2000);
       }
     }
+
+    if (
+      currentPageForm === "check-form" &&
+      confirmedCheckBox &&
+      buttonText === "Payment"
+    ) {
+      setOrderClicked(true);
+      setOrderSuccess(false);
+
+      const totalPrice = cartProducts.reduce(
+        (sum, item) => sum + item.quantity * item.price,
+        0
+      );
+
+      const res = await fetch("/api/checkout_online", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          total_price: totalPrice,
+          formData: formData,
+          cartProducts: cartProducts,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data) {
+        await Promise.all(
+          cartProducts.map((item) =>
+            fetch("/api/products", {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                product_id: item._id,
+                stock: item.stock,
+              }),
+            })
+          )
+        );
+      }
+
+      if (!res.ok) {
+        throw new Error(data.error || "Checkout failed");
+      }
+
+      if (res.ok) {
+        console.log("data", formData, cartProducts);
+      }
+
+      if (data.url) {
+        window.location.href = data.url;
+        console.log("111", data);
+      }
+    }
   };
+  console.log("data", test);
 
   const handleBackButton = () => {
     if (currentPageForm === "check-form") {
@@ -1149,7 +1206,7 @@ function Cart() {
                 Payment Method:
                 <span
                   style={{
-                    color: "#14213d",
+                    color: "green",
                   }}
                 >
                   {paymentMethod.toLocaleUpperCase()}
@@ -1466,6 +1523,7 @@ function Cart() {
             alignItems: "center",
             gap: "2px",
             marginLeft: "15px",
+            width: "fit-content",
           }}
         >
           <ArrowBackIcon style={{}} /> Continue Shopping

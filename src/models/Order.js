@@ -45,6 +45,9 @@ const orderSchema = new mongoose.Schema(
         total_price: { type: Number },
       },
     ],
+    payment_status: {
+      type: String,
+    },
   },
   {
     timestamps: true,
