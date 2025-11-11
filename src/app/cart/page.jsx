@@ -32,11 +32,11 @@ import useCart from "../../utils/useCart";
 import InputAdornment from "@mui/material/InputAdornment";
 
 function Cart() {
-  const { getCart, removeFromCart } = useCart();
+  const { getCart, removeFromCart, clearCart } = useCart();
   const [cartProducts, setCartProducts] = useState([]);
-  const [openDrawer, setOpenDrawer] = useState(true);
+  const [openDrawer, setOpenDrawer] = useState(false);
   const [selectedPaymentStyle, setSelectedPaymentStyle] = useState("");
-  const [currentPageForm, setCurrentPageForm] = useState("check-form");
+  const [currentPageForm, setCurrentPageForm] = useState("payment-form");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [errorMessageSnippet, setErrorMessageSnippet] = useState("");
   const [errorPopover, setErrorPopover] = useState(false);
@@ -608,16 +608,26 @@ function Cart() {
       if (data) {
         await Promise.all(
           cartProducts.map((item) =>
-            fetch("/api/products", {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                product_id: item._id,
-                stock: item.stock,
-              }),
-            })
+            item.stock > 0
+              ? fetch("/api/products", {
+                  method: "PUT",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    product_id: item._id,
+                    stock: item.stock,
+                  }),
+                })
+              : fetch("/api/products", {
+                  method: "DELETE",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    product_id: item._id,
+                  }),
+                })
           )
         );
+
+        clearCart();
 
         setTimeout(() => {
           setOrderSuccess(true);
@@ -668,6 +678,13 @@ function Cart() {
             })
           )
         );
+
+        clearCart();
+
+        setTimeout(() => {
+          setOrderSuccess(true);
+          setOrderClicked(false);
+        }, 1000);
       }
 
       if (!res.ok) {
@@ -680,11 +697,9 @@ function Cart() {
 
       if (data.url) {
         window.location.href = data.url;
-        console.log("111", data);
       }
     }
   };
-  console.log("data", test);
 
   const handleBackButton = () => {
     if (currentPageForm === "check-form") {

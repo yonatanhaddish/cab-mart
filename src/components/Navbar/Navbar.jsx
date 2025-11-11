@@ -129,7 +129,6 @@ export default function RightDrawer() {
     button_link: {
       color: "#14213d",
       fontSize: isMd ? "0.8rem" : isLg ? "0.9rem" : isXl ? "1.0rem" : "",
-      fontWeight: "bold",
     },
   };
   const list = (

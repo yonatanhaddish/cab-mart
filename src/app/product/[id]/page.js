@@ -5,7 +5,6 @@ import { useTheme } from "@mui/material/styles";
 import Link from "next/link";
 import { Box, Typography, Drawer, useMediaQuery } from "@mui/material";
 
-import useCart from "../../../utils/useCart";
 import AddToCartButtons from "../[id]/AddToCartButton";
 import CartNotification from "../../../components/CartNotification/CartNotification";
 
@@ -298,6 +297,8 @@ export default function ProductPage({ params }) {
   // console.log("555", product.images[0]);
 
   function handleDataFromAddToCartPage() {
+    // console.log("000000000000000000000", product);
+
     setOpenModal(true);
     setTimeout(() => setOpenModal(false), 5000);
   }

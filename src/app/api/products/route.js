@@ -116,3 +116,47 @@ export async function PUT(request) {
     );
   }
 }
+
+export async function DELETE(request) {
+  await dbConnect();
+
+  try {
+    const body = await request.json();
+    const { product_id } = body;
+
+    if (!product_id) {
+      return NextResponse.json(
+        {
+          message: "Product Id required",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    const deletedProduct = await Product.findByIdAndDelete(product_id);
+
+    if (!deletedProduct) {
+      return NextResponse.json(
+        {
+          message: "Product not found",
+        },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(deletedProduct, { status: 200 });
+  } catch (error) {
+    console.error("Error deleting stock: ", error);
+    return NextResponse.json(
+      {
+        message: "Failed to delete product stock",
+        message: error.message,
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}

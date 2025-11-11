@@ -72,7 +72,7 @@ function CartNotification({ product, passDataToProductPage }) {
     passDataToProductPage();
   }
 
-  console.log("444", product);
+  // console.log("444", product);
 
   return (
     <Box sx={styles.cart_notification_cart}>

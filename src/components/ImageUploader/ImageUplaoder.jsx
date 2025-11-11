@@ -252,7 +252,21 @@ export default function ImageUplaoder() {
     });
 
     const data = await res.json();
-    console.log("Created product:", data);
+
+    console.log("Created product_part01:", data);
+
+    if (res.ok) {
+      setImages([]);
+      setName("");
+      setPrice(0);
+      setRetailPrice(0);
+      setCategory("");
+      setDescription("");
+      setCondition("");
+      setStock(1);
+
+      console.log("Created product_part_02:", data);
+    }
   };
   return (
     <Box sx={styles.form_parent}>
@@ -290,16 +304,12 @@ export default function ImageUplaoder() {
           <FormControl fullWidth size="small">
             <OutlinedInput
               id="outlined-adornment-amount"
+              value={retailPrice}
+              onChange={(e) => setRetailPrice(e.target.value)}
               startAdornment={
-                <InputAdornment
-                  position="start"
-                  onChange={(e) => setRetailPrice(e.target.value)}
-                >
-                  Retail Price
-                </InputAdornment>
+                <InputAdornment position="start">Retail Price</InputAdornment>
               }
               label="Retail Price"
-              onChange={(e) => setRetailPrice(e.target.value)}
             />
           </FormControl>
         </Box>

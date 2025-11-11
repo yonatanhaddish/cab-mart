@@ -79,7 +79,7 @@ function Footer({ setSelectedCategory }) {
         : isLg
         ? "5.6rem"
         : isXl
-        ? "5.6rem"
+        ? "4.0rem"
         : "",
       color: "#fca311",
     },

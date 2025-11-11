@@ -6,6 +6,7 @@ import Link from "next/link";
 import { NextResponse } from "next/server";
 
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
+import useCart from "../../utils/useCart";
 
 export default async function Success({ searchParams }) {
   const { session_id } = await searchParams;

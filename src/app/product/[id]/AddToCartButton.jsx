@@ -8,8 +8,18 @@ import useCart from "../../../utils/useCart";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PaymentIcon from "@mui/icons-material/Payment";
+import Popper from "@mui/material/Popper";
+import { useEffect, useState } from "react";
 
 export default function AddToCartButtons({ product, passDataToProductPage }) {
+  const [currentStock, setCurrentStock] = useState(product.stock);
+  const [stockValid, setStockValid] = useState(true);
+  const [buttonName, setButtonName] = useState("ADD TO CART");
+  const [currentCartQty, setCurrentCartQty] = useState(0);
+  const [selectedProduct, setSelectedProduct] = useState([]);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
   const router = useRouter();
 
   const theme = useTheme();
@@ -70,7 +80,7 @@ export default function AddToCartButtons({ product, passDataToProductPage }) {
       margin: isXs || isSm ? "0 auto" : "",
     },
     button_add_to_cart: {
-      // border: "solid blue 2px",
+      // border:  "solid blue 2px",
       width: isXs
         ? "45%"
         : isSm
@@ -82,7 +92,7 @@ export default function AddToCartButtons({ product, passDataToProductPage }) {
         : isXl
         ? "35%"
         : "",
-      backgroundColor: "#14213d",
+      backgroundColor: stockValid ? "#14213d" : "#e5e5e5",
       color: "#e5e5e5",
       boxShadow: "0 0 10px #000",
       height: "100%",
@@ -127,17 +137,59 @@ export default function AddToCartButtons({ product, passDataToProductPage }) {
     },
   };
 
-  const { addToCart } = useCart();
+  const { addToCart, getCart } = useCart();
 
-  function handlePassDataToProductPage() {
-    passDataToProductPage();
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popper" : undefined;
+
+  // console.log("currentStock", currentStock);
+  // // console.log("single_current_cart", single_current_cart);
+  // console.log("selectedProduct", selectedProduct);
+  // console.log("currentCartQty", currentCartQty);
+
+  useEffect(() => {
+    getUpdatedCart();
+  }, []);
+
+  function handleAddToCart(product) {
+    if (currentStock > currentCartQty) {
+      addToCart(product);
+    }
   }
+
+  function getUpdatedCart() {
+    const current_cart = getCart() || [];
+    const single_current_cart = current_cart.find(
+      (item) => item._id === product._id
+    );
+
+    if (single_current_cart) {
+      setCurrentCartQty(single_current_cart.quantity);
+      setSelectedProduct(single_current_cart);
+    } else {
+      // setCurrentCartQty(0);
+    }
+  }
+
+  function handlePassDataToProductPage(event) {
+    getUpdatedCart();
+
+    if (currentStock >= 1 && currentStock - 1 > currentCartQty) {
+      passDataToProductPage();
+    } else {
+      if (event?.currentTarget) {
+        setAnchorEl(anchorEl ? null : event.currentTarget);
+      }
+      setStockValid(false);
+      setButtonName("Product Out Of Stock");
+    }
+  }
+
   function routeChangeToMyCart() {
     setTimeout(() => {
       router.push("/cart");
     }, 1000);
   }
-  console.log("product", product);
 
   return (
     <Box>
@@ -145,17 +197,31 @@ export default function AddToCartButtons({ product, passDataToProductPage }) {
         <Box sx={styles.button_add_to_cart_buy_now}>
           <Button
             sx={styles.button_add_to_cart}
-            onClick={() => {
-              addToCart(product), handlePassDataToProductPage();
+            onClick={(e) => {
+              handleAddToCart(product), handlePassDataToProductPage(e);
             }}
+            disabled={!stockValid}
           >
-            Add to Cart <AddShoppingCartIcon style={{ paddingLeft: 10 }} />
+            {buttonName} <AddShoppingCartIcon style={{ paddingLeft: 10 }} />
           </Button>
+          <Popper id={id} open={open} anchorEl={anchorEl}>
+            <Box
+              sx={{
+                // border: 1,
+                p: 1,
+                bgcolor: "background.paper",
+                backgroundColor: "#14213d",
+                color: "red",
+              }}
+            >
+              You Purchased the last product.
+            </Box>
+          </Popper>
           <Button
             sx={styles.button_buy_now}
             onClick={() => {
               addToCart(product),
-                handlePassDataToProductPage(),
+                handlePassDataToProductPage(e),
                 routeChangeToMyCart();
             }}
           >
