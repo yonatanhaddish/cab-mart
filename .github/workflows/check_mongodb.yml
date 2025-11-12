@@ -1,7 +1,10 @@
 name: "MongoDB Security Scan"
 
 on:
-  workflow_dispatch: # allows manual trigger
+  push:
+    branches:
+      - main # triggers whenever there is a push to main
+  workflow_dispatch: # still allows manual trigger
   schedule:
     - cron: "0 4 * * 1" # runs weekly (Mondays 4AM UTC)
 
