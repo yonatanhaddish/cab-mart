@@ -24,7 +24,7 @@ jobs:
 
       - name: Run MongoDB Security Audit
         env:
-          MONGODB_URI: ${{ secrets.MONGO_URI }}
+          MONGO_URI: ${{ secrets.MONGO_URI }}
         run: |
           echo "Running security scan on MongoDB..."
           mongoaudit --host $MONGO_URI --ssl --verbose || true
