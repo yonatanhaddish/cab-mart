@@ -27,12 +27,12 @@ export default async function Success({ searchParams }) {
   }
 
   if (status === "complete" && metadata?.orderId) {
-    const test = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/orders`, {
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/orders`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         orderId: metadata.orderId,
-        payment_status: "paid",
+        payment_status: "online-payment | PAID",
       }),
     });
 

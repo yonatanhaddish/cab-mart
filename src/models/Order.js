@@ -33,7 +33,7 @@ const orderSchema = new mongoose.Schema(
     country: {
       type: String,
     },
-    devivery_instruction: {
+    delivery_instruction: {
       type: String,
     },
     items: [
@@ -47,6 +47,9 @@ const orderSchema = new mongoose.Schema(
     ],
     payment_status: {
       type: String,
+    },
+    total_price: {
+      type: Number,
     },
   },
   {

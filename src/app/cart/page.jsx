@@ -579,6 +579,11 @@ function Cart() {
       setOrderClicked(true);
       setOrderSuccess(false);
 
+      const totalPrice = cartProducts.reduce(
+        (sum, item) => sum + item.quantity * item.price,
+        0
+      );
+
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -592,7 +597,7 @@ function Cart() {
           province: formData.province,
           postal_code: formData.postalCode,
           country: formData.country,
-          devivery_instruction: formData.deliveryInstruction,
+          delivery_instruction: formData.deliveryInstruction,
           items: cartProducts.map((item) => ({
             id: item._id,
             name: item.name,
@@ -600,6 +605,8 @@ function Cart() {
             price: item.price,
             total_price: item.price * item.quantity,
           })),
+          payment_status: `${paymentMethod} | PAID`,
+          total_price: totalPrice,
         }),
       });
 
@@ -657,25 +664,41 @@ function Cart() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          total_price: totalPrice,
-          formData: formData,
+          fullName: formData.fullName,
+          phone_number: formData.phone,
+          email: formData.email,
+          apartment: formData.apt,
+          city: formData.city,
+          province: formData.province,
+          postal_code: formData.postalCode,
+          country: formData.country,
+          delivery_instruction: formData.deliveryInstruction,
+          payment_status: `${paymentMethod} | PENDING`,
           cartProducts: cartProducts,
+          total_price: totalPrice,
         }),
       });
 
       const data = await res.json();
-
       if (data) {
         await Promise.all(
           cartProducts.map((item) =>
-            fetch("/api/products", {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                product_id: item._id,
-                stock: item.stock,
-              }),
-            })
+            item.stock > 0
+              ? fetch("/api/products", {
+                  method: "PUT",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    product_id: item._id,
+                    stock: item.stock,
+                  }),
+                })
+              : fetch("/api/products", {
+                  method: "DELETE",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    product_id: item._id,
+                  }),
+                })
           )
         );
 
@@ -689,10 +712,6 @@ function Cart() {
 
       if (!res.ok) {
         throw new Error(data.error || "Checkout failed");
-      }
-
-      if (res.ok) {
-        console.log("data", formData, cartProducts);
       }
 
       if (data.url) {

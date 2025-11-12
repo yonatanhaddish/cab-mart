@@ -11,7 +11,21 @@ export async function POST(req) {
     const origin = headersList.get("origin");
 
     const body = await req.json();
-    const { total_price, formData, cartProducts } = body;
+    const {
+      total_price,
+      cartProducts,
+      payment_status,
+      fullName,
+      payment_method,
+      phone_number,
+      email,
+      apartment,
+      city,
+      province,
+      postal_code,
+      country,
+      delivery_instruction,
+    } = body;
 
     // Validate total price
     if (!total_price || total_price <= 0) {
@@ -25,7 +39,15 @@ export async function POST(req) {
     let newOrder;
     try {
       newOrder = await Order.create({
-        ...formData,
+        fullName,
+        phone_number,
+        email,
+        apartment,
+        city,
+        province,
+        postal_code,
+        country,
+        delivery_instruction,
         items: cartProducts.map((item) => ({
           id: item._id,
           name: item.name,
@@ -33,8 +55,8 @@ export async function POST(req) {
           price: item.price,
           total_price: item.quantity * item.price,
         })),
-        total_price,
-        payment_status: "pending",
+        total_price: total_price,
+        payment_status: payment_status,
       });
     } catch (error) {
       console.error("Failed to create order", error);

@@ -3,8 +3,6 @@ import dbConnect from "../../../lib/mongoose";
 import Order from "../../../models/Order";
 
 export async function POST(request) {
-  console.log("999", request);
-
   await dbConnect();
 
   try {
@@ -19,8 +17,10 @@ export async function POST(request) {
       province,
       postal_code,
       country,
-      devivery_instruction,
+      delivery_instruction,
       items,
+      payment_status,
+      total_price,
     } = body;
 
     const newOrder = await Order.create({
@@ -33,8 +33,10 @@ export async function POST(request) {
       province,
       postal_code,
       country,
-      devivery_instruction,
+      delivery_instruction,
       items,
+      payment_status,
+      total_price,
     });
 
     return NextResponse.json(newOrder, { status: 201 });

@@ -274,30 +274,26 @@ export default function ImageUplaoder() {
         <Typography sx={styles.typo_heading}>Post Item</Typography>
       </Box>
       <form onSubmit={handleSubmit} style={styles.form}>
-        <Box
-          sx={styles.name}
-          noValidate
-          autoComplete="off"
-          onChange={(e) => setName(e.target.value)}
-        >
+        <Box sx={styles.name} noValidate autoComplete="off">
           <TextField
             id="outlined-basic"
             label="Name"
             variant="outlined"
             fullWidth
             size="small"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
           />
         </Box>
-        <Box
-          sx={styles.description}
-          onChange={(e) => setDescription(e.target.value)}
-        >
+        <Box sx={styles.description}>
           <TextField
             id="outlined-multiline-static"
             label="Description"
             multiline
             rows={4}
             fullWidth
+            onChange={(e) => setDescription(e.target.value)}
+            value={description}
           />
         </Box>
         <Box sx={styles.box_retail_prices}>
@@ -317,16 +313,12 @@ export default function ImageUplaoder() {
           <FormControl fullWidth size="small">
             <OutlinedInput
               id="outlined-adornment-amount"
+              onChange={(e) => setPrice(e.target.value)}
+              value={price}
               startAdornment={
-                <InputAdornment
-                  position="start "
-                  onChange={(e) => setPrice(e.target.value)}
-                >
-                  Price
-                </InputAdornment>
+                <InputAdornment position="start ">Price</InputAdornment>
               }
               label="Price"
-              onChange={(e) => setPrice(e.target.value)}
             />
           </FormControl>
         </Box>
@@ -365,23 +357,21 @@ export default function ImageUplaoder() {
             </Select>
           </FormControl>
         </Box>
-        <Box
-          sx={styles.box_quantity}
-          noValidate
-          autoComplete="off"
-          onChange={(e) => setStock(e.target.value)}
-        >
+        <Box sx={styles.box_quantity} noValidate autoComplete="off">
           <TextField
             id="outlined-basic"
             label="Quantity"
             variant="outlined"
             fullWidth
             size="small"
+            onChange={(e) => setStock(e.target.value)}
+            value={stock}
           />
         </Box>
         <Box sx={styles.box_stock_images}>
           <CldUploadWidget
             uploadPreset="cabmart_unsigned"
+            value={images}
             onUpload={(result) => {
               if (result.event === "success") {
                 setImages((prev) => [...prev, result.info.secure_url]);
