@@ -27,6 +27,8 @@ export default function ImageUplaoder() {
   const [condition, setCondition] = useState("");
   const [stock, setStock] = useState(1);
 
+  const [test, setTest] = useState();
+
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
   const isSm = useMediaQuery(theme.breakpoints.between("sm", "md")); // tablet
@@ -253,7 +255,7 @@ export default function ImageUplaoder() {
 
     const data = await res.json();
 
-    console.log("Created product_part01:", data);
+    // console.log("Created product_part01:", data);
 
     if (res.ok) {
       setImages([]);
@@ -265,7 +267,9 @@ export default function ImageUplaoder() {
       setCondition("");
       setStock(1);
 
-      console.log("Created product_part_02:", data);
+      // console.log("Created product_part_02:", data);
+
+      // console.log("33333333333", test);
     }
   };
   return (
@@ -370,8 +374,7 @@ export default function ImageUplaoder() {
         </Box>
         <Box sx={styles.box_stock_images}>
           <CldUploadWidget
-            uploadPreset="cabmart_unsigned"
-            value={images}
+            uploadPreset="products" // this value we get from cloudnary.
             onUpload={(result) => {
               if (result.event === "success") {
                 setImages((prev) => [...prev, result.info.secure_url]);
@@ -426,13 +429,3 @@ export default function ImageUplaoder() {
     </Box>
   );
 }
-
-//   {images.length > 0 && (
-//     <div>
-//       {images.map((img, i) => (
-//         <img key={i} src={img} alt={`Product ${i}`} width="100" />
-//       ))}
-//     </div>
-//   )}
-
-//   <button type="submit">Create Product</button>
